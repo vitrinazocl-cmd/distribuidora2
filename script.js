@@ -8,8 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentIndex = 0;
     let autoPlayInterval;
 
+    // Ajustar el ancho del track y los slides dinámicamente
+    const numSlides = slides.length;
+    track.style.width = `${numSlides * 100}%`;
+    slides.forEach(slide => {
+        slide.style.width = `${100 / numSlides}%`;
+    });
+
     function updateSlider() {
-        track.style.transform = `translateX(-${currentIndex * 20}%)`;
+        const slideWidth = 100 / numSlides;
+        track.style.transform = `translateX(-${currentIndex * slideWidth}%)`;
         
         dots.forEach((dot, index) => {
             if (index === currentIndex) {
