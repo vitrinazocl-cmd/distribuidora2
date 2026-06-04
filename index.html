@@ -52,22 +52,26 @@
                 <img src="logo.jpg.jpeg" alt="Eleodoro el Grande" style="max-height: 60px;">
             </div>
             
-            <div class="calendar-btn">
-                <i class="fa-regular fa-calendar"></i>
-                <span>Haz click aquí</span>
+            <div class="calendar-btn" id="open-cart-btn" style="cursor: pointer;">
+                <i class="fa-solid fa-cart-arrow-down"></i>
+                <span>Arma tu pedido</span>
             </div>
 
             <div class="search-bar">
-                <input type="text" placeholder="¿Qué producto buscas?...">
-                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                <input type="text" id="search-input" placeholder="¿Qué producto buscas?...">
+                <button id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
 
             <div class="user-actions">
-                <div class="cart">
+                <div class="cart" id="cart-icon-btn" style="cursor: pointer;">
                     <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="cart-count">0</span>
+                    <span class="cart-count" id="cart-count">0</span>
                     <span>Carro Compras</span>
                 </div>
+                <a href="#" id="admin-login-btn" class="user-profile" title="Ver Pedidos Pendientes" style="color: #0044cc; text-decoration: none; display: flex; align-items: center; gap: 5px;">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span style="font-size: 12px; font-weight: bold;">Pedidos</span>
+                </a>
                 <div class="user-profile">
                     <i class="fa-regular fa-user"></i>
                 </div>
@@ -345,6 +349,47 @@
     <a href="https://wa.me/56956264496" target="_blank" class="whatsapp-btn">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cart-modal" class="cart-modal hidden">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Tu Carrito</h2>
+                <button id="close-cart-btn" class="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cart-items" id="cart-items-container">
+                <!-- Cart items will be injected here -->
+                <p class="empty-cart-msg">Tu carrito está vacío.</p>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cart-total-price">$0</span>
+                </div>
+                <div class="checkout-form">
+                    <input type="text" id="customer-name" placeholder="Tu Nombre y Apellido" required style="width:100%; padding: 10px; margin-bottom:10px; border-radius: 5px; border: 1px solid #ccc;">
+                    <input type="text" id="customer-address" placeholder="Dirección de Despacho" required style="width:100%; padding: 10px; margin-bottom:10px; border-radius: 5px; border: 1px solid #ccc;">
+                    <button id="checkout-btn" class="checkout-btn">Finalizar Compra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="cart-modal hidden" style="justify-content: center; align-items: center;">
+        <div class="cart-content" style="height: auto; border-radius: 8px; max-width: 350px;">
+            <div class="cart-header">
+                <h2>Acceso Administrativo</h2>
+                <button id="close-login-btn" class="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cart-items" style="padding: 20px;">
+                <input type="text" id="login-user" placeholder="Usuario" style="width:100%; padding: 10px; margin-bottom:15px; border-radius: 5px; border: 1px solid #ccc;">
+                <input type="password" id="login-pass" placeholder="Contraseña" style="width:100%; padding: 10px; margin-bottom:15px; border-radius: 5px; border: 1px solid #ccc;">
+                <button id="submit-login-btn" class="checkout-btn" style="width:100%;">Ingresar</button>
+                <p id="login-error" style="color: #d32f2f; font-size: 14px; text-align: center; margin-top: 10px; display: none;">Credenciales incorrectas.</p>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
