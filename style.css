@@ -342,7 +342,7 @@ a {
 .home-banner {
     width: 100%;
     /* Keep banner constrained but big */
-    max-height: 55vh;
+    max-height: 40vh;
     overflow: hidden;
     background-color: var(--dark-bg);
     position: relative;
