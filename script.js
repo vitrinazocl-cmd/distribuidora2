@@ -494,29 +494,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- Funcionalidad del Contador de Visitas ---
+// --- Funcionalidad del Contador de Visitas Global ---
 document.addEventListener('DOMContentLoaded', () => {
     const counterDiv = document.getElementById('visitor-flip-counter');
     if (!counterDiv) return;
 
-    // Recuperar visitas de localStorage (simulación)
-    let visits = localStorage.getItem('site_total_visits');
-    if (!visits) {
-        visits = 1452; // Empezamos en 1452 para que sume 1453 la primera vez
+    function renderCounter(num) {
+        // Asegurar que tenga al menos 4 dígitos (rellenando con 0 a la izquierda)
+        const visitString = num.toString().padStart(4, '0');
+        counterDiv.innerHTML = ''; // Limpiar
+        
+        // Inyectar cada dígito en el estilo flip
+        visitString.split('').forEach(digit => {
+            const digitSpan = document.createElement('span');
+            digitSpan.className = 'flip-digit';
+            digitSpan.textContent = digit;
+            counterDiv.appendChild(digitSpan);
+        });
     }
-    visits = parseInt(visits) + 1;
-    localStorage.setItem('site_total_visits', visits);
 
-    // Asegurar que tenga al menos 4 dígitos (rellenando con 0 a la izquierda)
-    const visitString = visits.toString().padStart(4, '0');
-    
-    // Inyectar cada dígito en el estilo flip
-    visitString.split('').forEach(digit => {
-        const digitSpan = document.createElement('span');
-        digitSpan.className = 'flip-digit';
-        digitSpan.textContent = digit;
-        counterDiv.appendChild(digitSpan);
-    });
+    // Usamos una API gratuita para llevar el conteo real global
+    // Namespace: distribuidora_eleodoro_2026_oficial
+    fetch('https://api.counterapi.dev/v1/distribuidora_eleodoro_2026_oficial/visits/up')
+        .then(response => response.json())
+        .then(data => {
+            // data.count nos da el número real de visitas desde que se creó el contador
+            // Queremos que empiece en 1333, así que le sumamos 1332
+            const totalVisits = data.count + 1332;
+            renderCounter(totalVisits);
+        })
+        .catch(error => {
+            // Si la API falla, usamos localStorage como respaldo temporal
+            console.error('Error cargando el contador:', error);
+            let fallback = localStorage.getItem('site_total_visits_fallback') || 1332;
+            fallback = parseInt(fallback) + 1;
+            localStorage.setItem('site_total_visits_fallback', fallback);
+            renderCounter(fallback);
+        });
 });
 
 // --- Reproductor de Audio ---
