@@ -247,11 +247,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const category = this.getAttribute('data-category');
             if (category === 'PROMOCIONES') {
                 productsTitle.textContent = 'NUESTROS PRODUCTOS DESTACADOS';
+            } else if (category === 'TODOS') {
+                productsTitle.textContent = 'TODOS LOS PRODUCTOS';
             } else {
                 productsTitle.textContent = 'PRODUCTOS: ' + category;
             }
 
-            const filtrados = catalogoProductos.filter(p => p.category === category);
+            let filtrados;
+            if (category === 'TODOS') {
+                filtrados = catalogoProductos;
+            } else {
+                filtrados = catalogoProductos.filter(p => p.category === category);
+            }
             setProducts(filtrados);
 
             // Limpiar buscador si se navega
