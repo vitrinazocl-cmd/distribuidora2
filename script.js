@@ -83,6 +83,9 @@ function selectBranch(branchName) {
         overlay.classList.add('hidden');
     }
     
+    // Ensure the page starts at the top
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    
     // Optional: save to localStorage or show an alert/toast
     console.log('Sucursal seleccionada: ' + branchName);
 }
