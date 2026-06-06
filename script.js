@@ -221,9 +221,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Inicializar con PROMOCIONES
-    const iniciales = catalogoProductos.filter(p => p.category === 'PROMOCIONES');
-    setProducts(iniciales.length ? iniciales : catalogoProductos);
+    // Inicializar con TODOS LOS PRODUCTOS
+    setProducts(catalogoProductos);
 
     // Navegación por categorías
     navLinks.forEach(link => {
