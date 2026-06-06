@@ -975,3 +975,29 @@ a {
     background: rgba(0,0,0,0.8);
     margin-top: -1px;
 }
+
+/* Reproductor de Audio Clásico */
+.audio-player-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: rgba(20, 20, 20, 0.9);
+    padding: 6px 12px;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    border: 1px solid #444;
+    transition: opacity 0.3s ease;
+}
+.audio-player-container:hover {
+    background: rgba(0, 0, 0, 1);
+}
+.audio-player-container audio {
+    height: 28px;
+    width: 220px;
+    outline: none;
+}
+/* Estilo para que no desentone con la página */
+.audio-player-container audio::-webkit-media-controls-panel {
+    background-color: #dfdfdf;
+}

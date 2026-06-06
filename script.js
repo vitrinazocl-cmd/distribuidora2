@@ -518,3 +518,27 @@ document.addEventListener('DOMContentLoaded', () => {
         counterDiv.appendChild(digitSpan);
     });
 });
+
+// --- Reproductor de Audio ---
+document.addEventListener('DOMContentLoaded', () => {
+    const audio = document.getElementById('bg-audio');
+    if (audio) {
+        // Intentar reproducir si fue bloqueado inicialmente
+        const playAttempt = setInterval(() => {
+            audio.play()
+                .then(() => {
+                    clearInterval(playAttempt); // Éxito
+                })
+                .catch(() => {
+                    // Esperando interacción del usuario
+                });
+        }, 3000);
+
+        // Si el usuario hace clic en cualquier lado, forzar reproducción
+        document.body.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().catch(e => console.log(e));
+            }
+        }, { once: true });
+    }
+});
