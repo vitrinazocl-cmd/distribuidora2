@@ -493,3 +493,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// --- Funcionalidad del Contador de Visitas ---
+document.addEventListener('DOMContentLoaded', () => {
+    const counterDiv = document.getElementById('visitor-flip-counter');
+    if (!counterDiv) return;
+
+    // Recuperar visitas de localStorage (simulación)
+    let visits = localStorage.getItem('site_total_visits');
+    if (!visits) {
+        visits = 1452; // Empezamos en 1452 para que sume 1453 la primera vez
+    }
+    visits = parseInt(visits) + 1;
+    localStorage.setItem('site_total_visits', visits);
+
+    // Asegurar que tenga al menos 4 dígitos (rellenando con 0 a la izquierda)
+    const visitString = visits.toString().padStart(4, '0');
+    
+    // Inyectar cada dígito en el estilo flip
+    visitString.split('').forEach(digit => {
+        const digitSpan = document.createElement('span');
+        digitSpan.className = 'flip-digit';
+        digitSpan.textContent = digit;
+        counterDiv.appendChild(digitSpan);
+    });
+});
