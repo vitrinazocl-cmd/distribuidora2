@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(e.target.closest('.add-to-cart-btn')) {
                 const btn = e.target.closest('.add-to-cart-btn');
                 const card = btn.closest('.product-card');
-                const id = parseInt(card.getAttribute('data-id'));
+                const id = card.getAttribute('data-id');
                 const qtyInput = card.querySelector('.product-qty');
                 
                 let quantity = parseInt(qtyInput.value);
@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h4>${item.name}</h4>
                         <p>${item.quantity} x $${item.price.toLocaleString('es-CL')}</p>
                     </div>
-                    <button class="cart-item-remove" onclick="removeFromCart(${item.id})">
+                    <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
