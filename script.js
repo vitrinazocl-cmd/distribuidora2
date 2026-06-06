@@ -340,6 +340,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 const btn = e.target.closest('.add-to-cart-btn');
                 const card = btn.closest('.product-card');
                 const id = card.getAttribute('data-id');
+
+                if (id === 'JABAMIX') {
+                    const customModal = document.getElementById('custom-product-modal');
+                    if (customModal) {
+                        document.getElementById('qty-coca').value = 0;
+                        document.getElementById('qty-fanta').value = 0;
+                        document.getElementById('qty-sprite').value = 0;
+                        document.getElementById('custom-total-selected').textContent = '0';
+                        const addBtn = document.getElementById('add-custom-product-btn');
+                        addBtn.disabled = true;
+                        addBtn.style.opacity = '0.5';
+                        addBtn.style.cursor = 'not-allowed';
+                        customModal.classList.remove('hidden');
+                    }
+                    return;
+                }
+
                 const qtyInput = card.querySelector('.product-qty');
                 
                 let quantity = parseInt(qtyInput.value);
@@ -447,6 +464,85 @@ document.addEventListener('DOMContentLoaded', () => {
             closeCart();
             alert('¡Compra finalizada con éxito! Tu pedido ha sido enviado.');
         });
+    }
+
+    // Custom Product Modal Logic
+    const customModal = document.getElementById('custom-product-modal');
+    const closeCustomModalBtn = document.getElementById('close-custom-modal-btn');
+    const addCustomProductBtn = document.getElementById('add-custom-product-btn');
+    
+    if (customModal) {
+        closeCustomModalBtn.addEventListener('click', () => {
+            customModal.classList.add('hidden');
+        });
+
+        const qtyBtns = customModal.querySelectorAll('.qty-btn');
+        qtyBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const flavor = e.target.getAttribute('data-flavor');
+                const isPlus = e.target.classList.contains('plus');
+                const input = document.getElementById('qty-' + flavor);
+                
+                let currentCoca = parseInt(document.getElementById('qty-coca').value);
+                let currentFanta = parseInt(document.getElementById('qty-fanta').value);
+                let currentSprite = parseInt(document.getElementById('qty-sprite').value);
+                let total = currentCoca + currentFanta + currentSprite;
+
+                let val = parseInt(input.value);
+                if (isPlus && total < 10 && val < 10) {
+                    input.value = val + 1;
+                    total++;
+                } else if (!isPlus && val > 0) {
+                    input.value = val - 1;
+                    total--;
+                }
+
+                document.getElementById('custom-total-selected').textContent = total;
+                
+                if (total === 10) {
+                    addCustomProductBtn.disabled = false;
+                    addCustomProductBtn.style.opacity = '1';
+                    addCustomProductBtn.style.cursor = 'pointer';
+                } else {
+                    addCustomProductBtn.disabled = true;
+                    addCustomProductBtn.style.opacity = '0.5';
+                    addCustomProductBtn.style.cursor = 'not-allowed';
+                }
+            });
+        });
+
+        if (addCustomProductBtn) {
+            addCustomProductBtn.addEventListener('click', () => {
+                const coca = parseInt(document.getElementById('qty-coca').value);
+                const fanta = parseInt(document.getElementById('qty-fanta').value);
+                const sprite = parseInt(document.getElementById('qty-sprite').value);
+                
+                if (coca + fanta + sprite !== 10) return;
+
+                const baseProduct = catalogoProductos.find(p => p.id === 'JABAMIX');
+                const customId = `JABAMIX-${coca}-${fanta}-${sprite}`;
+                const customName = `JABA MIXTA (C:${coca} F:${fanta} S:${sprite})`;
+
+                const existingItem = carrito.find(item => item.id === customId);
+                if(existingItem) {
+                    existingItem.quantity += 1;
+                    if(existingItem.quantity > 50) existingItem.quantity = 50;
+                } else {
+                    carrito.push({
+                        ...baseProduct,
+                        id: customId,
+                        name: customName,
+                        quantity: 1
+                    });
+                }
+
+                saveCart();
+                renderCart();
+                customModal.classList.add('hidden');
+                
+                alert('¡Jaba Mixta agregada al carro!');
+            });
+        }
     }
 
     updateCartCount();

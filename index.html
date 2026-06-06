@@ -322,6 +322,52 @@
             </div>
         </div>
     </div>
+
+    <!-- Custom Product Modal (Jaba Mixta) -->
+    <div id="custom-product-modal" class="cart-modal hidden" style="justify-content: center; align-items: center;">
+        <div class="cart-content" style="height: auto; border-radius: 8px; max-width: 400px; max-height: 90vh; overflow-y: auto;">
+            <div class="cart-header">
+                <h2>Arma tu Jaba Mixta</h2>
+                <button id="close-custom-modal-btn" class="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cart-items" style="padding: 20px;">
+                <p style="margin-bottom: 15px; font-size: 14px; color: #555;">Selecciona <strong>exactamente 10 bebidas</strong> (1.25L). Pueden ser del mismo sabor o surtidas.</p>
+                
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Coca Cola 1.25L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-btn minus" data-flavor="coca" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-coca" value="0" min="0" max="10" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-btn plus" data-flavor="coca" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Fanta 1.25L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-btn minus" data-flavor="fanta" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-fanta" value="0" min="0" max="10" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-btn plus" data-flavor="fanta" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Sprite 1.25L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-btn minus" data-flavor="sprite" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-sprite" value="0" min="0" max="10" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-btn plus" data-flavor="sprite" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <span style="font-size: 16px; font-weight: bold;">Total seleccionado: <span id="custom-total-selected">0</span> / 10</span>
+                </div>
+
+                <button id="add-custom-product-btn" class="checkout-btn" style="width:100%; opacity: 0.5; cursor: not-allowed;" disabled>Confirmar y Agregar ($10.250)</button>
+            </div>
+        </div>
+    </div>
     <!-- Reproductor de Audio Clásico -->
     <div class="audio-player-container">
         <audio id="bg-audio" loop autoplay controls>

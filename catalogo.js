@@ -97,5 +97,6 @@ const catalogoProductos = [
 { id: 'TQRAYLOND', name: "GIN TANQUERAY LON D 700CC", price: 15690, category: "LICORES", image: "catalogo/GIN TANQUERAY LON D 700CC.webp" },
 { id: 'ARROZ', name: "ARROZ MANGA 10 UNID", price: 6950, category: "BEBIDAS", image: "catalogo/ARROZ MANGA 10 UNID.jpg" },
 { id: 'HEX', name: "HUEVO EXTRA", price: 36000, category: "BEBIDAS", image: "catalogo/HUEVO EXTRA.webp" },
-{ id: 'H1', name: "HUEVO 1ERA", price: 32000, category: "BEBIDAS", image: "catalogo/HUEVO 1ERA.png" }
+{ id: 'H1', name: "HUEVO 1ERA", price: 32000, category: "BEBIDAS", image: "catalogo/HUEVO 1ERA.png" },
+{ id: 'JABAMIX', name: "JABA MIXTA 10 BEBIDAS", price: 10250, category: "PROMOCIONES", image: "catalogo/JABA MIXTA.jpg", isCustom: true }
 ];
