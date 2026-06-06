@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Estado de Paginación
     let currentProducts = [];
     let currentPage = 1;
-    const itemsPerPage = 20;
+    const itemsPerPage = 100;
 
     // Función para manejar el array actual de productos
     function setProducts(productosArray) {
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <label style="font-size: 12px; color: #555; font-weight: bold;">CANT:</label>
                         <input type="number" class="product-qty" min="1" max="50" value="1" style="width: 60px; padding: 5px; border-radius: 4px; border: 1px solid #ccc; outline: none;">
                     </div>
-                    <button class="add-to-cart-btn"><i class="fa-solid fa-cart-plus"></i> Agregar</button>
+                    <button class="add-to-cart-btn">Agregar al carro</button>
                 </div>
             </div>`;
         });
@@ -226,6 +226,21 @@ document.addEventListener('DOMContentLoaded', () => {
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
+            
+            // Si es un enlace de acción (como scroll al PDF), no filtramos productos
+            const action = this.getAttribute('data-action');
+            if (action === 'scroll') {
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const headerOffset = 100;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+                return;
+            }
+
             navLinks.forEach(nav => nav.classList.remove('active'));
             this.classList.add('active');
             
@@ -241,9 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Limpiar buscador si se navega
             if(searchInput) searchInput.value = '';
-            
-            // Reiniciar filtro visualmente a default o mantenerlo?
-            // Si el usuario cambia de categoría, es útil mantener el ordenamiento.
             
             scrollToProducts();
         });

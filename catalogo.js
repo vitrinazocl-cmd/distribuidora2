@@ -1,73 +1,101 @@
-// Archivo auto-generado para simular 500 productos de supermercado
-
-const imagenesDisponibles = [
-    "imagen10.jpg", "imagen11.jpg", "imagen12.jpg", "imagen13.jpg", "imagen14.jpg",
-    "imagen15.jpg", "imagen16.jpg", "imagen17.jpg", "imagen18.jpg", "imagen19.jpg",
-    "imagen20.jpg", "imagen21.jpg", "imagen22.jpg", "imagen23.jpg", "imagen24.jpg",
-    "imagen25.jpg", "imagen26.jpg", "imagen27.jpg", "imagen28.jpg", "imagen29.jpg",
-    "imagen30.jpg", "imagen6.jpg", "imagen7.jpg", "slice1.jpg.jpg", "slice2.jpg.jpg",
-    "slice3.jpg.jpeg", "slice4.jpg.jpeg"
+const catalogoProductos = [
+{ id: 'CATUNSG16', name: "CACHANTUN 1.6 LT DESECHABLE", price: 5520, category: "AGUA", image: "catalogo/CACHANTUN 1.6 LT DESECHABLE.webp" },
+{ id: 'CATUNSG25', name: "CACHANTUN 2.5LT DESECHABLE", price: 6540, category: "AGUA", image: "catalogo/CACHANTUN 2.5LT DESECHABLE.webp" },
+{ id: 'CATUNSG5', name: "CACHANTUN 500ML", price: 4000, category: "AGUA", image: "catalogo/CACHANTUN 500ML.webp" },
+{ id: 'CCU600', name: "CCU 600ML DESECHABLE", price: 10200, category: "BEBIDAS", image: "catalogo/CCU 600ML DESECHABLE" },
+{ id: 'EXPRB', name: "EXPRESS CCU", price: 11200, category: "BEBIDAS", image: "catalogo/EXPRESS CCU.webp" },
+{ id: 'GATO1A', name: "GATORADE 1LT DESECHABLE", price: 7260, category: "BEBIDAS", image: "catalogo/GATORADE 1LT DESECHABLE.webp" },
+{ id: 'GATO750', name: "GATORADE 750ML", price: 5280, category: "BEBIDAS", image: "catalogo/GATORADE 750ML" },
+{ id: 'L125', name: "CCU 1.25LT RETORNABLE", price: 12990, category: "BEBIDAS", image: "catalogo/CCU 1.25LT RETORNABLE" },
+{ id: 'L2', name: "CCU 2LT RETORNABLE", price: 13545, category: "BEBIDAS", image: "catalogo/CCU 2LT RETORNABLE.webp" },
+{ id: 'L25', name: "CCU 2.5 LT RETORNABLE", price: 9498, category: "BEBIDAS", image: "catalogo/CCU 2.5 LT RETORNABLE.avif" },
+{ id: 'L3', name: "CCU 3LT DESECHABLE", price: 12080, category: "BEBIDAS", image: "catalogo/CCU 3LT DESECHABLE.avif" },
+{ id: 'LATAK6', name: "LATA CCU X 6 UNIDAD.", price: 3780, category: "BEBIDAS", image: "catalogo/LATA CCU X 6 UNIDAD..avif" },
+{ id: 'LIPT15', name: "TE LIPTON 1.5 LT DESECHABLE", price: 11526, category: "BEBIDAS", image: "catalogo/TE LIPTON 1.5 LT DESECHABLE.avif" },
+{ id: 'MASC', name: "AGUA MAS 600ML X12 UNID", price: 10516, category: "AGUA", image: "catalogo/AGUA MAS 600ML X12 UNID.avif" },
+{ id: 'MASP', name: "CACHANTUN MAS 1.6 LT DESECHABLE", price: 7521, category: "AGUA", image: "catalogo/CACHANTUN MAS 1.6 LT DESECHABLE.avif" },
+{ id: 'RB250', name: "REDBULL 250ML x12 unid", price: 15200, category: "BEBIDAS", image: "catalogo/REDBULL 250ML x12 unid.avif" },
+{ id: 'RB355', name: "RED BULL 355CC X 12 UNIDADES", price: 20760, category: "ENERGÃ‰TICAS", image: "catalogo/RED BULL 355CC X 12 UNIDADES.avif" },
+{ id: 'RB473', name: "RED BULL 473CC X 12 UNIDADES", price: 25920, category: "ENERGÃ‰TICAS", image: "catalogo/RED BULL 473CC X 12 UNIDADES.avif" },
+{ id: 'RSTAR', name: "ROCKSTAR 500 ML", price: 11160, category: "BEBIDAS", image: "catalogo/ROCKSTAR 500 ML.webp" },
+{ id: 'WATTSD', name: "WATTS 1.5LT DESECHABLE", price: 9120, category: "BEBIDAS", image: "catalogo/WATTSD.jpg" },
+{ id: 'WB300', name: "WATTS BOCA ANCHA 300 ML", price: 19920, category: "BEBIDAS", image: "catalogo/WB300.jpg" },
+{ id: 'AND125', name: "COCA COLA 125 RETORNABLE", price: 10250, category: "BEBIDAS", image: "catalogo/AND125.jpg" },
+{ id: 'AND15DES', name: "ANDINA 1.5LT DESECHABLE", price: 9888, category: "BEBIDAS", image: "catalogo/AND15DES.jpg" },
+{ id: 'AND2', name: "ANDINA 2LT RETORNABLE", price: 11880, category: "BEBIDAS", image: "catalogo/AND2.jpg" },
+{ id: 'AND3', name: "ANDINA 3LT RETORNABLE", price: 12642, category: "BEBIDAS", image: "catalogo/AND3.jpg" },
+{ id: 'AND3DES', name: "ANDINA 3LT DESECHABLE", price: 14850, category: "BEBIDAS", image: "catalogo/AND3DES.jpg" },
+{ id: 'AND400', name: "ANDINA DEL VALLE 400ML", price: 5040, category: "BEBIDAS", image: "catalogo/AND400.jpg" },
+{ id: 'AND591', name: "ANDINA 591ML DESECHABLE", price: 5760, category: "BEBIDAS", image: "catalogo/AND591.jpg" },
+{ id: 'ANDVA15', name: "ANDINA DEL VALLE DESECHABLE", price: 6540, category: "BEBIDAS", image: "catalogo/ANDVA15.jpg" },
+{ id: 'BEN5', name: "BENECDITINO 500ML", price: 4680, category: "AGUA", image: "catalogo/BEN5.jpg" },
+{ id: 'BEN3', name: "BENECDITINO 3LT", price: 6900, category: "AGUA", image: "catalogo/BEN3.jpg" },
+{ id: 'BOMB200', name: "BOMBILLIN 200CC X24", price: 6480, category: "BEBIDAS", image: "catalogo/BOMB200.jpg" },
+{ id: 'JAL', name: "JUGO ANDINA 340ML X 6UNID", price: 3900, category: "BEBIDAS", image: "catalogo/JAL.jpg" },
+{ id: 'LATAC', name: "ANDINA LATA 350ML 6 UNID.", price: 4428, category: "BEBIDAS", image: "catalogo/LATAC.jpg" },
+{ id: 'MINIC', name: "LATA MINI 200ML 6 UNIDAD", price: 3330, category: "BEBIDAS", image: "catalogo/MINIC.jpg" },
+{ id: 'MONSO6', name: "MONSTER 473ML X6 UNID.", price: 8238, category: "ENERGÃ‰TICAS", image: "catalogo/MONSO6.jpg" },
+{ id: 'POWA1', name: "POWERADE 1.1LT", price: 7550, category: "BEBIDAS", image: "catalogo/POWA1.jpg" },
+{ id: 'VIT330', name: "VITAL 330 ML VIDRIO X 12UNID.", price: 8280, category: "AGUA", image: "catalogo/VIT330.jpg" },
+{ id: 'VITP', name: "VITAL 1LT", price: 4750, category: "AGUA", image: "catalogo/VITP.jpg" },
+{ id: 'VITSG16', name: "VITAL 1.6LT", price: 4866, category: "AGUA", image: "catalogo/VITSG16.jpg" },
+{ id: 'VITSG600', name: "VITAL 600ML", price: 5940, category: "AGUA", image: "catalogo/VITSG600.jpg" },
+{ id: 'ALOEO', name: "ALOE VERA 500ML X CAJA", price: 17952, category: "BEBIDAS", image: "catalogo/ALOEO.jpg" },
+{ id: 'ENER250', name: "ENERGY DRINK 250ML", price: 13000, category: "ENERGÃ‰TICAS", image: "catalogo/ENER250.jpg" },
+{ id: 'ENERGY', name: "ENERGY DRYNK 500ML", price: 18000, category: "ENERGÃ‰TICAS", image: "catalogo/ENERGY.jpg" },
+{ id: 'FR2', name: "Fruna 2.0 LT", price: 3490, category: "BEBIDAS", image: "catalogo/FR2.jpg" },
+{ id: 'FR500', name: "Fruna 500ml", price: 3590, category: "BEBIDAS", image: "catalogo/FR500.jpg" },
+{ id: 'SCOREG', name: "SCORE 473ML", price: 19680, category: "ENERGÃ‰TICAS", image: "catalogo/SCOREG.jpg" },
+{ id: 'SOPA', name: "SOPA MOLINOVA 94G X CAJA", price: 9000, category: "BEBIDAS", image: "catalogo/SOPA.jpg" },
+{ id: 'KFE', name: "CAFE HELADO NESCAFE X 6 UNID.", price: 9300, category: "BEBIDAS", image: "catalogo/KFE.jpg" },
+{ id: 'CRISLT', name: "CRISTAL LATA 470CC", price: 16560, category: "CERVEZA", image: "catalogo/CRISLT.jpg" },
+{ id: 'CRIS12', name: "CRISTAL LATA 470cc X12UNID", price: 8520, category: "CERVEZA", image: "catalogo/CRIS12.jpg" },
+{ id: 'PISAL', name: "PISCO ALTO DEL CARMEN 1LT", price: 6400, category: "LICORES", image: "catalogo/PISAL.jpg" },
+{ id: 'WHISBUCH', name: "WHISKY BUCHANANS DELUXE 750 CC", price: 24230, category: "LICORES", image: "catalogo/WHISBUCH.jpg" },
+{ id: 'WHISSAND', name: "WHISKY SANDY MAC 1LT", price: 12500, category: "LICORES", image: "catalogo/WHISSAND.jpg" },
+{ id: 'WHISGOLD', name: "WHISKY JW GOLD LABEL 750 ml - Copa", price: 56000, category: "LICORES", image: "catalogo/WHISGOLD.jpg" },
+{ id: 'WHISBLACK', name: "WHISKY JW BLACK 750 ml - BLACK 200ML", price: 28990, category: "LICORES", image: "catalogo/WHISBLACK.jpg" },
+{ id: 'VINCAR', name: "VINO FLORESTA CAR 13.3g 750cc", price: 15800, category: "BEBIDAS", image: "catalogo/VINCAR.jpg" },
+{ id: 'VINCHARDONNAY', name: "VINO FLORESTA CHARDONNAY 13.4g 750CC", price: 16200, category: "BEBIDAS", image: "catalogo/VINCHARDONNAY.jpg" },
+{ id: 'VINREAL', name: "VINO M. REAL RVA X2 CS-MER 13.5G 750CC", price: 7170, category: "BEBIDAS", image: "catalogo/VINREAL.jpg" },
+{ id: 'ESPAMAR', name: "ESPUMANTE AMARANTA BRUT 12.4g 750", price: 4650, category: "LICORES", image: "catalogo/ESPAMAR.jpg" },
+{ id: 'AND125DES', name: "SPRITE 1.25 DESECHABLE", price: 5340, category: "BEBIDAS", image: "catalogo/AND125DES.jpg" },
+{ id: 'ESPCARM', name: "ESPUMANTE CARMEN FK MOSCATO 12g 250", price: 20262, category: "LICORES", image: "catalogo/ESPCARM.jpg" },
+{ id: 'VINMED', name: "VINO 120 3 MEDLLA L.HARVEST 12g 750 X3 UNID", price: 12800, category: "BEBIDAS", image: "catalogo/VINMED.jpg" },
+{ id: 'VMREAL', name: "VINO CARM FK/MREAL CS 13.5g 750 X 3 UNID", price: 12680, category: "BEBIDAS", image: "catalogo/VMREAL.jpg" },
+{ id: 'VIN120M', name: "VINO 120 1.5 LT X6 UNID", price: 18624, category: "BEBIDAS", image: "catalogo/VIN120M.jpg" },
+{ id: 'MAL355', name: "MALTIN 355 ML X 24 UNIDAD", price: 27600, category: "BEBIDAS", image: "catalogo/MAL355.jpg" },
+{ id: 'WHISHOR', name: "WHISKY WHITE HOR 750 cc 40G X1", price: 7396, category: "LICORES", image: "catalogo/WHISHOR.jpg" },
+{ id: 'GINGORD', name: "GIN GORDONS 750 cc", price: 11650, category: "LICORES", image: "catalogo/GINGORD.jpg" },
+{ id: 'TQRAYSEVI', name: "GIN TANQUERAY SEVI 700 cc", price: 16920, category: "LICORES", image: "catalogo/TQRAYSEVI.jpg" },
+{ id: 'TQRAYROY', name: "GIN TANQUERAY ROYALE 700cc", price: 16920, category: "CERVEZA", image: "catalogo/TQRAYROY.jpg" },
+{ id: 'TQRAYBOS', name: "GIN TANQUERAY BOSSA NOVA 700cc", price: 16920, category: "LICORES", image: "catalogo/TQRAYBOS.jpg" },
+{ id: 'RONANE', name: "RON MADDERO DORADO 750 cc", price: 4990, category: "LICORES", image: "catalogo/RONANE.jpg" },
+{ id: 'RONANEJ', name: "RON MADDERO ANEJO 750 cc", price: 6250, category: "LICORES", image: "catalogo/RONANEJ.jpg" },
+{ id: 'RONBL', name: "RON MADDERO BLANCO 750 cc", price: 4550, category: "LICORES", image: "catalogo/RONBL.jpg" },
+{ id: 'RONDOR1', name: "RON MADDERO DORADO 1LT", price: 5190, category: "LICORES", image: "catalogo/RONDOR1.jpg" },
+{ id: 'BAV470', name: "BAVARIA 470 ML X24 UNID", price: 12240, category: "CERVEZA", image: "catalogo/BAV470.jpg" },
+{ id: 'CCU125DES', name: "CCU 1.25 DESECHABLE", price: 5760, category: "BEBIDAS", image: "catalogo/CCU125DES.jpg" },
+{ id: 'COR330', name: "CORONA 330ML X18 UNID", price: 14850, category: "CERVEZA", image: "catalogo/COR330.jpg" },
+{ id: 'COR620', name: "CORONA 620CC X12 UNID", price: 13090, category: "CERVEZA", image: "catalogo/COR620.jpg" },
+{ id: 'ESC710', name: "LATA ESCUDO 710ML X 24 UNID", price: 18960, category: "CERVEZA", image: "catalogo/ESC710.jpg" },
+{ id: 'ICE275', name: "COCTEL CAPEL ICE 275 ML X 24", price: 19000, category: "LICORES", image: "catalogo/ICE275.jpg" },
+{ id: 'IRON', name: "ISOTONICA IRONADE 1LT", price: 4500, category: "LICORES", image: "catalogo/IRON.jpg" },
+{ id: 'JC2', name: "JUGO CYRO 2LT", price: 4250, category: "BEBIDAS", image: "catalogo/JC2.jpg" },
+{ id: 'JUMEXM', name: "JUMEX 355 X BANDEJA", price: 15650, category: "BEBIDAS", image: "catalogo/JUMEXM.jpg" },
+{ id: 'KAPOF', name: "KAPO X24 UNID", price: 5800, category: "BEBIDAS", image: "catalogo/KAPOF.jpg" },
+{ id: 'LIFE3', name: "AGUA LIFE 3 LT", price: 3590, category: "AGUA", image: "catalogo/LIFE3.jpg" },
+{ id: 'LIN', name: "ENCENDEDOR LIN", price: 2100, category: "BEBIDAS", image: "catalogo/LIN.jpg" },
+{ id: 'ROY470', name: "ROYAL 470 X 24 UNID", price: 18960, category: "CERVEZA", image: "catalogo/ROY470.jpg" },
+{ id: 'SOL650', name: "SOL 650", price: 12000, category: "CERVEZA", image: "catalogo/SOL650.jpg" },
+{ id: 'SX', name: "SUEROX 630ML SURTIDO", price: 17880, category: "BEBIDAS", image: "catalogo/SX.jpg" },
+{ id: 'SXF', name: "FASTYLE 630ML X 6UNID", price: 7900, category: "BEBIDAS", image: "catalogo/SXF.jpg" },
+{ id: 'ZO', name: "ENERGY ZOOM 473 ML", price: 15600, category: "ENERGÃ‰TICAS", image: "catalogo/ZO.jpg" },
+{ id: 'WHISRED', name: "WHISKY RED LABEL 750 CC", price: 9990, category: "LICORES", image: "catalogo/WHISRED.jpg" },
+{ id: 'WHISKEY', name: "WHISKY JACK DANIEL 50ML", price: 2600, category: "LICORES", image: "catalogo/WHISKEY.jpg" },
+{ id: 'EXP500', name: "EXPORTACION VINO 500ML", price: 14768, category: "BEBIDAS", image: "catalogo/EXP500.jpg" },
+{ id: 'TQRAYLOND', name: "GIN TANQUERAY LON D 700CC", price: 15690, category: "LICORES", image: "catalogo/TQRAYLOND.jpg" },
+{ id: 'ARROZ', name: "ARROZ MANGA 10 UNID", price: 6950, category: "BEBIDAS", image: "catalogo/ARROZ.jpg" },
+{ id: 'HEX', name: "HUEVO EXTRA", price: 36000, category: "BEBIDAS", image: "catalogo/HEX.jpg" },
+{ id: 'H1', name: "HUEVO 1ERA", price: 32000, category: "BEBIDAS", image: "catalogo/H1.jpg" }
 ];
-
-const categoriasBase = [
-    "PROMOCIONES", "PACKS", "CERVEZA", "PISCO", "WHISKY", "RON", 
-    "VODKA", "GIN", "TEQUILA", "LICORES", "BEBIDAS", "AGUA"
-];
-
-const prefijosNombre = {
-    "PROMOCIONES": ["Súper Oferta", "Promo Especial", "Liquidación", "Descuento", "Oportunidad"],
-    "PACKS": ["Pack Fiesta", "Combo Amigos", "Pack Degustación", "Set Premium", "Caja Sorpresa"],
-    "CERVEZA": ["Cerveza Lager", "Cerveza Ale", "Cerveza IPA", "Cerveza Stout", "Cerveza Artesanal", "Pack Cervezas"],
-    "PISCO": ["Pisco Reservado", "Pisco Transparente", "Pisco Envejecido", "Pisco Artesanal", "Pisco Doble Destilado"],
-    "WHISKY": ["Whisky 12 Años", "Whisky Single Malt", "Whisky Blended", "Whisky Premium", "Whisky Irlandés"],
-    "RON": ["Ron Añejo", "Ron Blanco", "Ron Especiado", "Ron Gran Reserva", "Ron Dorado"],
-    "VODKA": ["Vodka Clásico", "Vodka Saborizado", "Vodka Premium", "Vodka Destilado", "Vodka Ruso"],
-    "GIN": ["Gin London Dry", "Gin Botánico", "Gin Rosado", "Gin Premium", "Gin Cítrico"],
-    "TEQUILA": ["Tequila Reposado", "Tequila Blanco", "Tequila Añejo", "Tequila Gold", "Tequila Artesanal"],
-    "LICORES": ["Licor de Hierbas", "Crema de Whisky", "Licor de Café", "Amaretto", "Licor Frutal"],
-    "BEBIDAS": ["Bebida Cola", "Bebida Naranja", "Bebida Limón", "Bebida Tónica", "Bebida Energética"],
-    "AGUA": ["Agua Mineral Sin Gas", "Agua Mineral Con Gas", "Agua Saborizada", "Agua Purificada", "Agua Tónica"]
-};
-
-const sufijosNombre = [
-    "Edición Limitada", "Familiar", "Importado", "Nacional", "Clásico", 
-    "Premium", "Gold", "Reserva Especial", "Extra", "Suave", "Intenso"
-];
-
-// Generador de 500 productos
-const catalogoProductos = [];
-
-for (let i = 1; i <= 500; i++) {
-    // Escoger categoría de forma equitativa
-    const categoria = categoriasBase[i % categoriasBase.length];
-    
-    // Escoger prefijo y sufijo aleatorio
-    const prefijos = prefijosNombre[categoria];
-    const prefijo = prefijos[Math.floor(Math.random() * prefijos.length)];
-    const sufijo = sufijosNombre[Math.floor(Math.random() * sufijosNombre.length)];
-    
-    // Generar nombre
-    const name = `${prefijo} ${sufijo} Vol. ${Math.floor(Math.random() * 100)}`;
-    
-    // Generar precio base según categoría
-    let precioBase = 1000;
-    if (["WHISKY", "GIN", "TEQUILA"].includes(categoria)) precioBase = 15000;
-    if (["PISCO", "RON", "VODKA", "LICORES", "PACKS"].includes(categoria)) precioBase = 6000;
-    if (["CERVEZA", "BEBIDAS", "AGUA"].includes(categoria)) precioBase = 1000;
-    if (["PROMOCIONES"].includes(categoria)) precioBase = 3000;
-    
-    // Variación aleatoria de precio
-    const variacion = Math.floor(Math.random() * 5000);
-    const price = precioBase + variacion;
-    
-    // Asignar imagen rotativa
-    const image = imagenesDisponibles[i % imagenesDisponibles.length];
-    
-    catalogoProductos.push({
-        id: i,
-        name: name,
-        price: price,
-        category: categoria,
-        image: image
-    });
-}
