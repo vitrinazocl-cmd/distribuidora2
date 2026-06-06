@@ -14,10 +14,6 @@
     <div id="branch-selector" class="branch-selector-overlay">
         <div class="branch-home-content">
             <div class="home-banner">
-                <!-- Logo overlaid on banner (Left) -->
-                <img src="logo.jpg.jpeg" alt="Eleodoro Logo Left" class="overlay-logo">
-                <!-- Logo overlaid on banner (Right) -->
-                <img src="logo.jpg.jpeg" alt="Eleodoro Logo Right" class="overlay-logo right-logo">
                 <!-- Using the video as the advertising banner -->
                 <video autoplay muted loop playsinline class="banner-video" style="width: 100%; height: 55vh; object-fit: cover;">
                     <source src="video6.mp4.mp4" type="video/mp4">
@@ -26,11 +22,15 @@
             </div>
             
             <div class="home-selection">
-                <div class="visitor-counter-container">
-                    <p class="counter-title">VISITAS</p>
-                    <div class="flip-counter" id="visitor-flip-counter">
-                        <!-- Digits injected by JS -->
+                <div class="visitor-counter-container" style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+                    <img src="logo.jpg.jpeg" alt="Eleodoro Logo" style="height: 70px; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+                    <div>
+                        <p class="counter-title">VISITAS</p>
+                        <div class="flip-counter" id="visitor-flip-counter">
+                            <!-- Digits injected by JS -->
+                        </div>
                     </div>
+                    <img src="logo.jpg.jpeg" alt="Eleodoro Logo" style="height: 70px; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
                 </div>
                 <div class="branch-buttons-container">
                     <button class="branch-btn kfc-style" onclick="selectBranch('Cerro Navia')">
