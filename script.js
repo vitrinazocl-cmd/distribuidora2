@@ -379,6 +379,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function renderCart() {
+        // Limpiar items corruptos (del bug anterior)
+        carrito = carrito.filter(item => item && item.id && item.price != null);
+        
         if(carrito.length === 0) {
             cartItemsContainer.innerHTML = '<p class="empty-cart-msg">Tu carrito está vacío.</p>';
             cartTotalPrice.textContent = '$0';
