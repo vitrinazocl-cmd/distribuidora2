@@ -10,6 +10,20 @@
 </head>
 <body>
 
+    <!-- Age Verification Modal -->
+    <div id="age-modal" class="branch-selector-overlay" style="background-color: rgba(0,0,0,0.95); z-index: 100000; justify-content: center; align-items: center; padding: 20px;">
+        <div style="background: var(--dark-bg); padding: 40px; border-radius: 12px; text-align: center; max-width: 500px; border: 2px solid var(--primary-color);">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 50px; color: var(--warning-red); margin-bottom: 20px;"></i>
+            <h2 style="font-size: 28px; margin-bottom: 15px; text-transform: uppercase;">¿Eres mayor de 18 años?</h2>
+            <p style="margin-bottom: 30px; font-size: 16px; line-height: 1.5;">Para ingresar a nuestro sitio web debes tener al menos 18 años de edad. Al ingresar aceptas nuestros términos y condiciones y confirmas que tienes la edad legal para comprar bebidas alcohólicas.</p>
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <button id="btn-age-yes" class="branch-btn kfc-style" style="min-width: 150px; padding: 15px; background-color: #28a745;">SÍ, TENGO +18</button>
+                <button id="btn-age-no" class="branch-btn kfc-style" style="min-width: 150px; padding: 15px; background-color: var(--warning-red);">NO SOY MAYOR</button>
+            </div>
+            <p id="age-error-msg" style="color: var(--warning-red); margin-top: 20px; font-weight: bold; display: none;">Debes ser mayor de 18 años para comprar en este sitio.</p>
+        </div>
+    </div>
+
     <!-- Branch Selection Overlay (Home) -->
     <div id="branch-selector" class="branch-selector-overlay">
         <div class="branch-home-content">
@@ -55,6 +69,9 @@
         </div>
     </div>
 
+    <div style="background-color: var(--warning-red); color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">
+        ADVERTENCIA: VENTA SÓLO A MAYORES DE 18 AÑOS. BEBE CON MODERACIÓN.
+    </div>
     <header class="top-header">
         <div class="container header-container">
             <div class="logo">
@@ -77,11 +94,11 @@
                     <span class="cart-count" id="cart-count">0</span>
                     <span>Carro Compras</span>
                 </div>
-                <a href="#" id="admin-login-btn" class="user-profile" title="Ver Pedidos Pendientes" style="color: #0044cc; text-decoration: none; display: flex; align-items: center; gap: 5px;">
+                <a href="#" id="admin-login-btn" class="user-profile" title="Ver Pedidos Pendientes" style="color: var(--primary-color); text-decoration: none; display: flex; align-items: center; gap: 5px;">
                     <i class="fa-solid fa-clipboard-list"></i>
                     <span style="font-size: 12px; font-weight: bold;">Pedidos</span>
                 </a>
-                <div class="user-profile">
+                <div class="user-profile" style="color: var(--primary-color);">
                     <i class="fa-regular fa-user"></i>
                 </div>
             </div>
@@ -254,8 +271,9 @@
                 <ul>
                     <li><a href="#">Promociones</a></li>
                     <li><a href="#">Catálogo</a></li>
-                    <li><a href="#">Términos y Condiciones</a></li>
-                    <li><a href="#">Políticas de Privacidad</a></li>
+                    <li><a href="terminos.html">Términos y Condiciones</a></li>
+                    <li><a href="privacidad.html">Políticas de Privacidad</a></li>
+                    <li><a href="devoluciones.html">Políticas de Devolución</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -294,14 +312,40 @@
                 <p class="empty-cart-msg">Tu carrito está vacío.</p>
             </div>
             <div class="cart-footer">
-                <div class="cart-total">
-                    <span>Total:</span>
+                <div class="cart-total" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal-price">$0</span>
+                </div>
+                <div class="cart-total" style="display: flex; justify-content: space-between; margin-bottom: 5px; color: #888; font-size: 14px;">
+                    <span>Envío:</span>
+                    <span id="cart-shipping-price">$3.000</span>
+                </div>
+                <div class="cart-total" style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 20px; font-weight: bold; border-top: 1px solid var(--border-color); padding-top: 10px;">
+                    <span>Total (IVA inc):</span>
                     <span id="cart-total-price">$0</span>
                 </div>
-                <div class="checkout-form">
-                    <input type="text" id="customer-name" placeholder="Tu Nombre y Apellido" required style="width:100%; padding: 10px; margin-bottom:10px; border-radius: 5px; border: 1px solid #ccc;">
-                    <input type="text" id="customer-address" placeholder="Dirección de Despacho" required style="width:100%; padding: 10px; margin-bottom:10px; border-radius: 5px; border: 1px solid #ccc;">
-                    <button id="checkout-btn" class="checkout-btn">Finalizar Compra</button>
+                <div class="checkout-form" id="checkout-form-container">
+                    <input type="text" id="customer-name" placeholder="Tu Nombre y Apellido (Receptor)" required style="width:100%; padding: 10px; margin-bottom:10px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--dark-bg); color: var(--text-dark);">
+                    <input type="text" id="customer-rut" placeholder="RUT (opcional)" style="width:100%; padding: 10px; margin-bottom:10px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--dark-bg); color: var(--text-dark);">
+                    <input type="text" id="customer-address" placeholder="Dirección de Despacho Exacta" required style="width:100%; padding: 10px; margin-bottom:10px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--dark-bg); color: var(--text-dark);">
+                    <select id="customer-commune" required style="width:100%; padding: 10px; margin-bottom:10px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--dark-bg); color: var(--text-dark);">
+                        <option value="">Selecciona Comuna</option>
+                        <option value="Cerro Navia">Cerro Navia</option>
+                        <option value="Pudahuel">Pudahuel</option>
+                        <option value="Lo Prado">Lo Prado</option>
+                        <option value="Quinta Normal">Quinta Normal</option>
+                        <option value="Otra">Otra (Consultar factibilidad)</option>
+                    </select>
+                    
+                    <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #aaa; margin-bottom: 15px;">
+                        <input type="checkbox" id="legal-checkbox" required style="margin-top: 3px;">
+                        <span>Confirmo que soy mayor de 18 años y acepto los <a href="terminos.html" style="color: var(--primary-color);">términos y condiciones</a>. Entiendo que se solicitará Cédula de Identidad al momento de la entrega.</span>
+                    </label>
+
+                    <button id="checkout-btn" class="checkout-btn" style="background-color: #0099cc; color: white;">Pagar con Webpay <i class="fa-solid fa-credit-card"></i></button>
+                    <p id="time-restriction-msg" style="color: var(--warning-red); font-weight: bold; margin-top: 10px; font-size: 14px; text-align: center; display: none;">
+                        <i class="fa-solid fa-clock"></i> Las compras de alcohol están restringidas entre las 01:00 AM y 09:00 AM.
+                    </p>
                 </div>
             </div>
         </div>

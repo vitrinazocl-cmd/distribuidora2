@@ -1,4 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Modal de Edad ---
+    const ageModal = document.getElementById('age-modal');
+    const btnAgeYes = document.getElementById('btn-age-yes');
+    const btnAgeNo = document.getElementById('btn-age-no');
+    const ageErrorMsg = document.getElementById('age-error-msg');
+
+    if (ageModal) {
+        if (!localStorage.getItem('age_verified')) {
+            ageModal.classList.remove('hidden');
+        } else {
+            ageModal.style.display = 'none';
+        }
+
+        if (btnAgeYes) {
+            btnAgeYes.addEventListener('click', () => {
+                localStorage.setItem('age_verified', 'true');
+                ageModal.style.display = 'none';
+            });
+        }
+        if (btnAgeNo) {
+            btnAgeNo.addEventListener('click', () => {
+                ageErrorMsg.style.display = 'block';
+            });
+        }
+    }
+
     const track = document.getElementById('sliderTrack');
     const slides = Array.from(track.children);
     const nextBtn = document.getElementById('nextBtn');
@@ -91,6 +117,30 @@ function selectBranch(branchName) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Verificar si venimos de vuelta de Webpay
+    const urlParams = new URLSearchParams(window.location.search);
+    const estadoPago = urlParams.get('pago');
+    
+    if (estadoPago) {
+        if (estadoPago === 'exito') {
+            const orden = urlParams.get('orden');
+            alert('¡Pago Exitoso!\nTu compra ha sido aprobada. Número de orden: ' + orden);
+            // Limpiar el carrito ya que la compra fue exitosa
+            localStorage.removeItem('carrito');
+            localStorage.removeItem('clienteTemporal');
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else if (estadoPago === 'rechazado') {
+            alert('El pago fue rechazado. Revisa tu saldo e intenta nuevamente.');
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else if (estadoPago === 'abortado') {
+            alert('Cancelaste el proceso de pago.');
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else if (estadoPago === 'error') {
+            alert('Hubo un error de conexión al verificar el pago.');
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }
+
     const productsGrid = document.getElementById('products-grid');
     const navLinks = document.querySelectorAll('.nav-container a');
     const productsTitle = document.getElementById('productos-title');
@@ -315,8 +365,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartTotalPrice = document.getElementById('cart-total-price');
     const cartCountSpan = document.getElementById('cart-count');
     const checkoutBtn = document.getElementById('checkout-btn');
+    const timeRestrictionMsg = document.getElementById('time-restriction-msg');
 
-    function openCart() { cartModal.classList.remove('hidden'); renderCart(); }
+    function openCart() { 
+        cartModal.classList.remove('hidden'); 
+        renderCart(); 
+        checkSalesHours();
+    }
+    
+    function checkSalesHours() {
+        const currentHour = new Date().getHours();
+        if (currentHour >= 1 && currentHour < 9) {
+            if(checkoutBtn) {
+                checkoutBtn.disabled = true;
+                checkoutBtn.style.opacity = '0.5';
+                checkoutBtn.style.cursor = 'not-allowed';
+            }
+            if(timeRestrictionMsg) timeRestrictionMsg.style.display = 'block';
+        } else {
+            if(checkoutBtn) {
+                checkoutBtn.disabled = false;
+                checkoutBtn.style.opacity = '1';
+                checkoutBtn.style.cursor = 'pointer';
+            }
+            if(timeRestrictionMsg) timeRestrictionMsg.style.display = 'none';
+        }
+    }
+
     function closeCart() { cartModal.classList.add('hidden'); }
 
     if(openCartBtn) openCartBtn.addEventListener('click', openCart);
@@ -427,41 +502,96 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         cartItemsContainer.innerHTML = html;
-        cartTotalPrice.textContent = '$' + total.toLocaleString('es-CL');
+        const subtotalElement = document.getElementById('cart-subtotal-price');
+        const shippingCost = 3000;
+        const finalTotal = total + shippingCost;
+        if(subtotalElement) {
+            subtotalElement.textContent = '$' + total.toLocaleString('es-CL');
+            cartTotalPrice.textContent = '$' + finalTotal.toLocaleString('es-CL');
+        } else {
+            cartTotalPrice.textContent = '$' + total.toLocaleString('es-CL');
+        }
     }
 
-    // Checkout
+    // Checkout (Integración con Webpay)
     if(checkoutBtn) {
-        checkoutBtn.addEventListener('click', () => {
+        checkoutBtn.addEventListener('click', async () => {
             if(carrito.length === 0) { alert('El carrito está vacío.'); return; }
+            
+            // Validar Horario
+            const currentHour = new Date().getHours();
+            if (currentHour >= 1 && currentHour < 9) {
+                alert('Las compras están restringidas entre la 01:00 AM y 09:00 AM por cumplimiento legal.');
+                return;
+            }
             
             const nameInput = document.getElementById('customer-name');
             const addressInput = document.getElementById('customer-address');
+            const rutInput = document.getElementById('customer-rut');
+            const communeInput = document.getElementById('customer-commune');
+            const legalCheckbox = document.getElementById('legal-checkbox');
             
-            if(!nameInput.value || !addressInput.value) { alert('Por favor, ingresa tu nombre y dirección para despachar el pedido.'); return; }
+            if(!nameInput.value || !addressInput.value || !communeInput.value) { 
+                alert('Por favor, ingresa tu nombre, dirección y comuna para despachar el pedido.'); 
+                return; 
+            }
+
+            if(!legalCheckbox.checked) {
+                alert('Debes confirmar que eres mayor de 18 años y aceptar los términos y condiciones.');
+                return;
+            }
             
+            // Cambiar texto del botón
+            const textOriginal = checkoutBtn.innerHTML;
+            checkoutBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Conectando...';
+            checkoutBtn.disabled = true;
+
             const total = carrito.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            const finalTotal = total + 3000; // Agregar costo de envío
             
-            const newOrder = {
-                id: 'ORD-' + Math.floor(Math.random() * 10000),
-                date: new Date().toLocaleString('es-CL'),
-                customerName: nameInput.value,
-                customerAddress: addressInput.value,
-                items: carrito,
-                total: total
-            };
-            
-            const pedidos = JSON.parse(localStorage.getItem('pedidosPendientes')) || [];
-            pedidos.push(newOrder);
-            localStorage.setItem('pedidosPendientes', JSON.stringify(pedidos));
-            
-            carrito = [];
-            saveCart();
-            renderCart();
-            nameInput.value = '';
-            addressInput.value = '';
-            closeCart();
-            alert('¡Compra finalizada con éxito! Tu pedido ha sido enviado.');
+            try {
+                // 1. Llamar al backend para iniciar el pago
+                const response = await fetch('http://localhost:3000/api/pagar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ total: finalTotal })
+                });
+                
+                const data = await response.json();
+                
+                if (data.url && data.token) {
+                    // 2. Guardar cliente temporalmente para recuperar después
+                    localStorage.setItem('clienteTemporal', JSON.stringify({
+                        nombre: nameInput.value,
+                        direccion: addressInput.value
+                    }));
+
+                    // 3. Crear formulario automático para Webpay
+                    const form = document.createElement('form');
+                    form.action = data.url;
+                    form.method = 'POST';
+                    
+                    const inputToken = document.createElement('input');
+                    inputToken.type = 'hidden';
+                    inputToken.name = 'token_ws';
+                    inputToken.value = data.token;
+                    
+                    form.appendChild(inputToken);
+                    document.body.appendChild(form);
+                    
+                    // 4. Enviar a Transbank
+                    form.submit(); 
+                } else {
+                    alert('Error del Servidor: ' + (data.error || 'No se recibió token de Webpay.'));
+                    checkoutBtn.innerHTML = textOriginal;
+                    checkoutBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error(error);
+                alert('No se pudo conectar con el servidor Backend. Asegúrate de que iniciar_servidor.bat esté corriendo.');
+                checkoutBtn.innerHTML = textOriginal;
+                checkoutBtn.disabled = false;
+            }
         });
     }
 
