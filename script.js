@@ -6,23 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const ageErrorMsg = document.getElementById('age-error-msg');
 
     if (ageModal) {
-        // --- MODO DE PRUEBA: Limpiar si la URL tiene ?reset=1 ---
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('reset') === '1') {
-            localStorage.removeItem('age_verified');
-            window.history.replaceState({}, document.title, window.location.pathname); // limpia la url
-        }
-
-        if (!localStorage.getItem('age_verified')) {
-            ageModal.style.display = 'flex'; // Forzamos a que se vea por si acaso
-            ageModal.classList.remove('hidden');
-        } else {
-            ageModal.style.display = 'none';
-        }
+        // Mostrar SIEMPRE el modal de edad al entrar
+        ageModal.style.display = 'flex'; 
+        ageModal.classList.remove('hidden');
 
         if (btnAgeYes) {
             btnAgeYes.addEventListener('click', () => {
-                localStorage.setItem('age_verified', 'true');
+                // Solo lo ocultamos temporalmente para esta sesión, sin guardarlo para siempre
                 ageModal.style.display = 'none';
             });
         }
@@ -33,19 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Modal de Sucursal ---
+    // --- Modal de Sucursal (Home Principal) ---
     const branchSelector = document.getElementById('branch-selector');
     if (branchSelector) {
-        // MODO DE PRUEBA: limpiar si tiene reset
-        const urlParamsBranch = new URLSearchParams(window.location.search);
-        if (urlParamsBranch.get('reset') === '1') {
-            localStorage.removeItem('branch_selected');
-        }
-
-        if (localStorage.getItem('branch_selected')) {
-            branchSelector.classList.add('hidden');
-            branchSelector.style.display = 'none'; // ocultar permanentemente
-        }
+        // SIEMPRE mostrar el home principal
+        branchSelector.classList.remove('hidden');
+        branchSelector.style.display = 'flex'; 
     }
 
     const track = document.getElementById('sliderTrack');
@@ -135,8 +118,7 @@ function selectBranch(branchName) {
     // Ensure the page starts at the top
     window.scrollTo({ top: 0, behavior: 'instant' });
     
-    // Save to localStorage
-    localStorage.setItem('branch_selected', branchName);
+    // Ocultar el Home y pasar al menú
     console.log('Sucursal seleccionada: ' + branchName);
 }
 
