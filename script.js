@@ -6,7 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const ageErrorMsg = document.getElementById('age-error-msg');
 
     if (ageModal) {
+        // --- MODO DE PRUEBA: Limpiar si la URL tiene ?reset=1 ---
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('reset') === '1') {
+            localStorage.removeItem('age_verified');
+            window.history.replaceState({}, document.title, window.location.pathname); // limpia la url
+        }
+
         if (!localStorage.getItem('age_verified')) {
+            ageModal.style.display = 'flex'; // Forzamos a que se vea por si acaso
             ageModal.classList.remove('hidden');
         } else {
             ageModal.style.display = 'none';
