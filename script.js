@@ -37,8 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const branchSelector = document.getElementById('branch-selector');
     if (branchSelector) {
         // MODO DE PRUEBA: limpiar si tiene reset
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('reset') === '1') {
+        const urlParamsBranch = new URLSearchParams(window.location.search);
+        if (urlParamsBranch.get('reset') === '1') {
             localStorage.removeItem('branch_selected');
         }
 
