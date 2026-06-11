@@ -7,9 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (branchName === 'Cerro Navia') {
             const alcoholCategories = ['CERVEZA', 'LICORES', 'PISCO', 'WHISKY', 'RON', 'VODKA', 'GIN', 'TEQUILA', 'VINOS'];
             baseCatalogo = catalogoProductos.filter(p => {
-                if (alcoholCategories.includes(p.category.toUpperCase())) return false;
-                const nameUpper = p.name.toUpperCase();
-                if (nameUpper.includes('VINO') || nameUpper.includes('ESPUMANTE') || nameUpper.includes('CERVEZA') || nameUpper.includes('PISCO') || nameUpper.includes('RON') || nameUpper.includes('WHISKY')) return false;
+                if (!p) return false;
+                const category = p.category ? p.category.toUpperCase() : '';
+                const name = p.name ? p.name.toUpperCase() : '';
+                
+                if (alcoholCategories.includes(category)) return false;
+                if (name.includes('VINO') || name.includes('ESPUMANTE') || name.includes('CERVEZA') || name.includes('PISCO') || name.includes('RON') || name.includes('WHISKY') || name.includes('VODKA') || name.includes('GIN')) return false;
                 return true;
             });
         } else {
@@ -381,7 +384,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Filtrar productos
-        const resultados = baseCatalogo.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+        const resultados = baseCatalogo.filter(p => {
+            const name = p.name ? p.name.toLowerCase() : '';
+            const category = p.category ? p.category.toLowerCase() : '';
+            return name.includes(query) || category.includes(query);
+        });
         setProducts(resultados);
         productsTitle.textContent = 'RESULTADOS PARA: "' + query.toUpperCase() + '"';
         
