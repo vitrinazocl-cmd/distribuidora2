@@ -33,6 +33,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- Modal de Sucursal ---
+    const branchSelector = document.getElementById('branch-selector');
+    if (branchSelector) {
+        // MODO DE PRUEBA: limpiar si tiene reset
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('reset') === '1') {
+            localStorage.removeItem('branch_selected');
+        }
+
+        if (localStorage.getItem('branch_selected')) {
+            branchSelector.classList.add('hidden');
+            branchSelector.style.display = 'none'; // ocultar permanentemente
+        }
+    }
+
     const track = document.getElementById('sliderTrack');
     const slides = Array.from(track.children);
     const nextBtn = document.getElementById('nextBtn');
@@ -120,7 +135,8 @@ function selectBranch(branchName) {
     // Ensure the page starts at the top
     window.scrollTo({ top: 0, behavior: 'instant' });
     
-    // Optional: save to localStorage or show an alert/toast
+    // Save to localStorage
+    localStorage.setItem('branch_selected', branchName);
     console.log('Sucursal seleccionada: ' + branchName);
 }
 
