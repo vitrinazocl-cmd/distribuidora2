@@ -1,4 +1,41 @@
+let updateBranchMenu = null;
+
 document.addEventListener('DOMContentLoaded', () => {
+    let baseCatalogo = catalogoProductos;
+
+    updateBranchMenu = function(branchName) {
+        if (branchName === 'Cerro Navia') {
+            const alcoholCategories = ['CERVEZA', 'LICORES', 'PISCO', 'WHISKY', 'RON', 'VODKA', 'GIN', 'TEQUILA', 'VINOS'];
+            baseCatalogo = catalogoProductos.filter(p => {
+                if (alcoholCategories.includes(p.category.toUpperCase())) return false;
+                const nameUpper = p.name.toUpperCase();
+                if (nameUpper.includes('VINO') || nameUpper.includes('ESPUMANTE') || nameUpper.includes('CERVEZA') || nameUpper.includes('PISCO') || nameUpper.includes('RON') || nameUpper.includes('WHISKY')) return false;
+                return true;
+            });
+        } else {
+            baseCatalogo = catalogoProductos;
+        }
+        
+        // Ocultar categorías de alcohol en el navbar si es Cerro Navia
+        const navLinks = document.querySelectorAll('.nav-container a');
+        navLinks.forEach(link => {
+            const cat = link.getAttribute('data-category');
+            if (cat && ['CERVEZA', 'PISCO', 'WHISKY', 'RON', 'VODKA', 'GIN', 'TEQUILA', 'LICORES'].includes(cat)) {
+                link.style.display = branchName === 'Cerro Navia' ? 'none' : 'inline-block';
+            }
+        });
+
+        // Re-renderizar productos
+        if (typeof setProducts === 'function') {
+            setProducts(baseCatalogo);
+            const productsTitle = document.getElementById('productos-title');
+            if (productsTitle) productsTitle.textContent = 'TODOS LOS PRODUCTOS';
+            
+            navLinks.forEach(l => l.classList.remove('active'));
+            const btnTodos = document.querySelector('.nav-container a[data-category="TODOS"]');
+            if (btnTodos) btnTodos.classList.add('active');
+        }
+    };
     // --- Modal de Edad ---
     const ageModal = document.getElementById('age-modal');
     const btnAgeYes = document.getElementById('btn-age-yes');
@@ -117,6 +154,11 @@ function selectBranch(branchName) {
     
     // Ensure the page starts at the top
     window.scrollTo({ top: 0, behavior: 'instant' });
+    
+    // Actualizar el menú según la sucursal
+    if (typeof updateBranchMenu === 'function') {
+        updateBranchMenu(branchName);
+    }
     
     // Ocultar el Home y pasar al menú
     console.log('Sucursal seleccionada: ' + branchName);
@@ -277,8 +319,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Inicializar con TODOS LOS PRODUCTOS
-    setProducts(catalogoProductos);
+    // Inicializar con TODOS LOS PRODUCTOS de la sucursal actual
+    setProducts(baseCatalogo);
 
     // Navegación por categorías
     navLinks.forEach(link => {
@@ -313,9 +355,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let filtrados;
             if (category === 'TODOS') {
-                filtrados = catalogoProductos;
+                filtrados = baseCatalogo;
             } else {
-                filtrados = catalogoProductos.filter(p => p.category === category);
+                filtrados = baseCatalogo.filter(p => p.category === category);
             }
             setProducts(filtrados);
 
@@ -332,18 +374,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function performSearch() {
         const query = searchInput.value.toLowerCase().trim();
-        if(query === '') {
-            const activeLink = document.querySelector('.nav-container a.active');
-            if(activeLink) {
-                activeLink.click();
-            } else {
-                setProducts(catalogoProductos);
-                productsTitle.textContent = 'TODOS LOS PRODUCTOS';
-            }
+        if (query === '') {
+            setProducts(baseCatalogo);
+            productsTitle.textContent = 'TODOS LOS PRODUCTOS';
             return;
         }
 
-        const resultados = catalogoProductos.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+        // Filtrar productos
+        const resultados = baseCatalogo.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
         setProducts(resultados);
         productsTitle.textContent = 'RESULTADOS PARA: "' + query.toUpperCase() + '"';
         
@@ -439,11 +477,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const qtyInput = card.querySelector('.product-qty');
                 
-                let quantity = parseInt(qtyInput.value);
-                if(isNaN(quantity) || quantity < 1) quantity = 1;
-                if(quantity > 50) { alert('Máximo 50 unidades por producto.'); quantity = 50; qtyInput.value = 50; }
+                const quantity = parseInt(qtyInput.value) || 1;
 
-                const productoSeleccionado = catalogoProductos.find(p => p.id === id);
+                // Buscar el producto en el catálogo base de la sucursal
+                const productoSeleccionado = baseCatalogo.find(p => p.id === id);
                 
                 const existingItem = carrito.find(item => item.id === id);
                 if(existingItem) {
