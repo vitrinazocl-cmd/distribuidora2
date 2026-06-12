@@ -251,12 +251,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let html = '';
         productsToShow.forEach(prod => {
+            if (!prod) return;
+            const priceStr = (prod.price !== undefined && prod.price !== null) ? prod.price.toLocaleString('es-CL') : '0';
+            const nameStr = prod.name || 'Sin Nombre';
+            const imageStr = prod.image || 'logo.jpg.jpeg';
+
             html += `
             <div class="product-card" data-id="${prod.id}">
-                <div class="product-image"><img src="${prod.image}" alt="${prod.name}"></div>
+                <div class="product-image"><img src="${imageStr}" alt="${nameStr}"></div>
                 <div class="product-info">
-                    <h3>${prod.name}</h3>
-                    <p class="price">$${prod.price.toLocaleString('es-CL')}</p>
+                    <h3>${nameStr}</h3>
+                    <p class="price">$${priceStr}</p>
                     <div style="display: flex; gap: 10px; margin-top: auto; margin-bottom: 10px; align-items: center;">
                         <label style="font-size: 12px; color: #555; font-weight: bold;">CANT:</label>
                         <input type="number" class="product-qty" min="1" max="50" value="1" style="width: 60px; padding: 5px; border-radius: 4px; border: 1px solid #ccc; outline: none;">
