@@ -256,17 +256,48 @@ document.addEventListener('DOMContentLoaded', () => {
             const nameStr = prod.name || 'Sin Nombre';
             const imageStr = prod.image || 'logo.jpg.jpeg';
 
+            // Generar "opiniones" aleatorias para darle el estilo de Falabella
+            const rating = (Math.random() * (5 - 4) + 4).toFixed(1);
+            const reviews = Math.floor(Math.random() * 50) + 1;
+            
+            // Simular un precio antiguo y rebaja
+            const oldPrice = prod.price ? Math.floor(prod.price * 1.3) : 0;
+            const savings = oldPrice - (prod.price || 0);
+
             html += `
-            <div class="product-card" data-id="${prod.id}">
-                <div class="product-image"><img src="${imageStr}" alt="${nameStr}"></div>
-                <div class="product-info">
-                    <h3>${nameStr}</h3>
-                    <p class="price">$${priceStr}</p>
-                    <div style="display: flex; gap: 10px; margin-top: auto; margin-bottom: 10px; align-items: center;">
-                        <label style="font-size: 12px; color: #555; font-weight: bold;">CANT:</label>
-                        <input type="number" class="product-qty" min="1" max="50" value="1" style="width: 60px; padding: 5px; border-radius: 4px; border: 1px solid #ccc; outline: none;">
+            <div class="product-card falabella-style" data-id="${prod.id}">
+                <div class="product-image-container">
+                    <img src="${imageStr}" alt="${nameStr}">
+                </div>
+                <div class="product-info-container">
+                    ${savings > 0 ? '<div class="rebaja-badge"><i class="fa-solid fa-arrow-down"></i> Rebaja</div>' : ''}
+                    <h4 class="brand-title">${prod.category || 'VARIOS'}</h4>
+                    <h3 class="product-title">${nameStr}</h3>
+                    <div class="rating-container">
+                        <div class="stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star-half-stroke"></i>
+                        </div>
+                        <span class="rating-score">(${rating})</span>
+                        <a href="#" class="rating-reviews">${reviews} opiniones</a>
                     </div>
-                    <button class="add-to-cart-btn">Agregar al carro</button>
+                    
+                    <div class="price-container">
+                        <div class="main-price">$${priceStr}</div>
+                        ${savings > 0 ? `
+                        <div class="old-price-row">
+                            <span class="old-price">$${oldPrice.toLocaleString('es-CL')}</span>
+                            <span class="savings-badge">Ahorra $${savings.toLocaleString('es-CL')}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="action-container">
+                        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px;">
+                            <label style="font-size: 13px; color: #555; font-weight: 600;">CANT:</label>
+                            <input type="number" class="product-qty" min="1" max="50" value="1">
+                        </div>
+                        <button class="add-to-cart-btn fb-blue-btn">Agregar al carro</button>
+                    </div>
                 </div>
             </div>`;
         });

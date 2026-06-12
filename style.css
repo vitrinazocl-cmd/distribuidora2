@@ -450,8 +450,8 @@ a {
 
 /* Products */
 .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 20px;
     margin-bottom: 40px;
 }
@@ -1003,4 +1003,167 @@ a {
 /* Estilo para que no desentone con la página */
 .audio-player-container audio::-webkit-media-controls-panel {
     background-color: #dfdfdf;
+}
+
+/* Falabella Style Product Cards */
+.product-card.falabella-style {
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    align-items: flex-start;
+    color: #333;
+    box-shadow: none;
+    transition: box-shadow 0.2s ease;
+}
+
+.product-card.falabella-style:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: none;
+}
+
+.falabella-style .product-image-container {
+    width: 250px;
+    height: 250px;
+    flex-shrink: 0;
+    margin-right: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.falabella-style .product-image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.falabella-style .product-info-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.falabella-style .rebaja-badge {
+    border: 1px solid #d32f2f;
+    color: #d32f2f;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 4px;
+    width: max-content;
+    margin-bottom: 8px;
+}
+
+.falabella-style .brand-title {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 5px 0;
+    text-transform: capitalize;
+    font-weight: 400;
+}
+
+.falabella-style .product-title {
+    font-size: 18px;
+    color: #333;
+    margin: 0 0 10px 0;
+    font-weight: 700;
+    line-height: 1.4;
+    text-transform: none;
+}
+
+.falabella-style .rating-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.falabella-style .stars {
+    color: #111;
+}
+
+.falabella-style .rating-score {
+    color: #666;
+}
+
+.falabella-style .rating-reviews {
+    color: #666;
+    text-decoration: underline;
+}
+
+.falabella-style .price-container {
+    margin-bottom: 20px;
+}
+
+.falabella-style .main-price {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 5px;
+}
+
+.falabella-style .old-price-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.falabella-style .old-price {
+    color: #888;
+    text-decoration: line-through;
+}
+
+.falabella-style .savings-badge {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.falabella-style .action-container {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.falabella-style .fb-blue-btn {
+    background-color: #0066ff;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 12px 30px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: max-content;
+}
+
+.falabella-style .fb-blue-btn:hover {
+    background-color: #005ce6;
+}
+
+/* Responsiveness for mobile */
+@media (max-width: 768px) {
+    .product-card.falabella-style {
+        flex-direction: column;
+        align-items: center;
+    }
+    .falabella-style .product-image-container {
+        margin-right: 0;
+        margin-bottom: 20px;
+        width: 100%;
+        height: 200px;
+    }
+    .falabella-style .product-info-container {
+        width: 100%;
+    }
 }
