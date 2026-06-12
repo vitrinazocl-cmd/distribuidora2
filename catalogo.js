@@ -98,5 +98,9 @@ const catalogoProductos = [
 { id: 'ARROZ', name: "ARROZ MANGA 10 UNID", price: 6950, category: "BEBIDAS", image: "catalogo/ARROZ MANGA 10 UNID.jpg" },
 { id: 'HEX', name: "HUEVO EXTRA", price: 36000, category: "BEBIDAS", image: "catalogo/HUEVO EXTRA.webp" },
 { id: 'H1', name: "HUEVO 1ERA", price: 32000, category: "BEBIDAS", image: "catalogo/HUEVO 1ERA.png" },
-{ id: 'JABAMIX', name: "JABA MIXTA 10 BEBIDAS", price: 10250, category: "PROMOCIONES", image: "catalogo/JABA MIXTA.jpg", isCustom: true }
+{ id: 'JABAMIX', name: "JABA MIXTA 10 BEBIDAS", price: 10250, category: "PROMOCIONES", image: "catalogo/JABA MIXTA.jpg", isCustom: true },
+{ id: 'NEST15', name: "AGUA MINERAL NESTLE PURE LIFE 1.5L", price: 1500, category: "AGUA", image: "catalogo/NESTLE PURE LIFE 1.5L.jpg" },
+{ id: 'ANDMULTI', name: "ANDINA DEL VALLE MULTI-FRUTILLA 1.5L", price: 1800, category: "BEBIDAS", image: "catalogo/ANDINA DEL VALLE MULTI-FRUTILLA 1.5L.jpg" },
+{ id: 'ANDPACK', name: "ANDINA DEL VALLE PACK SURTIDO", price: 4500, category: "BEBIDAS", image: "catalogo/ANDINA DEL VALLE PACK SURTIDO.jpg" },
+{ id: 'ANDMANLATA', name: "ANDINA DEL VALLE MANZANA LATA 340ML X6", price: 4200, category: "BEBIDAS", image: "catalogo/ANDINA DEL VALLE MANZANA LATA 340ML X6.jpg" }
 ];
