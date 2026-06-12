@@ -1,8 +1,7 @@
 let updateBranchMenu = null;
+let baseCatalogo = catalogoProductos;
 
 document.addEventListener('DOMContentLoaded', () => {
-    let baseCatalogo = catalogoProductos;
-
     updateBranchMenu = function(branchName) {
         if (branchName === 'Cerro Navia') {
             const alcoholCategories = ['CERVEZA', 'LICORES', 'PISCO', 'WHISKY', 'RON', 'VODKA', 'GIN', 'TEQUILA', 'VINOS'];
