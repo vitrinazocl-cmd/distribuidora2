@@ -234,16 +234,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Dibujar página actual
     function renderCurrentPage() {
         if(!productsGrid) return;
-        productsGrid.innerHTML = ''; 
+        try {
+            productsGrid.innerHTML = ''; 
 
-        if(currentProducts.length === 0) {
-            productsGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; font-size: 18px; color: #666;">No se encontraron productos en esta categoría.</p>';
-            if(paginationControls) paginationControls.innerHTML = '';
-            return;
-        }
+            if(currentProducts.length === 0) {
+                productsGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; font-size: 18px; color: #666;">No se encontraron productos en esta categoría.</p>';
+                if(paginationControls) paginationControls.innerHTML = '';
+                return;
+            }
 
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
@@ -301,8 +301,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>`;
         });
-        productsGrid.innerHTML = html;
-        renderPagination();
+            productsGrid.innerHTML = html;
+            renderPagination();
+        } catch (e) {
+            productsGrid.innerHTML = `<div style="color:red; font-size:20px; padding:20px;">ERROR FATAL: ${e.message}<br>${e.stack}</div>`;
+        }
     }
 
     // Dibujar controles de paginación
