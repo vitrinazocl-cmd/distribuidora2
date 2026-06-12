@@ -1167,3 +1167,22 @@ a {
         width: 100%;
     }
 }
+
+/* --- Animación 3D para Nuevo Logo Transparente --- */
+@keyframes popOut3D {
+    0% { transform: scale(1) perspective(500px) translateZ(0); filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.5)); }
+    50% { transform: scale(1.15) perspective(500px) translateZ(30px); filter: drop-shadow(0px 20px 20px rgba(0,0,0,0.8)); }
+    100% { transform: scale(1) perspective(500px) translateZ(0); filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.5)); }
+}
+.logo-3d-pop {
+    height: 120px !important; /* Más grande para que se note el efecto 3D */
+    animation: popOut3D 3s infinite ease-in-out;
+    border-radius: 0 !important; /* Se quita el borde redondo porque el logo será transparente */
+    box-shadow: none !important; /* Se usa drop-shadow en vez de box-shadow para respetar transparencia */
+    transition: transform 0.3s;
+    background: transparent !important;
+}
+.logo-3d-pop:hover {
+    transform: scale(1.25) perspective(500px) translateZ(50px);
+    animation-play-state: paused;
+}
