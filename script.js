@@ -79,6 +79,45 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentIndex = 0;
     let autoPlayInterval;
 
+    // --- ELIMINAR FONDO BLANCO DEL LOGO AUTOMÁTICAMENTE ---
+    function removeWhiteBackground() {
+        const logos = document.querySelectorAll('.logo-3d-pop');
+        if (logos.length === 0) return;
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.src = "logo.jpg.jpeg"; // El logo original
+        
+        img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                // Si es blanco o casi blanco (fondo) lo hacemos transparente
+                if (r > 230 && g > 230 && b > 230) {
+                    data[i + 3] = 0; 
+                }
+            }
+            
+            ctx.putImageData(imageData, 0, 0);
+            const transparentSrc = canvas.toDataURL('image/png');
+            
+            // Reemplazar todas las imagenes por la transparente
+            logos.forEach(logoEl => {
+                logoEl.src = transparentSrc;
+            });
+        };
+    }
+    removeWhiteBackground();
+
     // Ajustar el ancho del track y los slides dinámicamente
     const numSlides = slides.length;
     track.style.width = `${numSlides * 100}%`;
