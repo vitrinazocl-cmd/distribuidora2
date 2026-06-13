@@ -872,3 +872,59 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { once: true });
     }
 });
+
+// --- Funcionalidad del Modal de Contacto ---
+document.addEventListener('DOMContentLoaded', () => {
+    const openContactBtn = document.getElementById('open-contact-btn');
+    const contactModal = document.getElementById('contact-modal');
+    const closeContactBtn = document.getElementById('close-contact-btn');
+
+    if (openContactBtn && contactModal) {
+        openContactBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            contactModal.classList.remove('hidden');
+            contactModal.style.display = 'flex';
+        });
+
+        if (closeContactBtn) {
+            closeContactBtn.addEventListener('click', () => {
+                contactModal.classList.add('hidden');
+            });
+        }
+        
+        // Cerrar haciendo click en el fondo oscuro
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.classList.add('hidden');
+            }
+        });
+    }
+});
+
+// --- Funcionalidad del Modal de Comunidad ---
+document.addEventListener('DOMContentLoaded', () => {
+    const openComunidadBtn = document.getElementById('open-comunidad-btn');
+    const comunidadModal = document.getElementById('comunidad-modal');
+    const closeComunidadBtn = document.getElementById('close-comunidad-btn');
+
+    if (openComunidadBtn && comunidadModal) {
+        openComunidadBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            comunidadModal.classList.remove('hidden');
+            comunidadModal.style.display = 'flex';
+        });
+
+        if (closeComunidadBtn) {
+            closeComunidadBtn.addEventListener('click', () => {
+                comunidadModal.classList.add('hidden');
+            });
+        }
+        
+        // Cerrar haciendo click en el fondo oscuro
+        comunidadModal.addEventListener('click', (e) => {
+            if (e.target === comunidadModal) {
+                comunidadModal.classList.add('hidden');
+            }
+        });
+    }
+});

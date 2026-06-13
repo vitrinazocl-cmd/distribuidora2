@@ -27,44 +27,57 @@
     <!-- Branch Selection Overlay (Home) -->
     <div id="branch-selector" class="branch-selector-overlay">
         <div class="branch-home-content">
-            <div class="home-banner">
-                <!-- Using the video as the advertising banner -->
-                <video autoplay muted loop playsinline class="banner-video" style="width: 100%; height: auto; max-height: 60vh; object-fit: contain; background-color: #000; border-radius: 8px;">
-                    <source src="videohd1.mp4.mp4" type="video/mp4">
+            <div class="home-banner" style="margin-bottom: 5px; display: flex; align-items: center; justify-content: center; background-color: #000; border-radius: 8px; overflow: hidden; width: 100%; max-height: 45vh;">
+                <img src="logoizquierdo.webp" alt="Banner Izquierdo" style="height: 100%; max-height: 45vh; object-fit: contain; flex: 1; min-width: 0; max-width: 25%;">
+                
+                <video autoplay muted loop playsinline class="banner-video" style="height: 100%; max-height: 45vh; object-fit: contain; flex: 2; min-width: 0;">
+                    <source src="eleodoropubli1.mp4.mp4" type="video/mp4">
                     Tu navegador no soporta videos.
                 </video>
+
+                <img src="logoderecho.webp" alt="Banner Derecho" style="height: 100%; max-height: 45vh; object-fit: contain; flex: 1; min-width: 0; max-width: 25%;">
             </div>
             
-            <div class="home-selection">
-                <div class="visitor-counter-container" style="display: flex; align-items: center; justify-content: center; gap: 20px;">
-                    <img src="logo_transparente.png" alt="Eleodoro Logo 3D" class="logo-3d-pop">
+            <div class="home-selection" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; margin-top: -60px; position: relative; z-index: 10;">
+                <div class="home-social-links" style="margin-bottom: 0;">
+                    <p style="margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;">Síguenos en nuestras redes:</p>
+                    <div class="social-icons" style="gap: 10px;">
+                        <a href="https://www.facebook.com/p/Distribuidora-Eleodoro-El-Grande-100066830753034/" target="_blank" class="social-facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/eleodoroelgrande61/" target="_blank" class="social-instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://wa.me/56956264496" target="_blank" class="social-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="https://www.tiktok.com/@eleodoroelgrande" target="_blank" class="social-tiktok"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+                
+                <div class="visitor-counter-container" style="display: flex; align-items: center; justify-content: center; gap: 10px; transform: scale(0.85); transform-origin: center; margin: -5px 0;">
+                    <img src="logo_transparente.png" alt="Eleodoro Logo 3D" class="logo-3d-pop" style="max-height: 50px;">
                     <div>
-                        <p class="counter-title">VISITAS</p>
+                        <p class="counter-title" style="margin: 0; font-size: 0.8rem;">VISITAS</p>
                         <div class="flip-counter" id="visitor-flip-counter">
                             <!-- Digits injected by JS -->
                         </div>
                     </div>
-                    <img src="logo_transparente.png" alt="Eleodoro Logo 3D" class="logo-3d-pop">
+                    <img src="logo_transparente.png" alt="Eleodoro Logo 3D" class="logo-3d-pop" style="max-height: 50px;">
                 </div>
-                <div class="branch-buttons-container">
-                    <button class="branch-btn kfc-style" onclick="selectBranch('Cerro Navia')">
-                        <i class="fa-solid fa-store fa-2x"></i>
+
+                <div class="branch-buttons-container" style="gap: 15px; margin-top: 0;">
+                    <button class="branch-btn kfc-style" onclick="selectBranch('Cerro Navia')" style="padding: 10px 20px; min-width: 160px; font-size: 0.9rem;">
+                        <i class="fa-solid fa-store fa-lg" style="margin-bottom: 5px;"></i>
                         <span>SUCURSAL<br>CERRO NAVIA</span>
                     </button>
-                    <button class="branch-btn kfc-style" onclick="selectBranch('Laguna Sur')">
-                        <i class="fa-solid fa-store fa-2x"></i>
+                    <button class="branch-btn kfc-style" onclick="selectBranch('Laguna Sur')" style="padding: 10px 20px; min-width: 160px; font-size: 0.9rem;">
+                        <i class="fa-solid fa-store fa-lg" style="margin-bottom: 5px;"></i>
                         <span>SUCURSAL<br>LAGUNA SUR</span>
                     </button>
                 </div>
 
-                <div class="home-social-links">
-                    <p>Síguenos en nuestras redes:</p>
-                    <div class="social-icons">
-                        <a href="https://www.facebook.com/p/Distribuidora-Eleodoro-El-Grande-100066830753034/" target="_blank" class="social-facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="https://www.instagram.com/eleodoroelgrande61/" target="_blank" class="social-instagram"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="https://wa.me/56956264496" target="_blank" class="social-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
-                    </div>
+                <div style="text-align: center; color: white; margin-top: 5px; margin-bottom: 5px; font-family: 'Roboto', sans-serif;">
+                    <h4 style="color: #ffcc00; margin-bottom: 5px; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 900;">Nuestras Sedes</h4>
+                    <p style="margin: 2px 0; font-size: 0.9rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fa-solid fa-location-dot" style="color: #ff3333;"></i> Rene Oliva 1358 - Cerro Navia</p>
+                    <p style="margin: 2px 0; font-size: 0.9rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fa-solid fa-location-dot" style="color: #ff3333;"></i> Laguna Sur 8383 - Pudahuel</p>
                 </div>
+
+
             </div>
         </div>
     </div>
@@ -113,25 +126,50 @@
             <a href="#productos" data-category="PISCO">PISCO</a>
             <a href="#productos" data-category="WHISKY">WHISKY</a>
             <a href="#productos" data-category="RON">RON</a>
-            <a href="#productos" data-category="VODKA">VODKA</a>
+            <a href="#" id="open-comunidad-btn" style="color: #ff9800; font-weight: bold;"><i class="fa-solid fa-users"></i> COMUNIDAD</a>
             <a href="#productos" data-category="GIN">GIN</a>
             <a href="#productos" data-category="TEQUILA">TEQUILA</a>
             <a href="#productos" data-category="LICORES">LICORES</a>
             <a href="#productos" data-category="BEBIDAS">BEBIDAS</a>
-            <a href="#productos" data-category="AGUA">AGUA</a>
-            <a href="#catalogo-pdf" data-action="scroll" style="color: #0071ce; font-weight: 900;">CATÁLOGO PDF</a>
+            <a href="#" id="open-contact-btn" style="color: #e74c3c; font-weight: bold;"><i class="fa-solid fa-address-book"></i> CONTACTO</a>
+            <a href="catalogo%20productos/Inventario2026_FINAL.pdf" download="Catalogo_Distribuidora_Eleodoro.pdf" style="color: #0071ce; font-weight: 900;"><i class="fa-solid fa-file-pdf"></i> CATÁLOGO PDF</a>
         </div>
     </nav>
 
+    <!-- Banner de Despachos -->
+    <div class="delivery-banner" style="background: #111; color: white; border-bottom: 2px solid #ffcc00; font-family: 'Roboto', sans-serif; display: flex; align-items: center; font-size: 0.9rem;">
+        <div style="background: #0071ce; color: #fff; padding: 8px 15px; font-weight: 900; z-index: 10; text-transform: uppercase; border-right: 2px solid #ffcc00; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+            <i class="fa-solid fa-truck-fast" style="color: #ffcc00;"></i> DESPACHOS
+        </div>
+        <marquee scrollamount="7" style="flex: 1; padding: 8px 10px; color: #ddd;">
+            <span style="margin-right: 50px;"><i class="fa-solid fa-calendar-days" style="color:#ffcc00;"></i> <strong>TODOS LOS DÍAS:</strong> Pudahuel, C. Navia, Lo Prado, Q. Normal, Maipú <strong style="color:#28a745; background: rgba(40,167,69,0.2); padding: 2px 6px; border-radius: 4px;">$3.000</strong> (Min $70.000)</span>
+            <span style="margin-right: 50px;"><i class="fa-solid fa-calendar-week" style="color:#ffcc00;"></i> <strong>LUN, MIÉ Y VIE:</strong> Quilicura, Independencia, Recoleta, Cerrillos, Renca, Est. Central <strong style="color:#28a745; background: rgba(40,167,69,0.2); padding: 2px 6px; border-radius: 4px;">$4.000</strong> (Min $70.000)</span>
+            <span style="margin-right: 50px;"><i class="fa-regular fa-clock" style="color:#ffcc00;"></i> <strong>HORARIO:</strong> 10:00 a 17:00 hrs</span>
+            <span style="color: #ffcc00; font-weight: 900; text-transform: uppercase;"><i class="fa-solid fa-gift"></i> ¡Compras sobre $250.000 Despacho Gratis! <i class="fa-solid fa-gift"></i></span>
+        </marquee>
+    </div>
+
     <main class="main-content container">
         
-        <aside class="ad-box left-ad">
+        <aside class="ad-box left-ad" style="position: relative;">
             <img src="imagen6.jpg" alt="Publicidad Heineken" style="width: 100%; height: 100%; object-fit: cover;">
+            <!-- QR WhatsApp en la esquina superior izquierda -->
+            <a href="qr%20wsp.jpeg" target="_blank" title="Unirte al grupo de WhatsApp" style="position: absolute; top: 10px; left: 10px; width: 65px; height: 65px; border-radius: 8px; border: 3px solid #25D366; box-shadow: 0 0 8px rgba(37,211,102,0.6); overflow: hidden; background: white; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                <img src="qr%20wsp.jpeg" alt="QR WhatsApp" style="width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transform: scale(1.5);">
+            </a>
         </aside>
 
         <section class="slider-section">
             <div class="slider-container">
                 <div class="slider-track" id="sliderTrack">
+                    <!-- Slide Advertencia (Primera) -->
+                    <div class="slide">
+                        <img src="sello-advertencia.png" alt="Advertencia Alcohol" style="width: 100%; height: 100%; object-fit: contain; background-color: #000;">
+                    </div>
+                    <!-- Slide Jack Daniels (Nueva) -->
+                    <div class="slide">
+                        <img src="slicejack1.jpg.jpg" alt="Slide Jack Daniels" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
                     <!-- Slide 1 (Video 6) -->
                     <div class="slide">
                         <video src="video6.mp4.mp4" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
@@ -173,6 +211,8 @@
                     <span class="dot" data-index="4"></span>
                     <span class="dot" data-index="5"></span>
                     <span class="dot" data-index="6"></span>
+                    <span class="dot" data-index="7"></span>
+                    <span class="dot" data-index="8"></span>
                 </div>
             </div>
         </section>
@@ -182,6 +222,79 @@
         </aside>
 
     </main>
+
+    <!-- Brands Slider Section -->
+    <section class="brands-section" style="margin-top: 30px; margin-bottom: 20px; text-align: center; overflow: hidden; background-color: var(--dark-bg); padding: 20px 0; border-top: 2px solid #ff9800; border-bottom: 2px solid #ff9800;">
+        <h2 style="color: #ff9800; margin-bottom: 20px; font-size: 1.8rem; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">Todas las marcas</h2>
+        <div class="brands-marquee">
+            <div class="marquee-content">
+                <!-- Logos de Marcas -->
+                <img src="CCU_logo2.jpg" alt="CCU">
+                <img src="Gatorade_logo5.jpg" alt="Gatorade">
+                <img src="altodelcarmen10.jpg" alt="Alto del Carmen">
+                <img src="benedictino9.jpg" alt="Benedictino">
+                <img src="cococolalogo1.jpg" alt="Coca Cola">
+                <img src="corona7.jpg" alt="Corona">
+                <img src="cristal8.jpg" alt="Cristal">
+                <img src="jack danields6.jpg" alt="Jack Daniels">
+                <img src="powerade6.jpg" alt="Powerade">
+                <img src="redbulllogo.4.png" alt="Red Bull">
+                
+                <!-- Duplicate logos for infinite scroll effect -->
+                <img src="CCU_logo2.jpg" alt="CCU">
+                <img src="Gatorade_logo5.jpg" alt="Gatorade">
+                <img src="altodelcarmen10.jpg" alt="Alto del Carmen">
+                <img src="benedictino9.jpg" alt="Benedictino">
+                <img src="cococolalogo1.jpg" alt="Coca Cola">
+                <img src="corona7.jpg" alt="Corona">
+                <img src="cristal8.jpg" alt="Cristal">
+                <img src="jack danields6.jpg" alt="Jack Daniels">
+                <img src="powerade6.jpg" alt="Powerade">
+                <img src="redbulllogo.4.png" alt="Red Bull">
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .brands-marquee {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+        
+        .marquee-content {
+            display: inline-flex;
+            gap: 50px;
+            align-items: center;
+            animation: scroll-marquee 25s linear infinite;
+        }
+        
+        .marquee-content img {
+            height: 60px;
+            object-fit: contain;
+            filter: grayscale(20%) brightness(1.2);
+            transition: filter 0.3s, transform 0.3s;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        
+        .marquee-content img:hover {
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.1);
+        }
+        
+        @keyframes scroll-marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-50% - 25px)); }
+        }
+        
+        @media (max-width: 768px) {
+            .marquee-content img {
+                height: 40px;
+            }
+        }
+    </style>
 
     <!-- New Content Sections -->
     <section class="products-section container" id="productos">
@@ -295,6 +408,7 @@
                     <a href="https://www.facebook.com/p/Distribuidora-Eleodoro-El-Grande-100066830753034/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="https://www.instagram.com/eleodoroelgrande61/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
                     <a href="https://wa.me/56956264496" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://www.tiktok.com/@eleodoroelgrande" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
             </div>
         </div>
@@ -419,6 +533,111 @@
             </div>
         </div>
     </div>
+    <!-- Comunidad Modal -->
+    <div id="comunidad-modal" class="cart-modal hidden" style="justify-content: center; align-items: center; z-index: 999999;">
+        <div class="cart-content" style="height: 85vh; overflow-y: auto; border-radius: 8px; max-width: 650px; background: var(--dark-bg); border: 2px solid #ff9800; padding: 0;">
+            <div class="cart-header" style="background: #ff9800; padding: 15px; position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="color: #111; margin: 0; font-size: 1.5rem;"><i class="fa-solid fa-users"></i> Comunidad Eleodoro</h2>
+                <button id="close-comunidad-btn" class="close-cart-btn" style="color: #111;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <!-- Hero Image Comunidad -->
+            <div style="width: 100%; height: 200px; overflow: hidden; position: relative;">
+                <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=800&auto=format&fit=crop" alt="Clientes Felices" style="width: 100%; height: 100%; object-fit: cover;">
+                <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); color: white;">
+                    <h3 style="margin: 0; font-size: 1.8rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">¡Bienvenidos a la Familia!</h3>
+                    <p style="margin: 5px 0 0 0; color: #ffcc00; font-weight: bold;">Celebrando los mejores momentos con Eleodoro el Grande</p>
+                </div>
+            </div>
+
+            <div class="cart-items" style="padding: 25px; color: white;">
+                
+                <!-- Concursos -->
+                <div style="background: rgba(255,152,0,0.1); border: 1px solid #ff9800; border-radius: 8px; overflow: hidden; margin-bottom: 25px;">
+                    <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=800&auto=format&fit=crop" alt="Sorteo" style="width: 100%; height: 140px; object-fit: cover;">
+                    <div style="padding: 20px;">
+                        <h3 style="color: #ff9800; margin-bottom: 10px; font-size: 1.3rem;"><i class="fa-solid fa-trophy"></i> Sorteo Activo</h3>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 5px;">¡Gana 1 Año de Cerveza Gratis! 🍻</h4>
+                        <p style="margin-bottom: 10px; font-size: 0.95rem; color: #ddd; line-height: 1.5;">Por compras superiores a $50.000, participas automáticamente en nuestro gran sorteo. ¡Únete a los ganadores del mes pasado!</p>
+                        <p style="font-weight: bold; color: #ffcc00; font-size: 0.9rem;">Fecha del Sorteo: 30 de Agosto 2026</p>
+                    </div>
+                </div>
+
+                <!-- Promociones Exclusivas -->
+                <div style="background: rgba(231,76,60,0.1); border: 1px solid #e74c3c; border-radius: 8px; overflow: hidden; margin-bottom: 25px; display: flex; flex-direction: column;">
+                    <div style="padding: 20px;">
+                        <h3 style="color: #e74c3c; margin-bottom: 10px; font-size: 1.3rem;"><i class="fa-solid fa-tag"></i> Promo Flash Comunidad</h3>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 5px;">40% DCTO. en Licores Premium 🥃</h4>
+                        <p style="margin-bottom: 10px; font-size: 0.95rem; color: #ddd; line-height: 1.5;">Muestra este código secreto en caja o menciónalo a nuestro vendedor de WhatsApp para aplicar tu descuento exclusivo de cliente frecuente.</p>
+                        <div style="background: #111; padding: 10px; text-align: center; border-radius: 4px; font-size: 1.5rem; letter-spacing: 5px; font-weight: 900; color: #e74c3c; margin-top: 10px;">ELEODORO40</div>
+                    </div>
+                </div>
+
+                <!-- Noticias -->
+                <div style="background: rgba(0,113,206,0.1); border: 1px solid #0071ce; border-radius: 8px; overflow: hidden;">
+                    <div style="padding: 20px;">
+                        <h3 style="color: #0071ce; margin-bottom: 10px; font-size: 1.3rem;"><i class="fa-solid fa-newspaper"></i> Últimas Noticias</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.95rem; color: #ddd; line-height: 1.6;">
+                            <li style="margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                                <strong style="color: white; font-size: 1.05rem;">✅ ¡Ampliamos nuestra zona de reparto!</strong><br>
+                                Ahora llegamos a nuevas comunas con entrega gratuita para compras sobre $250.000.
+                            </li>
+                            <li>
+                                <strong style="color: white; font-size: 1.05rem;">🏪 Nuevo horario de atención</strong><br>
+                                Nuestras sucursales de Cerro Navia y Pudahuel ahora no cierran al mediodía para que nos visites cuando quieras.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="cart-modal hidden" style="justify-content: center; align-items: center; z-index: 999999;">
+        <div class="cart-content" style="max-height: 85vh; overflow-y: auto; border-radius: 8px; max-width: 450px; background: var(--dark-bg); border: 2px solid var(--primary-color);">
+            <div class="cart-header" style="background: var(--primary-color); padding: 15px;">
+                <h2 style="color: white; margin: 0;"><i class="fa-solid fa-address-book"></i> Contacto</h2>
+                <button id="close-contact-btn" class="close-cart-btn" style="color: white;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cart-items" style="padding: 25px; font-size: 1.1rem; line-height: 1.6; color: white;">
+                <p style="margin-bottom: 15px;"><i class="fa-solid fa-phone" style="color: #ffcc00; width: 25px;"></i> <strong>Teléfono Fijo:</strong> <a href="tel:226440882" style="color: white; text-decoration: none; font-weight: bold;">226440882</a></p>
+                <p style="margin-bottom: 15px;"><i class="fa-brands fa-whatsapp" style="color: #25D366; width: 25px;"></i> <strong>Celular / WhatsApp:</strong> <br>
+                <span style="display: inline-block; margin-left: 30px;"><a href="https://wa.me/56949692316" target="_blank" style="color: white; text-decoration: none; font-weight: bold;">+56 9 4969 2316</a></span><br>
+                <span style="display: inline-block; margin-left: 30px;"><a href="https://wa.me/56956264496" target="_blank" style="color: white; text-decoration: none; font-weight: bold;">+56 9 5626 4496</a></span></p>
+                <p style="margin-bottom: 15px;"><i class="fa-solid fa-envelope" style="color: #0071ce; width: 25px;"></i> <strong>Correo:</strong> <a href="mailto:Eleodoroelgrande61@gmail.com" style="color: white; text-decoration: none; font-size: 0.95rem; font-weight: bold;">Eleodoroelgrande61@gmail.com</a></p>
+                <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;">
+                    <p style="margin-bottom: 10px; color: #ffcc00; font-weight: bold; text-transform: uppercase;"><i class="fa-solid fa-location-dot" style="color: #e74c3c; width: 20px;"></i> Nuestras Direcciones</p>
+                    <p style="margin-bottom: 5px; margin-left: 25px;">Rene Oliva 1358 - Cerro Navia</p>
+                    <p style="margin-left: 25px;">Avenida Laguna Sur 8383 - Pudahuel Sur</p>
+                </div>
+                
+                <!-- Info de Despachos -->
+                <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; background: rgba(0, 113, 206, 0.1); border-radius: 8px; padding: 15px;">
+                    <p style="margin-bottom: 15px; color: #0071ce; font-weight: bold; text-transform: uppercase; font-size: 1.2rem;"><i class="fa-solid fa-truck-fast"></i> Información de Despachos</p>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <strong style="color: #ffcc00;"><i class="fa-solid fa-calendar-days"></i> Todos los días:</strong>
+                        <p style="margin: 5px 0 0 25px; font-size: 0.95rem; line-height: 1.4;">Pudahuel, Cerro Navia, Lo Prado, Quinta Normal, Maipú.</p>
+                        <p style="margin: 2px 0 0 25px; font-size: 0.95rem; color: #25D366; font-weight: bold;">Costo: $3.000 (Pedido mínimo $70.000)</p>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <strong style="color: #ffcc00;"><i class="fa-solid fa-calendar-week"></i> Lunes, Miércoles y Viernes:</strong>
+                        <p style="margin: 5px 0 0 25px; font-size: 0.95rem; line-height: 1.4;">Quilicura, Independencia, Recoleta, Cerrillos, Renca, Estación Central.</p>
+                        <p style="margin: 2px 0 0 25px; font-size: 0.95rem; color: #25D366; font-weight: bold;">Costo: $4.000 (Pedido mínimo $70.000)</p>
+                    </div>
+
+                    <div style="border-top: 1px dashed rgba(255,255,255,0.3); margin-top: 15px; padding-top: 15px;">
+                        <p style="margin-bottom: 5px;"><i class="fa-regular fa-clock" style="color: #ffcc00; width: 25px;"></i> <strong>Horarios de Reparto:</strong> 10:00 a 17:00 hrs.</p>
+                        <p style="color: #ff9800; font-weight: bold;"><i class="fa-solid fa-gift" style="width: 25px;"></i> ¡Despacho GRATIS por compras sobre $250.000!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Reproductor de Audio Clásico -->
     <div class="audio-player-container">
         <audio id="bg-audio" loop autoplay controls>
