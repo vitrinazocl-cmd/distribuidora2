@@ -308,7 +308,7 @@ a {
     }
     
     .ad-box {
-        display: none; /* Hide ads on small screens or display them stacked */
+        height: 200px;
     }
     
     .slider-section {
