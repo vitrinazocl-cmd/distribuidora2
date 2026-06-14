@@ -291,9 +291,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
 
                     <div class="action-container">
-                        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px;">
-                            <label style="font-size: 13px; color: #555; font-weight: 600;">CANT:</label>
-                            <input type="number" class="product-qty" min="1" max="50" value="1">
+                        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <label style="font-size: 13px; color: #555; font-weight: 600;">CANT:</label>
+                                <input type="number" class="product-qty" min="1" max="50" value="1" style="width: 60px;">
+                            </div>
+                            ${prod.flavors && prod.flavors.length > 0 ? `
+                            <select class="product-flavor" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc; font-size: 13px;">
+                                ${prod.flavors.map(f => `<option value="${f}">${f}</option>`).join('')}
+                            </select>
+                            ` : ''}
                         </div>
                         <button class="add-to-cart-btn fb-blue-btn">Agregar al carro</button>
                     </div>
@@ -521,18 +528,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 const qtyInput = card.querySelector('.product-qty');
-                
                 const quantity = parseInt(qtyInput.value) || 1;
+                
+                const flavorSelect = card.querySelector('.product-flavor');
+                const flavor = flavorSelect ? flavorSelect.value : null;
 
                 // Buscar el producto en el catálogo base de la sucursal
                 const productoSeleccionado = baseCatalogo.find(p => p.id === id);
                 
-                const existingItem = carrito.find(item => item.id === id);
+                const existingItem = carrito.find(item => item.id === id && item.flavor === flavor);
                 if(existingItem) {
                     existingItem.quantity += quantity;
                     if(existingItem.quantity > 50) existingItem.quantity = 50;
                 } else {
-                    carrito.push({ ...productoSeleccionado, quantity: quantity });
+                    carrito.push({ ...productoSeleccionado, quantity: quantity, flavor: flavor });
                 }
 
                 saveCart();
@@ -554,8 +563,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if(cartCountSpan) { cartCountSpan.textContent = totalItems; }
     }
 
-    window.removeFromCart = function(id) {
-        carrito = carrito.filter(item => item.id !== id);
+    window.removeFromCart = function(index) {
+        carrito.splice(index, 1);
         saveCart();
         renderCart();
     };
@@ -573,16 +582,16 @@ document.addEventListener('DOMContentLoaded', () => {
         let html = '';
         let total = 0;
         
-        carrito.forEach(item => {
+        carrito.forEach((item, index) => {
             const itemTotal = item.price * item.quantity;
             total += itemTotal;
             html += `
                 <div class="cart-item">
                     <div class="cart-item-info">
-                        <h4>${item.name}</h4>
+                        <h4>${item.name} ${item.flavor ? `<span style="color:#007BFF; font-size: 12px;"><br>Sabor: ${item.flavor}</span>` : ''}</h4>
                         <p>${item.quantity} x $${item.price.toLocaleString('es-CL')}</p>
                     </div>
-                    <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">
+                    <button class="cart-item-remove" onclick="removeFromCart(${index})">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>

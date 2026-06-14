@@ -78,7 +78,7 @@
                 pedidos.forEach(pedido => {
                     let productosHtml = '<ul style="margin:0; padding-left:20px; font-size:13px;">';
                     pedido.items.forEach(item => {
-                        productosHtml += `<li>${item.quantity}x ${item.name}</li>`;
+                        productosHtml += `<li>${item.quantity}x ${item.name} ${item.flavor ? `(Sabor: ${item.flavor})` : ''}</li>`;
                     });
                     productosHtml += '</ul>';
                     
