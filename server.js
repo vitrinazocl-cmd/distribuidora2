@@ -3,7 +3,10 @@ const cors = require('cors');
 const { WebpayPlus } = require('transbank-sdk');
 require('dotenv').config(); // Cargar variables de entorno
 
-const bicomService = require('./bicomService'); // Importar el servicio de Bicom
+const excelService = require('./excelService'); // Importar el servicio de Excel
+
+// Objeto en memoria para guardar carritos temporales
+const ordenesPendientes = new Map();
 
 // Webpay ya viene configurado para el entorno de pruebas (Integration) por defecto.
 const app = express();
@@ -35,13 +38,20 @@ app.post('/api/pagar', async (req, res) => {
             return res.status(403).json({ error: 'Las compras están restringidas entre la 01:00 AM y 09:00 AM por cumplimiento legal.' });
         }
 
-        // Recibimos el total a cobrar desde el frontend
-        const total = req.body.total;
+        // Recibimos el total, carrito y datos del cliente
+        const { total, carrito, cliente } = req.body;
         
-        // Generamos un ID de orden y sesión aleatorios (luego Bicom dará el número real)
+        if (!total || !carrito) {
+            return res.status(400).json({ error: 'Faltan datos del carrito o el total.' });
+        }
+
+        // Generamos un ID de orden y sesión aleatorios
         const buyOrder = "ORDEN-" + Math.floor(Math.random() * 100000);
         const sessionId = "SESION-" + Math.floor(Math.random() * 100000);
         const returnUrl = "http://localhost:3000/api/confirmar-pago";
+
+        // Guardar carrito en memoria asociado a la orden
+        ordenesPendientes.set(buyOrder, { carrito, cliente, total });
 
         // Crear la transacción en Webpay
         const tx = new WebpayPlus.Transaction();
@@ -63,9 +73,11 @@ app.get('/api/confirmar-pago', async (req, res) => {
     try {
         const token = req.query.token_ws;
         const tbkToken = req.query.TBK_TOKEN;
+        const buyOrderCanceled = req.query.TBK_ORDEN_COMPRA;
         
         // Si viene TBK_TOKEN pero no token_ws, significa que el usuario anuló la compra
         if (tbkToken && !token) {
+            if (buyOrderCanceled) ordenesPendientes.delete(buyOrderCanceled);
             return res.redirect('/index.html?pago=abortado');
         }
         
@@ -79,16 +91,25 @@ app.get('/api/confirmar-pago', async (req, res) => {
 
         if (response.status === 'AUTHORIZED') {
             // Pago exitoso
-            console.log(`Pago autorizado. Orden: ${response.buy_order}. Generando Boleta...`);
-            try {
-                await bicomService.generarDocumentoTributario(response.buy_order, token);
-            } catch (err) {
-                console.error("Aviso: No se pudo emitir la boleta de inmediato:", err.message);
+            console.log(`Pago autorizado. Orden: ${response.buy_order}`);
+            
+            // Recuperar datos de la orden
+            const ordenData = ordenesPendientes.get(response.buy_order);
+            
+            if (ordenData) {
+                // Descontar inventario en Excel
+                await excelService.actualizarInventario(ordenData.carrito);
+                
+                // Limpiar de memoria
+                ordenesPendientes.delete(response.buy_order);
+            } else {
+                console.error("Orden pagada pero no se encontraron los datos del carrito en memoria.");
             }
 
             return res.redirect('/index.html?pago=exito&orden=' + response.buy_order);
         } else {
             // Pago rechazado (sin saldo, etc.)
+            ordenesPendientes.delete(response.buy_order);
             return res.redirect('/index.html?pago=rechazado');
         }
 

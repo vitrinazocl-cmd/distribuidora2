@@ -174,6 +174,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (estadoPago) {
         if (estadoPago === 'exito') {
             const orden = urlParams.get('orden');
+            
+            // Guardar el pedido en localStorage para pedidos.html
+            let carritoActual = JSON.parse(localStorage.getItem('carrito')) || [];
+            let clienteActual = JSON.parse(localStorage.getItem('clienteTemporal')) || {};
+            
+            if (carritoActual.length > 0) {
+                let pedidosGuardados = JSON.parse(localStorage.getItem('pedidosPendientes')) || [];
+                
+                const totalPedido = carritoActual.reduce((acc, item) => acc + (item.price * item.quantity), 0) + 3000;
+                
+                pedidosGuardados.push({
+                    id: orden,
+                    date: new Date().toLocaleString('es-CL'),
+                    customerName: clienteActual.nombre || 'Sin Nombre',
+                    customerAddress: clienteActual.direccion || 'Sin Dirección',
+                    items: carritoActual,
+                    total: totalPedido
+                });
+                
+                localStorage.setItem('pedidosPendientes', JSON.stringify(pedidosGuardados));
+            }
+
             alert('¡Pago Exitoso!\nTu compra ha sido aprobada. Número de orden: ' + orden);
             // Limpiar el carrito ya que la compra fue exitosa
             localStorage.removeItem('carrito');
@@ -646,22 +668,30 @@ document.addEventListener('DOMContentLoaded', () => {
             const total = carrito.reduce((acc, item) => acc + (item.price * item.quantity), 0);
             const finalTotal = total + 3000; // Agregar costo de envío
             
+            const clienteInfo = {
+                nombre: nameInput.value,
+                direccion: addressInput.value,
+                rut: rutInput ? rutInput.value : '',
+                comuna: communeInput.value
+            };
+
             try {
-                // 1. Llamar al backend para iniciar el pago
+                // 1. Llamar al backend para iniciar el pago, enviando el carrito y cliente
                 const response = await fetch('http://localhost:3000/api/pagar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ total: finalTotal })
+                    body: JSON.stringify({ 
+                        total: finalTotal,
+                        carrito: carrito,
+                        cliente: clienteInfo
+                    })
                 });
                 
                 const data = await response.json();
                 
                 if (data.url && data.token) {
-                    // 2. Guardar cliente temporalmente para recuperar después
-                    localStorage.setItem('clienteTemporal', JSON.stringify({
-                        nombre: nameInput.value,
-                        direccion: addressInput.value
-                    }));
+                    // 2. Guardar cliente temporalmente para recuperar después si es necesario
+                    localStorage.setItem('clienteTemporal', JSON.stringify(clienteInfo));
 
                     // 3. Crear formulario automático para Webpay
                     const form = document.createElement('form');
