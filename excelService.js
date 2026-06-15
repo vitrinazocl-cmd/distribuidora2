@@ -76,7 +76,15 @@ async function actualizarInventario(carrito) {
             // Buscamos coincidencia ya sea por ID o por Nombre del producto en el carrito
             const rowIndex = data.findIndex(row => {
                 const rowValue = String(row[idCol]).toUpperCase();
-                return rowValue === String(item.id).toUpperCase() || 
+                
+                let searchId = String(item.id).toUpperCase();
+                // Adaptación especial para la Jaba Mixta: 
+                // Aunque en el carrito se llame JABAMIX-5-2-3, en el Excel buscaremos la fila JM10
+                if (searchId.startsWith('JABAMIX')) {
+                    searchId = 'JM10';
+                }
+
+                return rowValue === searchId || 
                        rowValue.includes(String(item.name).toUpperCase());
             });
 

@@ -184,16 +184,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const totalPedido = carritoActual.reduce((acc, item) => acc + (item.price * item.quantity), 0) + 3000;
                 
-                pedidosGuardados.push({
+                const nuevaVenta = {
                     id: orden,
                     date: new Date().toLocaleString('es-CL'),
+                    isoDate: new Date().toISOString(),
                     customerName: clienteActual.nombre || 'Sin Nombre',
                     customerAddress: clienteActual.direccion || 'Sin Dirección',
                     items: carritoActual,
                     total: totalPedido
-                });
-                
+                };
+
+                pedidosGuardados.push(nuevaVenta);
                 localStorage.setItem('pedidosPendientes', JSON.stringify(pedidosGuardados));
+
+                // Guardar la venta en el backend para el historial permanente (Dashboard de Ventas)
+                fetch('http://localhost:3000/api/guardar-venta', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(nuevaVenta)
+                }).catch(err => console.error('Error guardando venta en backend:', err));
             }
 
             alert('¡Pago Exitoso!\nTu compra ha sido aprobada. Número de orden: ' + orden);
@@ -814,14 +823,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginPass = document.getElementById('login-pass');
     const loginError = document.getElementById('login-error');
 
-    if (adminLoginBtn && loginModal) {
-        adminLoginBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            loginModal.classList.remove('hidden');
-            loginUser.value = '';
-            loginPass.value = '';
-            loginError.style.display = 'none';
-        });
+    const ventasLoginBtn = document.getElementById('ventas-login-btn');
+
+    let loginTarget = 'pedidos.html'; // Por defecto
+
+    if (loginModal) {
+        if (adminLoginBtn) {
+            adminLoginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginTarget = 'pedidos.html';
+                loginModal.classList.remove('hidden');
+                loginUser.value = '';
+                loginPass.value = '';
+                loginError.style.display = 'none';
+            });
+        }
+        
+        if (ventasLoginBtn) {
+            ventasLoginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginTarget = 'ventas.html';
+                loginModal.classList.remove('hidden');
+                loginUser.value = '';
+                loginPass.value = '';
+                loginError.style.display = 'none';
+            });
+        }
 
         closeLoginBtn.addEventListener('click', () => {
             loginModal.classList.add('hidden');
@@ -832,8 +859,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const pass = loginPass.value.trim();
 
             if (user === 'eleodoro' && pass === '123456') {
-                // Credenciales correctas, redirigir a pedidos.html
-                window.location.href = 'pedidos.html';
+                // Credenciales correctas, redirigir a la página correspondiente
+                window.location.href = loginTarget;
             } else {
                 // Credenciales incorrectas
                 loginError.style.display = 'block';
