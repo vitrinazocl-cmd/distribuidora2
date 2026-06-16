@@ -1330,15 +1330,6 @@ a {
 @media (max-width: 768px) {
     #disney-gorilla-container,
     #disney-corona-container {
-        width: 100px; /* Tamaño mucho más pequeño para celular */
-        top: 20px; /* Ajuste más cerca del banner en móviles */
-    }
-    
-    #disney-gorilla-container {
-        right: -10px; /* Que salgan un poco de la pantalla si hace falta */
-    }
-
-    #disney-corona-container {
-        left: -10px;
+        display: none; /* Ocultar completamente en versión móvil */
     }
 }
