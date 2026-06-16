@@ -901,16 +901,16 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             // data.count nos da el número real de visitas desde que se creó el contador
-            // Queremos que empiece en 1333, así que le sumamos 1332
-            const totalVisits = data.count + 1332;
+            // Queremos que empiece en 2333, así que le sumamos una base (ej. 2332)
+            const totalVisits = data.count + 2332;
             renderCounter(totalVisits);
         })
         .catch(error => {
             // Si la API falla, usamos localStorage como respaldo temporal
             console.error('Error cargando el contador:', error);
-            let fallback = localStorage.getItem('site_total_visits_fallback') || 1332;
-            fallback = parseInt(fallback) + 1;
-            localStorage.setItem('site_total_visits_fallback', fallback);
+            let fallback = parseInt(localStorage.getItem('site_total_visits_fallback_v2')) || 2332;
+            fallback = fallback + 1;
+            localStorage.setItem('site_total_visits_fallback_v2', fallback);
             renderCounter(fallback);
         });
 });

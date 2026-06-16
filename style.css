@@ -1325,3 +1325,20 @@ a {
     animation: gorillaPopOut 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.5s forwards, gorillaFloat 4.5s ease-in-out infinite 3s;
     transform-origin: top left;
 }
+
+/* Responsividad para móviles de las animaciones 3D */
+@media (max-width: 768px) {
+    #disney-gorilla-container,
+    #disney-corona-container {
+        width: 100px; /* Tamaño mucho más pequeño para celular */
+        top: 20px; /* Ajuste más cerca del banner en móviles */
+    }
+    
+    #disney-gorilla-container {
+        right: -10px; /* Que salgan un poco de la pantalla si hace falta */
+    }
+
+    #disney-corona-container {
+        left: -10px;
+    }
+}
