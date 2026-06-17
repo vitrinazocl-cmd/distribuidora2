@@ -32,7 +32,7 @@ const catalogoProductos = [
 { id: 'BEN3', name: "BENEDICTINO 3LT x 6 unidades", price: 6900, category: "AGUA", image: "catalogo/BENECDITINO 3LT.png", flavors: ["CON GAS", "SIN GAS"] },
 { id: 'BOMB200', name: "BOMBILLIN 200CC X24", price: 6480, category: "BEBIDAS", image: "catalogo productos/catalogoactual/bombillinpack.webp", flavors: ["DURAZNO", "PIÑA", "NARANJA", "MULTIFRUTILLA", "MANZANA"] },
 { id: 'JAL', name: "JUGO ANDINA 340ML X 6UNID", price: 3900, category: "BEBIDAS", image: "catalogo productos/catalogoactual/jugo340pack.png", flavors: ["DURAZNO", "PERA"] },
-{ id: 'LATAC', name: "ANDINA LATA 350ML 6 UNID.", price: 4428, category: "BEBIDAS", image: "catalogo productos/catalogoactual/packjugo400.png", flavors: ["COCA COLA", "COCA COLA ZERO", "FANTA", "SPRITE", "INCA COLA"] },
+{ id: 'LATAC', name: "ANDINA LATA 350ML 6 UNID.", price: 4428, category: "BEBIDAS", image: "coca lata - copia.png", flavors: ["COCA COLA", "COCA COLA ZERO", "FANTA", "SPRITE", "INCA COLA"] },
 { id: 'MINIC', name: "LATA MINI 200ML 6 UNIDAD", price: 3330, category: "BEBIDAS", image: "catalogo productos/catalogoactual/lataminipack.webp", flavors: ["COCA COLA", "COCA COLA ZERO", "FANTA", "SPRITE"] },
 { id: 'MONSO6', name: "MONSTER 473ML X6 UNID.", price: 8238, category: "ENERGÃ‰TICAS", image: "catalogo productos/catalogoactual/monsterpack.webp", flavors: ["MANGO LOCO", "PIPERLINE PUNSH", "ZERO ULTRA", "ULTRA PARADISE", "ORIGINAL", "ORIGINAL ZERO", "RIPPER"] },
 { id: 'POWA1', name: "POWERADE 1.1LT x 6 unidades", price: 7550, category: "BEBIDAS", image: "catalogo productos/catalogoactual/powerpack.jpg", flavors: ["AZUL", "ROJO", "NARANJA"] },
