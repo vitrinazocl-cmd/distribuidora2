@@ -66,7 +66,7 @@ app.post('/api/pagar', async (req, res) => {
         // Generamos un ID de orden y sesión aleatorios
         const buyOrder = "ORDEN-" + Math.floor(Math.random() * 100000);
         const sessionId = "SESION-" + Math.floor(Math.random() * 100000);
-        const returnUrl = "http://localhost:3000/api/confirmar-pago";
+        const returnUrl = req.protocol + '://' + req.get('host') + "/api/confirmar-pago";
 
         // Guardar carrito en memoria asociado a la orden
         ordenesPendientes.set(buyOrder, { carrito, cliente, total });
