@@ -297,6 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
             html += `
             <div class="product-card falabella-style" data-id="${prod.id}">
                 <div class="product-image-container">
+                    <img class="mini-logo-overlay" src="logo_transparente.png" alt="Logo">
                     <img src="${imageStr}" alt="${nameStr}">
                 </div>
                 <div class="product-info-container">

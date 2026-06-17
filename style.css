@@ -1033,12 +1033,23 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .falabella-style .product-image-container img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+}
+
+.mini-logo-overlay {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 40px; /* Small size */
+    height: auto;
+    z-index: 2;
+    opacity: 0.85; /* Slight transparency so it blends well */
 }
 
 .falabella-style .product-info-container {
