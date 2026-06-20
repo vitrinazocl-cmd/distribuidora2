@@ -1350,12 +1350,39 @@ a {
     .ad-box img,
     .ad-box video,
     .slider-track .slide img,
-    .slider-track .slide video,
-    .branch-selector-overlay video {
+    .slider-track .slide video {
         object-fit: contain !important;
         background-color: #000 !important;
     }
     
-    /* Asegurarse que tengan una altura auto para no deformarse si es necesario, 
-       pero al tener contain, width y height 100% también funciona bien con letterboxing. */
+    /* Layout limpio para el Home Overlay en Móviles */
+    #branch-selector {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        overflow-y: auto !important;
+        background-color: #000 !important; /* Fondo negro puro detrás del contenido */
+    }
+
+    .branch-selector-overlay video {
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        max-height: 50vh !important;
+        object-fit: contain !important;
+        background-color: #000 !important;
+        filter: none !important; /* Retiramos la oscuridad del video al ya no estar de fondo */
+        flex-shrink: 0 !important;
+        margin-bottom: 20px !important;
+    }
+
+    .branch-home-content {
+        position: relative !important;
+        height: auto !important;
+        min-height: auto !important;
+        padding-top: 0px !important;
+        padding-bottom: 40px !important;
+        z-index: 2 !important;
+    }
 }
