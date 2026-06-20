@@ -1343,4 +1343,19 @@ a {
     #disney-corona-container {
         display: none; /* Ocultar completamente en versión móvil */
     }
+
+    /* Garantizar que 100% de los videos e imágenes no se corten en celulares */
+    .slide img,
+    .slide video,
+    .ad-box img,
+    .ad-box video,
+    .slider-track .slide img,
+    .slider-track .slide video,
+    .branch-selector-overlay video {
+        object-fit: contain !important;
+        background-color: #000 !important;
+    }
+    
+    /* Asegurarse que tengan una altura auto para no deformarse si es necesario, 
+       pero al tener contain, width y height 100% también funciona bien con letterboxing. */
 }
