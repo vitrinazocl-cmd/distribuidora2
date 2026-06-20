@@ -22,73 +22,57 @@
             </div>
             <p id="age-error-msg" style="color: var(--warning-red); margin-top: 20px; font-weight: bold; display: none;">Debes ser mayor de 18 años para comprar en este sitio.</p>
         </div>
-    </div>
-
     <!-- Branch Selection Overlay (Home) -->
     <div id="branch-selector" class="branch-selector-overlay">
-        <div class="branch-home-content">
-            <div class="home-banner" style="margin-bottom: 5px; display: flex; align-items: center; justify-content: center; background-color: #000; border-radius: 8px; overflow: hidden; width: 100%; max-height: 45vh;">
-                <img src="logoizquierdo.webp" alt="Banner Izquierdo" style="height: 100%; max-height: 45vh; object-fit: contain; flex: 1; min-width: 0; max-width: 25%;">
-                
-                <video autoplay muted loop playsinline class="banner-video" style="height: 100%; max-height: 45vh; object-fit: contain; flex: 2; min-width: 0;">
-                    <source src="eleodoropubli1.mp4.mp4" type="video/mp4">
-                    Tu navegador no soporta videos.
-                </video>
+        <!-- Full-screen background video -->
+        <video autoplay muted loop playsinline class="fullscreen-bg-video">
+            <source src="videoplayback (6).mp4" type="video/mp4">
+            Tu navegador no soporta videos.
+        </video>
+        <!-- Overlay to darken video -->
+        <div class="fullscreen-bg-overlay"></div>
 
-                <img src="codigos promo.jpeg" alt="Banner Derecho" style="height: 100%; max-height: 45vh; object-fit: contain; flex: 1; min-width: 0; max-width: 25%;">
-            </div>
+        <div class="branch-home-content full-screen-content">
             
-            <div class="home-selection" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; margin-top: -60px; position: relative; z-index: 10;">
-                <div class="home-social-links" style="margin-bottom: 0;">
-                    <p style="margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;">Síguenos en nuestras redes:</p>
-                    <div class="social-icons" style="gap: 10px;">
+            <div class="home-selection overlay-selection">
+                
+                <img src="logo_transparente.png" alt="Eleodoro Logo" class="overlay-main-logo">
+
+                <div class="visitor-counter-container glass-panel">
+                    <div>
+                        <p class="counter-title">VISITAS</p>
+                        <div class="flip-counter" id="visitor-flip-counter">
+                            <!-- Digits injected by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="home-social-links glass-panel">
+                    <p>Síguenos en nuestras redes:</p>
+                    <div class="social-icons">
                         <a href="https://www.facebook.com/p/Distribuidora-Eleodoro-El-Grande-100066830753034/" target="_blank" class="social-facebook"><i class="fa-brands fa-facebook-f"></i></a>
                         <a href="https://www.instagram.com/eleodoroelgrande61/" target="_blank" class="social-instagram"><i class="fa-brands fa-instagram"></i></a>
                         <a href="https://wa.me/56956264496" target="_blank" class="social-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
                         <a href="https://www.tiktok.com/@eleodoroelgrande" target="_blank" class="social-tiktok"><i class="fa-brands fa-tiktok"></i></a>
                     </div>
                 </div>
-                
-                <div class="visitor-counter-container" style="display: flex; align-items: center; justify-content: center; gap: 10px; transform: scale(0.85); transform-origin: center; margin: -5px 0;">
-                    <img src="logo_transparente.png" alt="Eleodoro Logo 3D" class="logo-3d-pop" style="max-height: 50px;">
-                    <div>
-                        <p class="counter-title" style="margin: 0; font-size: 0.8rem;">VISITAS</p>
-                        <div class="flip-counter" id="visitor-flip-counter">
-                            <!-- Digits injected by JS -->
-                        </div>
-                    </div>
-                    <img src="logo_transparente.png" alt="Eleodoro Logo 3D" class="logo-3d-pop" style="max-height: 50px;">
-                </div>
 
-                <!-- 3D Gorilla Disney-Style Animation -->
-                <div id="disney-gorilla-container">
-                    <video autoplay muted loop playsinline class="gorilla-video">
-                        <source src="videoanimacion1.mp4.mp4" type="video/mp4">
-                    </video>
-                </div>
-
-                <!-- 3D Corona Animation (Left Side) -->
-                <div id="disney-corona-container">
-                    <img src="coronaanimada.mp4.jpeg" class="gorilla-video" alt="Corona Animada">
-                </div>
-
-                <div class="branch-buttons-container" style="gap: 15px; margin-top: 0;">
-                    <button class="branch-btn kfc-style" onclick="selectBranch('Cerro Navia')" style="padding: 10px 20px; min-width: 160px; font-size: 0.9rem;">
+                <div class="branch-buttons-container mobile-stack">
+                    <button class="branch-btn kfc-style glow-btn" onclick="selectBranch('Cerro Navia')">
                         <i class="fa-solid fa-store fa-lg" style="margin-bottom: 5px;"></i>
                         <span>SUCURSAL<br>CERRO NAVIA</span>
                     </button>
-                    <button class="branch-btn kfc-style" onclick="selectBranch('Laguna Sur')" style="padding: 10px 20px; min-width: 160px; font-size: 0.9rem;">
+                    <button class="branch-btn kfc-style glow-btn" onclick="selectBranch('Laguna Sur')">
                         <i class="fa-solid fa-store fa-lg" style="margin-bottom: 5px;"></i>
                         <span>SUCURSAL<br>LAGUNA SUR</span>
                     </button>
                 </div>
 
-                <div style="text-align: center; color: white; margin-top: 5px; margin-bottom: 5px; font-family: 'Roboto', sans-serif;">
-                    <h4 style="color: #ffcc00; margin-bottom: 5px; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 900;">Nuestras Sedes</h4>
-                    <p style="margin: 2px 0; font-size: 0.9rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fa-solid fa-location-dot" style="color: #ff3333;"></i> Rene Oliva 1358 - Cerro Navia</p>
-                    <p style="margin: 2px 0; font-size: 0.9rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fa-solid fa-location-dot" style="color: #ff3333;"></i> Laguna Sur 8383 - Pudahuel</p>
+                <div class="sedes-info glass-panel">
+                    <h4>Nuestras Sedes</h4>
+                    <p><i class="fa-solid fa-location-dot" style="color: #ff3333;"></i> Rene Oliva 1358 - Cerro Navia</p>
+                    <p><i class="fa-solid fa-location-dot" style="color: #ff3333;"></i> Laguna Sur 8383 - Pudahuel</p>
                 </div>
-
 
             </div>
         </div>
