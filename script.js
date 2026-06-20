@@ -4,14 +4,17 @@ let baseCatalogo = catalogoProductos;
 document.addEventListener('DOMContentLoaded', () => {
     updateBranchMenu = function(branchName) {
         if (branchName === 'Cerro Navia') {
-            const alcoholCategories = ['CERVEZA', 'LICORES', 'PISCO', 'WHISKY', 'RON', 'VODKA', 'GIN', 'TEQUILA', 'VINOS'];
             baseCatalogo = catalogoProductos.filter(p => {
                 if (!p) return false;
                 const category = p.category ? p.category.toUpperCase() : '';
                 const name = p.name ? p.name.toUpperCase() : '';
                 
+                const alcoholCategories = ['CERVEZA', 'LICORES', 'PISCO', 'WHISKY', 'RON', 'VODKA', 'GIN', 'TEQUILA', 'VINOS', 'ESPUMANTE'];
+                const alcoholKeywords = ['VINO', 'ESPUMANTE', 'CERVEZA', 'PISCO', 'RON', 'WHISKY', 'VODKA', 'GIN', 'LICOR'];
+
                 if (alcoholCategories.includes(category)) return false;
-                if (name.includes('VINO') || name.includes('ESPUMANTE') || name.includes('CERVEZA') || name.includes('PISCO') || name.includes('RON') || name.includes('WHISKY') || name.includes('VODKA') || name.includes('GIN')) return false;
+                if (alcoholKeywords.some(keyword => name.includes(keyword))) return false;
+                
                 return true;
             });
         } else {
