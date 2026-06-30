@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Procesador y Limpiador de Imágenes de Catálogo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f6fa;
+            margin: 0;
+            padding: 20px;
+            color: #2f3640;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #1e3799;
+            margin-bottom: 5px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+        .progress-container {
+            background-color: #f1f2f6;
+            border-radius: 20px;
+            height: 25px;
+            width: 100%;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4cd137, #44bd32);
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+        }
+        .status-box {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #353b48;
+        }
+        .preview-area {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px dashed #dcdde1;
+        }
+        .preview-box {
+            text-align: center;
+        }
+        .preview-box h3 {
+            margin-bottom: 10px;
+            color: #353b48;
+        }
+        .preview-box img, .preview-box canvas {
+            background-color: #ffffff;
+            border: 1px solid #dcdde1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 300px;
+            max-height: 300px;
+            object-fit: contain;
+        }
+        .log-box {
+            background-color: #2f3640;
+            color: #f5f6fa;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 15px;
+            border-radius: 6px;
+            height: 200px;
+            overflow-y: scroll;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .log-entry {
+            margin-bottom: 5px;
+        }
+        .log-entry.success { color: #4cd137; }
+        .log-entry.info { color: #00a8ff; }
+        .log-entry.error { color: #e84118; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Diseño y Limpieza de Imágenes de Catálogo</h1>
+        <p class="subtitle">Procesando fotos actuales del catálogo a formato unificado de alta gama (sombra de suelo y sello de advertencia)</p>
+        
+        <div class="progress-container">
+            <div id="progress" class="progress-bar">0%</div>
+        </div>
+        
+        <div id="status" class="status-box">Inicializando procesador...</div>
+        
+        <div class="preview-area">
+            <div class="preview-box">
+                <h3>Original</h3>
+                <img id="img-original" src="logo.jpg.jpeg" alt="Original">
+            </div>
+            <div class="preview-box">
+                <h3>Diseño Final (1:1)</h3>
+                <canvas id="canvas-result" width="1000" height="1000"></canvas>
+            </div>
+        </div>
+        
+        <div id="log" class="log-box">
+            <div class="log-entry info">Cargando catálogo de productos...</div>
+        </div>
+    </div>
+
+    <!-- Cargar catálogo de productos existente -->
+    <script src="catalogo.js"></script>
+
+    <script>
+        const logBox = document.getElementById('log');
+        const statusBox = document.getElementById('status');
+        const progressBar = document.getElementById('progress');
+        const imgOriginal = document.getElementById('img-original');
+        const canvasResult = document.getElementById('canvas-result');
+        const ctx = canvasResult.getContext('2d');
+
+        // Cargar sello de advertencia
+        const stampImg = new Image();
+        stampImg.src = 'sello-advertencia.png';
+
+        function log(msg, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            logBox.appendChild(entry);
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function isAlcoholic(product) {
+            const category = (product.category || '').toUpperCase();
+            const name = (product.name || '').toUpperCase();
+            const alcoholCategories = ['CERVEZA', 'LICORES', 'PISCO', 'WHISKY', 'RON', 'VODKA', 'GIN', 'TEQUILA', 'VINOS', 'ESPUMANTE'];
+            const alcoholKeywords = ['VINO', 'ESPUMANTE', 'CERVEZA', 'PISCO', 'RON', 'WHISKY', 'VODKA', 'GIN', 'LICOR', 'CRISTAL', 'ESCUDO', 'ROYAL', 'CORONA', 'BAVARIA', 'SOL', 'HEINEKEN', 'KUNSTMANN', 'ALTO DEL CARMEN', 'MISTRAL', 'BUCHANANS', 'JACK DANIEL', 'RED LABEL', 'BLACK LABEL', 'WHITE HOR', 'GORDONS', 'TANQUERAY', 'CAPEL ICE'];
+
+            if (alcoholCategories.includes(category)) return true;
+            if (alcoholKeywords.some(keyword => name.includes(keyword))) return true;
+            return false;
+        }
+
+        async function processProduct(product) {
+            return new Promise((resolve) => {
+                log(`Procesando producto: ${product.name} (${product.id})`, 'info');
+                
+                // Mostrar la imagen original
+                imgOriginal.src = product.image;
+                
+                const img = new Image();
+                img.onload = function() {
+                    // Limpiar el canvas con fondo blanco
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, 1000, 1000);
+                    
+                    // Dibujar sombra en el suelo
+                    const shadowX = 500;
+                    const shadowY = 800; 
+                    const radiusX = 320; 
+                    const radiusY = 32; 
+                    
+                    const gradient = ctx.createRadialGradient(shadowX, shadowY, 0, shadowX, shadowY, radiusX);
+                    gradient.addColorStop(0, 'rgba(0, 0, 0, 0.22)');
+                    gradient.addColorStop(0.5, 'rgba(0, 0, 0, 0.08)');
+                    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                    
+                    ctx.save();
+                    ctx.translate(shadowX, shadowY);
+                    ctx.scale(1, radiusY / radiusX);
+                    ctx.beginPath();
+                    ctx.arc(0, 0, radiusX, 0, 2 * Math.PI);
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+                    ctx.restore();
+                    
+                    // Escalar y centrar la imagen del producto
+                    const maxDim = 680;
+                    let w = img.width;
+                    let h = img.height;
+                    const scale = Math.min(maxDim / w, maxDim / h);
+                    w = w * scale;
+                    h = h * scale;
+                    
+                    const x = (1000 - w) / 2;
+                    const y = 800 - h; // Apoyar la base del producto justo sobre la sombra
+                    
+                    ctx.drawImage(img, x, y, w, h);
+                    
+                    // Estampar el sello de advertencia si tiene alcohol
+                    if (isAlcoholic(product)) {
+                        ctx.drawImage(stampImg, 40, 40, 180, 180);
+                        log(`[ALCOHOL] Sello estampado en ${product.name}`, 'info');
+                    }
+                    
+                    // Obtener la imagen como JPG
+                    const dataUrl = canvasResult.toDataURL('image/jpeg', 0.95);
+                    
+                    // Enviar al servidor local para guardar
+                    fetch('http://localhost:3002/api/save-image', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id: product.id,
+                            dataUrl: dataUrl
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            log(`Guardada imagen limpia para: ${product.name}`, 'success');
+                        } else {
+                            log(`Error al guardar imagen de: ${product.name}`, 'error');
+                        }
+                        resolve();
+                    })
+                    .catch(err => {
+                        log(`Error de red con ${product.name}: ${err.message}`, 'error');
+                        resolve();
+                    });
+                };
+                
+                img.onerror = function() {
+                    log(`No se pudo cargar la imagen original: ${product.image}`, 'error');
+                    resolve();
+                };
+                
+                // Forzar la recarga incluso si está en caché
+                img.src = product.image + '?t=' + Date.now();
+            });
+        }
+
+        // Esperar a que se cargue la imagen del sello antes de iniciar
+        stampImg.onload = async function() {
+            log('Sello de advertencia cargado con éxito. Iniciando conversión en 1 segundo...', 'info');
+            
+            if (typeof catalogoProductos === 'undefined') {
+                log('Catálogo no definido en catalogo.js. Abortando.', 'error');
+                statusBox.textContent = 'Error: Catálogo no definido.';
+                return;
+            }
+            
+            await new Promise(r => setTimeout(r, 1000));
+            
+            const total = catalogoProductos.length;
+            for (let i = 0; i < total; i++) {
+                const prod = catalogoProductos[i];
+                statusBox.textContent = `Procesando producto ${i + 1} de ${total}...`;
+                const pct = Math.round(((i + 1) / total) * 100);
+                progressBar.style.width = `${pct}%`;
+                progressBar.textContent = `${pct}%`;
+                
+                await processProduct(prod);
+            }
+            
+            statusBox.textContent = '¡Conversión de catálogo completada exitosamente!';
+            log('=== Conversión Completada con Éxito ===', 'success');
+            
+            // Avisar al servidor para que se cierre
+            fetch('http://localhost:3002/api/done', { method: 'POST' }).catch(() => {});
+        };
+
+        stampImg.onerror = function() {
+            log('Error al cargar sello-advertencia.png. Asegúrate de que existe en la raíz.', 'error');
+            statusBox.textContent = 'Error al cargar sello.';
+        };
+    </script>
+</body>
+</html>
