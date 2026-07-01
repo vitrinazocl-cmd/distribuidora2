@@ -173,76 +173,89 @@
                 
                 const img = new Image();
                 img.onload = function() {
-                    // Limpiar el canvas con fondo blanco
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(0, 0, 1000, 1000);
-                    
-                    // Dibujar sombra en el suelo
-                    const shadowX = 500;
-                    const shadowY = 800; 
-                    const radiusX = 320; 
-                    const radiusY = 32; 
-                    
-                    const gradient = ctx.createRadialGradient(shadowX, shadowY, 0, shadowX, shadowY, radiusX);
-                    gradient.addColorStop(0, 'rgba(0, 0, 0, 0.22)');
-                    gradient.addColorStop(0.5, 'rgba(0, 0, 0, 0.08)');
-                    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-                    
-                    ctx.save();
-                    ctx.translate(shadowX, shadowY);
-                    ctx.scale(1, radiusY / radiusX);
-                    ctx.beginPath();
-                    ctx.arc(0, 0, radiusX, 0, 2 * Math.PI);
-                    ctx.fillStyle = gradient;
-                    ctx.fill();
-                    ctx.restore();
-                    
-                    // Escalar y centrar la imagen del producto
-                    const maxDim = 680;
-                    let w = img.width;
-                    let h = img.height;
-                    const scale = Math.min(maxDim / w, maxDim / h);
-                    w = w * scale;
-                    h = h * scale;
-                    
-                    const x = (1000 - w) / 2;
-                    const y = 800 - h; // Apoyar la base del producto justo sobre la sombra
-                    
-                    ctx.drawImage(img, x, y, w, h);
-                    
-                    // Estampar el sello de advertencia si tiene alcohol
-                    if (isAlcoholic(product)) {
-                        ctx.drawImage(stampImg, 40, 40, 180, 180);
-                        log(`[ALCOHOL] Sello estampado en ${product.name}`, 'info');
-                    }
-                    
-                    // Obtener la imagen como JPG
-                    const dataUrl = canvasResult.toDataURL('image/jpeg', 0.95);
-                    
-                    // Enviar al servidor local para guardar
-                    fetch('http://localhost:3002/api/save-image', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            id: product.id,
-                            dataUrl: dataUrl
-                        })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success) {
-                            log(`Guardada imagen limpia para: ${product.name}`, 'success');
-                        } else {
-                            log(`Error al guardar imagen de: ${product.name}`, 'error');
+                    try {
+                        if (img.width === 0 || img.height === 0) {
+                            throw new Error("Dimensiones de imagen inválidas (0x0).");
                         }
+                        
+                        // Limpiar el canvas con fondo blanco
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(0, 0, 1000, 1000);
+                        
+                        // Verificar si la imagen ya está pre-formateada (por ser un ejemplo manual de WhatsApp)
+                        const isAlreadyFormatted = product.image.toLowerCase().includes('productos%20full') || 
+                                                   product.image.toLowerCase().includes('productos full') ||
+                                                   product.image.toLowerCase().includes('whatsapp') ||
+                                                   product.image.toLowerCase().includes('base_templates');
+                        
+                        if (isAlreadyFormatted) {
+                            // Dibujar a pantalla completa (mantiene la resolución original, sello único y sombra original)
+                            ctx.drawImage(img, 0, 0, 1000, 1000);
+                            log(`[ORIGINAL] Cargada imagen directa de alta calidad para: ${product.name}`, 'info');
+                        } else {
+                            // NO DIBUJAR SOMBRA ARTIFICIAL (conserva la sombra natural del producto)
+                            
+                            // Escalar y centrar la imagen al 98% del lienzo para mantener el tamaño original máximo
+                            const maxDim = 980;
+                            let w = img.width;
+                            let h = img.height;
+                            const scale = Math.min(maxDim / w, maxDim / h);
+                            w = w * scale;
+                            h = h * scale;
+                            
+                            const x = (1000 - w) / 2;
+                            const y = (1000 - h) / 2; // Centrado perfecto
+                            
+                            ctx.drawImage(img, x, y, w, h);
+                            
+                            // Estampar el sello de advertencia si tiene alcohol
+                            if (isAlcoholic(product)) {
+                                // Verificar si es una de las fotos de WhatsApp que ya tienen el sello incorporado
+                                const hasStampAlready = product.image.toLowerCase().includes('productos%20full') || 
+                                                        product.image.toLowerCase().includes('productos full') ||
+                                                        product.image.toLowerCase().includes('whatsapp') ||
+                                                        product.image.toLowerCase().includes('base_templates');
+                                                        
+                                if (!hasStampAlready) {
+                                    ctx.drawImage(stampImg, 35, 35, 180, 180);
+                                    log(`[ALCOHOL] Sello estampado en ${product.name}`, 'info');
+                                } else {
+                                    log(`[ALCOHOL] Sello omitido (ya existe en original) para ${product.name}`, 'info');
+                                }
+                            }
+                        }
+                        
+                        // Obtener la imagen como JPG
+                        const dataUrl = canvasResult.toDataURL('image/jpeg', 0.95);
+                        
+                        // Enviar al servidor local para guardar
+                        fetch('http://localhost:3002/api/save-image', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                id: product.id,
+                                dataUrl: dataUrl
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                log(`Guardada imagen limpia para: ${product.name}`, 'success');
+                            } else {
+                                log(`Error al guardar imagen de: ${product.name}`, 'error');
+                            }
+                            resolve();
+                        })
+                        .catch(err => {
+                            log(`Error de red con ${product.name}: ${err.message}`, 'error');
+                            resolve();
+                        });
+                    } catch (err) {
+                        log(`Error al procesar canvas para ${product.name}: ${err.message}`, 'error');
                         resolve();
-                    })
-                    .catch(err => {
-                        log(`Error de red con ${product.name}: ${err.message}`, 'error');
-                        resolve();
-                    });
+                    }
                 };
                 
                 img.onerror = function() {
