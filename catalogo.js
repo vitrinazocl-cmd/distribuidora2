@@ -1,7 +1,7 @@
 const catalogoProductos = [
 { id: 'CATUNSG16', name: "CACHANTUN 1.6 LT DESECHABLE x 6 unidades", price: 5520, category: "AGUA", image: "catalogo/CATUNSG16.jpeg", flavors: ["CON GAS", "SIN GAS", "STRONG GAS", "LIGTH GAS"] },
 { id: 'CATUNSG25', name: "CACHANTUN 2.5LT DESECHABLE x 6 unidades", price: 6540, category: "AGUA", image: "catalogo/CATUNSG25.jpeg", flavors: ["CON GAS", "SIN GAS"] },
-{ id: 'CATUNSG5', name: "CACHANTUN 500ML x 12 unidades", price: 4000, category: "AGUA", image: "catalogo/CATUNSG5.jpg", flavors: ["CON GAS", "SIN GAS", "STRONG GAS", "LIGTH GAS"] },
+{ id: 'CATUNSG5', name: "CACHANTUN 500ML x 12 unidades", price: 4000, category: "AGUA", image: "catalogo/CATUNSG5.webp", flavors: ["CON GAS", "SIN GAS", "STRONG GAS", "LIGTH GAS"] },
 { id: 'CCU600', name: "CCU 600ML DESECHABLE x 12 unidades", price: 10200, category: "BEBIDAS", image: "catalogo/CCU600.jpeg", flavors: ["PEPSI", "PESI ZERO", "KEM", "BILZ", "LIMON SODA", "GINGER", "CRUSH", "PAP"] },
 { id: 'EXPRB', name: "EXPRESS CCU X30", price: 11200, category: "BEBIDAS", image: "catalogo/EXPRB.jpeg", flavors: ["PEPSI", "PESI ZERO", "KEM", "BILZ", "LIMON SODA", "PAP"] },
 { id: 'GATO1A', name: "GATORADE 1LT DESECHABLE x 6 unidades", price: 7260, category: "BEBIDAS", image: "catalogo/GATO1A.jpeg", flavors: ["AZUL", "ROJO", "NARANJA"] },
