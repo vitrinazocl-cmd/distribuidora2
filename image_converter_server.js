@@ -17,11 +17,9 @@ app.post('/api/save-image', (req, res) => {
         if (!id || !dataUrl) {
             return res.status(400).json({ error: 'Faltan datos de ID o imagen.' });
         }
-        
-        // El formato de dataUrl es: "data:image/jpeg;base64,..."
-        const base64Data = dataUrl.replace(/^data:image\/jpeg;base64,/, "");
-        const imgPath = path.join(__dirname, 'catalogo', `${id}.jpg`);
-        
+        // El formato de dataUrl es: "data:image/webp;base64,..."
+        const base64Data = dataUrl.replace(/^data:image\/webp;base64,/, "");
+        const imgPath = path.join(__dirname, 'catalogo', `${id}.webp`);
         // Asegurarse de que el directorio catalogo existe
         const dir = path.dirname(imgPath);
         if (!fs.existsSync(dir)){

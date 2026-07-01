@@ -225,8 +225,8 @@
                             }
                         }
                         
-                        // Obtener la imagen como JPG
-                        const dataUrl = canvasResult.toDataURL('image/jpeg', 0.95);
+                        // Obtener la imagen como WebP
+                        const dataUrl = canvasResult.toDataURL('image/webp', 0.85);
                         
                         // Enviar al servidor local para guardar
                         fetch('http://localhost:3002/api/save-image', {
