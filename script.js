@@ -56,6 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
             btnAgeYes.addEventListener('click', () => {
                 // Solo lo ocultamos temporalmente para esta sesión, sin guardarlo para siempre
                 ageModal.style.display = 'none';
+                
+                // Reproducir audio inmediatamente
+                const audio = document.getElementById('bg-audio');
+                if (audio) {
+                    audio.play().catch(e => console.log('Autoplay blocked:', e));
+                }
             });
         }
         if (btnAgeNo) {
@@ -167,6 +173,12 @@ function selectBranch(branchName) {
     
     // Ocultar el Home y pasar al menú
     console.log('Sucursal seleccionada: ' + branchName);
+
+    // Reproducir audio inmediatamente
+    const audio = document.getElementById('bg-audio');
+    if (audio) {
+        audio.play().catch(e => console.log('Autoplay blocked on branch select:', e));
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
