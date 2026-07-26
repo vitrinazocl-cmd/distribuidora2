@@ -106,6 +106,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 dot.classList.remove('active');
             }
         });
+
+        // Carga diferida y control de videos en el slider
+        slides.forEach((slide, index) => {
+            const video = slide.querySelector('video.slider-video');
+            if (video) {
+                if (index === currentIndex) {
+                    const dataSrc = video.getAttribute('data-src');
+                    if (dataSrc && !video.src) {
+                        video.src = dataSrc;
+                        video.load();
+                    }
+                    video.play().catch(err => console.log("Autoplay slider video prevented:", err));
+                } else {
+                    video.pause();
+                }
+            }
+        });
     }
 
     function nextSlide() {
@@ -148,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Start auto slide
+    updateSlider();
     startAutoPlay();
     
     // Pause on hover
@@ -161,6 +179,18 @@ function selectBranch(branchName) {
     const overlay = document.getElementById('branch-selector');
     if (overlay) {
         overlay.classList.add('hidden');
+    }
+
+    // Detener y liberar memoria del video de fondo del selector de sucursal
+    const bgVideo = document.getElementById('bg-branch-video');
+    if (bgVideo) {
+        bgVideo.pause();
+        bgVideo.src = "";
+        try {
+            bgVideo.load();
+        } catch (e) {
+            console.log("Error unloading bg video:", e);
+        }
     }
     
     // Ensure the page starts at the top
@@ -299,7 +329,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!prod) return;
             const priceStr = (prod.price !== undefined && prod.price !== null) ? prod.price.toLocaleString('es-CL') : '0';
             const nameStr = prod.name || 'Sin Nombre';
-            const imageStr = prod.image || 'logo.jpg.jpeg';
+            
+            // Usar la versión WebP optimizada y unificada por ID de producto
+            const imageStr = prod.id ? `catalogo/${prod.id}.webp` : (prod.image || 'logo.jpg.jpeg');
 
             // Generar "opiniones" aleatorias para darle el estilo de Falabella
             const rating = (Math.random() * (5 - 4) + 4).toFixed(1);
@@ -312,8 +344,8 @@ document.addEventListener('DOMContentLoaded', () => {
             html += `
             <div class="product-card falabella-style" data-id="${prod.id}">
                 <div class="product-image-container">
-                    <img class="mini-logo-overlay" src="logo_transparente.png" alt="Logo">
-                    <img src="${imageStr}" alt="${nameStr}">
+                    <img class="mini-logo-overlay" src="logo_transparente.png" alt="Logo" loading="lazy">
+                    <img src="${imageStr}" alt="${nameStr}" loading="lazy">
                 </div>
                 <div class="product-info-container">
                     ${savings > 0 ? '<div class="rebaja-badge"><i class="fa-solid fa-arrow-down"></i> Rebaja</div>' : ''}

@@ -27,7 +27,7 @@
     <!-- Branch Selection Overlay (Home) -->
     <div id="branch-selector" class="branch-selector-overlay" style="position: fixed; overflow: hidden;">
         <!-- Video Background -->
-        <video autoplay muted loop playsinline style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 0; filter: brightness(0.4);">
+        <video id="bg-branch-video" autoplay muted loop playsinline style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 0; filter: brightness(0.4);">
             <source src="videoplayback.mp4" type="video/mp4">
         </video>
 
@@ -171,7 +171,7 @@
                     </div>
                     <!-- Slide Eleodoro Publi (Nuevo) -->
                     <div class="slide">
-                        <video src="eleodoropubli1.mp4.mp4" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
+                        <video data-src="eleodoropubli1.mp4.mp4" class="slider-video" muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
                     </div>
                     <!-- Slide Jack Daniels (Nueva) -->
                     <div class="slide">
@@ -179,15 +179,15 @@
                     </div>
                     <!-- Slide 1 (Video 6) -->
                     <div class="slide">
-                        <video src="video6.mp4.mp4" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
+                        <video data-src="video6.mp4.mp4" class="slider-video" muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
                     </div>
                     <!-- Slide 2 (Video 5) -->
                     <div class="slide">
-                        <video src="video5.mp4.mp4" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
+                        <video data-src="video5.mp4.mp4" class="slider-video" muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
                     </div>
                     <!-- Slide 3 (Video 1) -->
                     <div class="slide">
-                        <video src="video1.mp4.mp4" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
+                        <video data-src="video1.mp4.mp4" class="slider-video" muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
                     </div>
                     <!-- Slide 4 -->
                     <div class="slide">
@@ -232,28 +232,28 @@
         <div class="brands-marquee">
             <div class="marquee-content">
                 <!-- Logos de Marcas -->
-                <img src="CCU_logo2.jpg" alt="CCU">
-                <img src="Gatorade_logo5.jpg" alt="Gatorade">
-                <img src="altodelcarmen10.jpg" alt="Alto del Carmen">
-                <img src="benedictino9.jpg" alt="Benedictino">
-                <img src="cococolalogo1.jpg" alt="Coca Cola">
-                <img src="corona7.jpg" alt="Corona">
-                <img src="cristal8.jpg" alt="Cristal">
-                <img src="jack danields6.jpg" alt="Jack Daniels">
-                <img src="powerade6.jpg" alt="Powerade">
-                <img src="redbulllogo.4.png" alt="Red Bull">
+                <img src="CCU_logo2.jpg" alt="CCU" loading="lazy">
+                <img src="Gatorade_logo5.jpg" alt="Gatorade" loading="lazy">
+                <img src="altodelcarmen10.jpg" alt="Alto del Carmen" loading="lazy">
+                <img src="benedictino9.jpg" alt="Benedictino" loading="lazy">
+                <img src="cococolalogo1.jpg" alt="Coca Cola" loading="lazy">
+                <img src="corona7.jpg" alt="Corona" loading="lazy">
+                <img src="cristal8.jpg" alt="Cristal" loading="lazy">
+                <img src="jack danields6.jpg" alt="Jack Daniels" loading="lazy">
+                <img src="powerade6.jpg" alt="Powerade" loading="lazy">
+                <img src="redbulllogo.4.png" alt="Red Bull" loading="lazy">
                 
                 <!-- Duplicate logos for infinite scroll effect -->
-                <img src="CCU_logo2.jpg" alt="CCU">
-                <img src="Gatorade_logo5.jpg" alt="Gatorade">
-                <img src="altodelcarmen10.jpg" alt="Alto del Carmen">
-                <img src="benedictino9.jpg" alt="Benedictino">
-                <img src="cococolalogo1.jpg" alt="Coca Cola">
-                <img src="corona7.jpg" alt="Corona">
-                <img src="cristal8.jpg" alt="Cristal">
-                <img src="jack danields6.jpg" alt="Jack Daniels">
-                <img src="powerade6.jpg" alt="Powerade">
-                <img src="redbulllogo.4.png" alt="Red Bull">
+                <img src="CCU_logo2.jpg" alt="CCU" loading="lazy">
+                <img src="Gatorade_logo5.jpg" alt="Gatorade" loading="lazy">
+                <img src="altodelcarmen10.jpg" alt="Alto del Carmen" loading="lazy">
+                <img src="benedictino9.jpg" alt="Benedictino" loading="lazy">
+                <img src="cococolalogo1.jpg" alt="Coca Cola" loading="lazy">
+                <img src="corona7.jpg" alt="Corona" loading="lazy">
+                <img src="cristal8.jpg" alt="Cristal" loading="lazy">
+                <img src="jack danields6.jpg" alt="Jack Daniels" loading="lazy">
+                <img src="powerade6.jpg" alt="Powerade" loading="lazy">
+                <img src="redbulllogo.4.png" alt="Red Bull" loading="lazy">
             </div>
         </div>
     </section>
@@ -339,12 +339,12 @@
         <h2 class="section-title">MÁS SOBRE NOSOTROS</h2>
         <div class="media-grid">
             <div class="media-video">
-                <video src="video2.mp4.mp4" controls playsinline></video>
+                <video src="video2.mp4.mp4" controls playsinline preload="none"></video>
             </div>
             <div class="media-images">
-                <img src="slice1.jpg.jpg" alt="Local">
-                <img src="slice2.jpg.jpg" alt="Bebidas">
-                <img src="slice3.jpg.jpeg" alt="Fiesta">
+                <img src="slice1.jpg.jpg" alt="Local" loading="lazy">
+                <img src="slice2.jpg.jpg" alt="Bebidas" loading="lazy">
+                <img src="slice3.jpg.jpeg" alt="Fiesta" loading="lazy">
             </div>
         </div>
     </section>
@@ -353,7 +353,7 @@
         <h2 class="section-title">NOTICIAS Y NOVEDADES</h2>
         <div class="news-grid">
             <div class="news-card">
-                <img src="imagen6.jpg" alt="Noticia 1">
+                <img src="imagen6.jpg" alt="Noticia 1" loading="lazy">
                 <div class="news-content">
                     <span class="news-date">15 de Junio, 2026</span>
                     <h3>¡Nueva Sucursal en Pudahuel Sur!</h3>
@@ -362,7 +362,7 @@
                 </div>
             </div>
             <div class="news-card">
-                <img src="imagen7.jpg" alt="Noticia 2">
+                <img src="imagen7.jpg" alt="Noticia 2" loading="lazy">
                 <div class="news-content">
                     <span class="news-date">10 de Junio, 2026</span>
                     <h3>Promociones Especiales de Invierno</h3>
@@ -371,7 +371,7 @@
                 </div>
             </div>
             <div class="news-card">
-                <img src="slice1.jpg.jpg" alt="Noticia 3">
+                <img src="slice1.jpg.jpg" alt="Noticia 3" loading="lazy">
                 <div class="news-content">
                     <span class="news-date">5 de Junio, 2026</span>
                     <h3>¡Llegaron las nuevas Energéticas!</h3>
@@ -654,7 +654,7 @@
     <!-- Reproductor de Audio Clásico -->
     <div class="audio-player-container">
         <audio id="bg-audio" loop autoplay controls preload="auto">
-            <source src="Mike Posner - I Took A Pill In Ibiza (SeeB Remix).m4a" type="audio/mp4">
+            <source src="q_hubo_amor.mp4" type="audio/mp4">
             Tu navegador no soporta el elemento de audio.
         </audio>
     </div>
