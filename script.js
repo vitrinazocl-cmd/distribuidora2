@@ -1090,3 +1090,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// --- Menú Hamburgesa Drawer (Navegación Lateral) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburgerBtn = document.getElementById('hamburger-menu-btn');
+    const closeDrawerBtn = document.getElementById('close-drawer-btn');
+    const navDrawer = document.getElementById('nav-drawer');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    const drawerLinks = document.querySelectorAll('.drawer-link');
+
+    if (hamburgerBtn && navDrawer && drawerOverlay) {
+        const openDrawer = () => {
+            navDrawer.classList.add('open');
+            drawerOverlay.classList.add('visible');
+            document.body.style.overflow = 'hidden'; // Evitar scroll del body en móviles
+        };
+
+        const closeDrawer = () => {
+            navDrawer.classList.remove('open');
+            drawerOverlay.classList.remove('visible');
+            document.body.style.overflow = ''; // Restaurar scroll
+        };
+
+        hamburgerBtn.addEventListener('click', openDrawer);
+        
+        if (closeDrawerBtn) {
+            closeDrawerBtn.addEventListener('click', closeDrawer);
+        }
+        
+        drawerOverlay.addEventListener('click', closeDrawer);
+
+        // Cerrar el menú al hacer clic en categorías (excepto en descargas)
+        drawerLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (!link.hasAttribute('download')) {
+                    closeDrawer();
+                }
+            });
+        });
+    }
+});
