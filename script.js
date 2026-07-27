@@ -22,11 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Ocultar categorías de alcohol en el navbar si es Cerro Navia
-        const navLinks = document.querySelectorAll('.nav-container a');
+        const navLinks = document.querySelectorAll('.drawer-content a');
         navLinks.forEach(link => {
             const cat = link.getAttribute('data-category');
             if (cat && ['CERVEZA', 'PISCO', 'WHISKY', 'RON', 'VODKA', 'GIN', 'TEQUILA', 'LICORES'].includes(cat)) {
-                link.style.display = branchName === 'Cerro Navia' ? 'none' : 'inline-block';
+                link.style.display = branchName === 'Cerro Navia' ? 'none' : '';
             }
         });
 
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (productsTitle) productsTitle.textContent = 'TODOS LOS PRODUCTOS';
             
             navLinks.forEach(l => l.classList.remove('active'));
-            const btnTodos = document.querySelector('.nav-container a[data-category="TODOS"]');
+            const btnTodos = document.querySelector('.drawer-content a[data-category="TODOS"]');
             if (btnTodos) btnTodos.classList.add('active');
         }
     };
@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const productsGrid = document.getElementById('products-grid');
-    const navLinks = document.querySelectorAll('.nav-container a');
+    const navLinks = document.querySelectorAll('.drawer-content a');
     const productsTitle = document.getElementById('productos-title');
     const productsSection = document.getElementById('productos');
     const sortSelect = document.getElementById('sort-select');
@@ -1139,7 +1139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             
             // Simular clic en la categoría "TODOS" en el menú para restablecer filtros y scrollear
-            const btnTodos = document.querySelector('.nav-container a[data-category="TODOS"]');
+            const btnTodos = document.querySelector('.drawer-content a[data-category="TODOS"]');
             if (btnTodos) {
                 btnTodos.click();
             } else {
