@@ -1130,3 +1130,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// --- Botón de Catálogo en el Slider (Esquina inferior izquierda) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const sliderCatalogBtn = document.getElementById('slider-catalog-btn');
+    if (sliderCatalogBtn) {
+        sliderCatalogBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Simular clic en la categoría "TODOS" en el menú para restablecer filtros y scrollear
+            const btnTodos = document.querySelector('.nav-container a[data-category="TODOS"]');
+            if (btnTodos) {
+                btnTodos.click();
+            } else {
+                // Si no se encuentra (caso borde), hacer scroll directamente
+                const productsSection = document.getElementById('productos');
+                if (productsSection) {
+                    const headerOffset = 100;
+                    const elementPosition = productsSection.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+            }
+        });
+    }
+});
