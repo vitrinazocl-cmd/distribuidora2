@@ -984,26 +984,48 @@ a {
     position: fixed;
     bottom: 20px;
     left: 20px;
-    z-index: 1000;
-    background: rgba(20, 20, 20, 0.9);
-    padding: 6px 12px;
+    z-index: 100000;
+    background: rgba(15, 15, 15, 0.95);
+    padding: 8px 16px;
     border-radius: 30px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.6);
-    border: 1px solid #444;
-    transition: opacity 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    border: 1px solid var(--primary-color, #d4af37);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
 }
 .audio-player-container:hover {
     background: rgba(0, 0, 0, 1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.8);
 }
-.audio-player-container audio, .audio-player-container video {
+.audio-ctrl-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color, #d4af37);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, color 0.2s;
+    width: 28px;
     height: 28px;
-    width: 220px;
-    outline: none;
+    border-radius: 50%;
 }
-/* Estilo para que no desentone con la página */
-.audio-player-container audio::-webkit-media-controls-panel,
-.audio-player-container video::-webkit-media-controls-panel {
-    background-color: #dfdfdf;
+.audio-ctrl-btn:hover {
+    transform: scale(1.15);
+    color: #ffffff;
+}
+.audio-track-title {
+    font-size: 13px;
+    color: #ffffff;
+    font-weight: bold;
+    white-space: nowrap;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.5px;
 }
 
 /* Falabella Style Product Cards */

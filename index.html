@@ -651,12 +651,15 @@
         </div>
     </div>
 
-    <!-- Reproductor de Audio Clásico (Usando video para compatibilidad total con Safari/iOS) -->
-    <div class="audio-player-container">
-        <video id="bg-audio" loop autoplay controls playsinline preload="auto">
-            <source src="q_hubo_amor.mp4?v=1007" type="video/mp4">
-            Tu navegador no soporta el elemento de video.
-        </video>
+    <!-- Reproductor de Audio Clásico (Usando video oculto para compatibilidad total con Safari/iOS y controles personalizados) -->
+    <video id="bg-audio" loop autoplay playsinline preload="auto" style="display: none;">
+        <source src="q_hubo_amor.mp4?v=1007" type="video/mp4">
+    </video>
+
+    <div class="audio-player-container custom-player">
+        <button id="audio-play-btn" class="audio-ctrl-btn" aria-label="Reproducir/Pausar"><i class="fa-solid fa-pause"></i></button>
+        <span class="audio-track-title">Q Hubo Amor 🎵</span>
+        <button id="audio-mute-btn" class="audio-ctrl-btn" aria-label="Silenciar/Activar sonido"><i class="fa-solid fa-volume-high"></i></button>
     </div>
 
     <!-- Scripts -->

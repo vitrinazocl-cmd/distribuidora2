@@ -963,27 +963,75 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-// --- Reproductor de Audio ---
+// --- Reproductor de Audio Personalizado ---
 document.addEventListener('DOMContentLoaded', () => {
     const audio = document.getElementById('bg-audio');
-    if (audio) {
-        // Intentar reproducir si fue bloqueado inicialmente
+    const playBtn = document.getElementById('audio-play-btn');
+    const muteBtn = document.getElementById('audio-mute-btn');
+
+    if (audio && playBtn && muteBtn) {
+        // Función para actualizar iconos
+        const updatePlayerUI = () => {
+            // Icono Play/Pause
+            if (audio.paused) {
+                playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            } else {
+                playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            }
+            // Icono Muted
+            if (audio.muted) {
+                muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+            } else {
+                muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+            }
+        };
+
+        // Evento Play/Pause
+        playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (audio.paused) {
+                audio.play()
+                    .then(updatePlayerUI)
+                    .catch(err => console.log("Play failed:", err));
+            } else {
+                audio.pause();
+                updatePlayerUI();
+            }
+        });
+
+        // Evento Mute/Unmute
+        muteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            audio.muted = !audio.muted;
+            updatePlayerUI();
+        });
+
+        // Escuchar eventos nativos para mantener sincronizada la UI
+        audio.addEventListener('play', updatePlayerUI);
+        audio.addEventListener('pause', updatePlayerUI);
+        audio.addEventListener('volumechange', updatePlayerUI);
+
+        // Intentar reproducir automáticamente cada 2 segundos hasta lograrlo (por políticas de autoplay)
         const playAttempt = setInterval(() => {
             audio.play()
                 .then(() => {
-                    clearInterval(playAttempt); // Éxito
+                    clearInterval(playAttempt);
+                    updatePlayerUI();
                 })
                 .catch(() => {
                     // Esperando interacción del usuario
                 });
-        }, 3000);
+        }, 2000);
 
-        // Si el usuario hace clic en cualquier lado, forzar reproducción
+        // Si el usuario hace clic en cualquier lado del documento, forzar reproducción
         document.body.addEventListener('click', () => {
             if (audio.paused) {
-                audio.play().catch(e => console.log(e));
+                audio.play().then(updatePlayerUI).catch(e => console.log(e));
             }
         }, { once: true });
+
+        // Inicializar UI
+        updatePlayerUI();
     }
 });
 
