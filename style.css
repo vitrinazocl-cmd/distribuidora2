@@ -995,13 +995,14 @@ a {
 .audio-player-container:hover {
     background: rgba(0, 0, 0, 1);
 }
-.audio-player-container audio {
+.audio-player-container audio, .audio-player-container video {
     height: 28px;
     width: 220px;
     outline: none;
 }
 /* Estilo para que no desentone con la página */
-.audio-player-container audio::-webkit-media-controls-panel {
+.audio-player-container audio::-webkit-media-controls-panel,
+.audio-player-container video::-webkit-media-controls-panel {
     background-color: #dfdfdf;
 }
 
