@@ -671,6 +671,11 @@
             <a href="#productos" data-category="LICORES" class="drawer-link"><i class="fa-solid fa-wine-bottle"></i> LICORES</a>
             <a href="#productos" data-category="BEBIDAS" class="drawer-link"><i class="fa-solid fa-bottle-water"></i> BEBIDAS</a>
             
+            <div class="drawer-section-title">RRSS</div>
+            <a href="#" class="drawer-link rrss-link" data-rrss="facebook"><i class="fa-brands fa-facebook" style="color: #1877f2;"></i> Facebook</a>
+            <a href="#" class="drawer-link rrss-link" data-rrss="instagram"><i class="fa-brands fa-instagram" style="color: #e1306c;"></i> Instagram</a>
+            <a href="#" class="drawer-link rrss-link" data-rrss="tiktok"><i class="fa-brands fa-tiktok" style="color: #ffffff;"></i> TikTok</a>
+            
             <div class="drawer-section-title">Más Opciones</div>
             <a href="#" id="open-comunidad-btn" class="drawer-link highlight-orange"><i class="fa-solid fa-users"></i> COMUNIDAD</a>
             <a href="#" id="open-contact-btn" class="drawer-link highlight-red"><i class="fa-solid fa-address-book"></i> CONTACTO</a>
@@ -678,6 +683,18 @@
         </div>
     </div>
     <div id="drawer-overlay" class="drawer-overlay"></div>
+
+    <!-- RRSS Modal Viewer -->
+    <div id="rrss-modal" class="cart-modal hidden" style="justify-content: center; align-items: center; z-index: 999999;">
+        <div class="cart-content" style="height: 85vh; overflow-y: auto; border-radius: 8px; max-width: 600px; width: 90%; background: var(--dark-bg); border: 2px solid var(--primary-color); padding: 0; display: flex; flex-direction: column;">
+            <div class="cart-header" style="background: var(--bg-color); border-bottom: 1px solid var(--border-color); padding: 15px; display: flex; justify-content: space-between; align-items: center;">
+                <h2 id="rrss-modal-title" style="color: var(--text-light); margin: 0; font-size: 1.4rem;">Redes Sociales</h2>
+                <button id="close-rrss-btn" class="close-cart-btn" style="color: var(--text-muted);"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="rrss-modal-body" style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; min-height: 400px; background: #000000;">
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="catalogo.js?v=1006"></script>

@@ -1,13 +1,19 @@
 :root {
-    --primary-color: #d4af37; /* Premium Gold */
-    --bg-color: #0d0d0d; /* Very dark gray/black */
-    --dark-bg: #1a1a1a; /* Slightly lighter dark */
-    --text-dark: #f5f5f5; /* Light text for dark background */
-    --text-light: #ffffff;
-    --border-color: #333333;
-    --warning-bg: #2a0808;
-    --warning-red: #ff4d4d;
-    --accent-color: #00d4ff; /* Neon Cyan */
+    --primary-color: #d4af37;       /* Oro Premium */
+    --primary-hover: #b89028;      /* Oro Oscuro para hovers */
+    --bg-color: #070707;           /* Negro Absoluto para fondo principal */
+    --dark-bg: #121212;            /* Gris Oscuro Premium para tarjetas, modales y cajas */
+    --text-dark: #f5f5f5;          /* Texto principal blanco suave */
+    --text-light: #ffffff;         /* Blanco puro */
+    --text-muted: #a0a0a0;         /* Gris cálido secundario */
+    --border-color: rgba(212, 175, 55, 0.15); /* Bordes sutiles con tono dorado */
+    
+    /* Semántica refinada y armónica */
+    --success-color: #2ea866;      /* Verde Esmeralda Muted (WhatsApp, éxito) */
+    --warning-red: #d93838;        /* Rojo Coral Elegante (advertencias, contacto) */
+    --accent-blue: #1e62a0;        /* Azul Acero Muted (PDF, noticias) */
+    --accent-orange: #ff9f1c;      /* Ámbar Cálido (comunidad, promo flash) */
+    --accent-color: #d4af37;       /* Mantener oro como color de acento principal */
 }
 
 * {
@@ -939,14 +945,14 @@ a {
 .counter-title {
     margin: 0 0 5px 0;
     font-size: 1rem;
-    color: var(--text-color);
+    color: var(--primary-color);
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
 .flip-counter {
     display: inline-flex;
-    background: #1a1a1a;
+    background: var(--dark-bg);
     padding: 6px;
     border-radius: 6px;
     box-shadow: inset 0 2px 10px rgba(0,0,0,0.8), 0 2px 4px rgba(0,0,0,0.4);
@@ -1545,33 +1551,33 @@ a {
 }
 
 .drawer-link.highlight-orange {
-    color: #ff9800;
+    color: var(--accent-orange);
 }
 .drawer-link.highlight-orange i {
-    color: #ff9800;
+    color: var(--accent-orange);
 }
 .drawer-link.highlight-orange:hover {
-    background: rgba(255, 152, 0, 0.12);
+    background: rgba(255, 159, 28, 0.12);
 }
 
 .drawer-link.highlight-red {
-    color: #e74c3c;
+    color: var(--warning-red);
 }
 .drawer-link.highlight-red i {
-    color: #e74c3c;
+    color: var(--warning-red);
 }
 .drawer-link.highlight-red:hover {
-    background: rgba(231, 76, 60, 0.12);
+    background: rgba(217, 56, 56, 0.12);
 }
 
 .drawer-link.highlight-blue {
-    color: #0071ce;
+    color: var(--accent-blue);
 }
 .drawer-link.highlight-blue i {
-    color: #0071ce;
+    color: var(--accent-blue);
 }
 .drawer-link.highlight-blue:hover {
-    background: rgba(0, 113, 206, 0.12);
+    background: rgba(30, 98, 160, 0.12);
 }
 
 /* ==========================================
@@ -1619,4 +1625,18 @@ a {
         font-size: 0.8rem;
         box-shadow: 0 3px 10px rgba(212, 175, 55, 0.3);
     }
+}
+
+/* RRSS Link Hover Brand Colors */
+.drawer-link.rrss-link[data-rrss="facebook"]:hover {
+    background: rgba(24, 119, 242, 0.12);
+    color: #1877f2 !important;
+}
+.drawer-link.rrss-link[data-rrss="instagram"]:hover {
+    background: rgba(225, 48, 108, 0.12);
+    color: #e1306c !important;
+}
+.drawer-link.rrss-link[data-rrss="tiktok"]:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff !important;
 }
