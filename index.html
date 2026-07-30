@@ -79,7 +79,7 @@
         </div>
     </div>
 
-    <div style="background-color: var(--warning-red); color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">
+    <div id="alcohol-warning-banner" style="background-color: var(--warning-red); color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">
         ADVERTENCIA: VENTA SÓLO A MAYORES DE 18 AÑOS. BEBE CON MODERACIÓN.
     </div>
     <header class="top-header">
@@ -110,14 +110,14 @@
 
     <nav class="main-nav">
         <div class="container nav-container">
-            <a href="#productos" class="active" data-category="PROMOCIONES">PROMOCIONES</a>
-            <a href="#productos" data-category="TODOS">Lista de Productos</a>
+            <a href="#productos" class="active" data-category="TODOS">Lista de Productos</a>
+            <a href="#productos" data-category="PROMOCIONES">PROMOCIONES</a>
             <a href="#productos" data-category="CERVEZA">CERVEZA</a>
             <a href="#productos" data-category="PISCO">PISCO</a>
             <a href="#productos" data-category="WHISKY">WHISKY</a>
             <a href="#productos" data-category="RON">RON</a>
             <a href="#" id="open-comunidad-btn" style="color: #ff9800; font-weight: bold;"><i class="fa-solid fa-users"></i> COMUNIDAD</a>
-            <a href="#productos" data-category="GIN">GIN</a>
+            <a href="#productos" data-category="RETORNABLE">Retornable</a>
             <a href="#productos" data-category="TEQUILA">TEQUILA</a>
             <a href="#productos" data-category="LICORES">LICORES</a>
             <a href="#productos" data-category="BEBIDAS">BEBIDAS</a>
@@ -155,7 +155,7 @@
             <div class="slider-container">
                 <div class="slider-track" id="sliderTrack">
                     <!-- Slide Advertencia (Primera) -->
-                    <div class="slide">
+                    <div class="slide" data-alcohol="true">
                         <img src="sello-advertencia.png" alt="Advertencia Alcohol" style="width: 100%; height: 100%; object-fit: contain; background-color: #000;">
                     </div>
                     <!-- Slide Eleodoro Publi (Nuevo) -->
@@ -163,7 +163,7 @@
                         <video data-src="eleodoropubli1.mp4.mp4" class="slider-video" muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
                     </div>
                     <!-- Slide Jack Daniels (Nueva) -->
-                    <div class="slide">
+                    <div class="slide" data-alcohol="true">
                         <img src="slicejack1.jpg.jpg" alt="Slide Jack Daniels" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <!-- Slide 1 (Video 6) -->

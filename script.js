@@ -1,32 +1,184 @@
 let updateBranchMenu = null;
-let baseCatalogo = catalogoProductos;
+let baseCatalogo = [];
+let setProducts = null;
+let scrollToProducts = null;
+let carrito = [];
+let saveCart = null;
+let renderCart = null;
+let selectedBranchName = null;
+
+// Global variables for slider
+let originalSlides = null;
+let autoPlayInterval = null;
+let currentSliderIndex = 0;
+let sliderTrack = null;
+let sliderSlides = [];
+let sliderDots = [];
+let numSlides = 0;
+
+function updateSlider() {
+    if (!sliderTrack || numSlides === 0) return;
+    const slideWidth = 100 / numSlides;
+    sliderTrack.style.transform = `translateX(-${currentSliderIndex * slideWidth}%)`;
+    
+    sliderDots.forEach((dot, index) => {
+        if (index === currentSliderIndex) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+
+    sliderSlides.forEach((slide, index) => {
+        const video = slide.querySelector('video.slider-video');
+        if (video) {
+            if (index === currentSliderIndex) {
+                const dataSrc = video.getAttribute('data-src');
+                if (dataSrc && !video.src) {
+                    video.src = dataSrc;
+                    video.load();
+                }
+                video.play().catch(err => console.log("Autoplay slider video prevented:", err));
+            } else {
+                video.pause();
+            }
+        }
+    });
+}
+
+function nextSlide() {
+    if (numSlides === 0) return;
+    currentSliderIndex = (currentSliderIndex + 1) % numSlides;
+    updateSlider();
+}
+
+function prevSlide() {
+    if (numSlides === 0) return;
+    currentSliderIndex = (currentSliderIndex - 1 + numSlides) % numSlides;
+    updateSlider();
+}
+
+function startAutoPlay() {
+    if (numSlides <= 1) return;
+    autoPlayInterval = setInterval(nextSlide, 5000);
+}
+
+function stopAutoPlay() {
+    if (autoPlayInterval) {
+        clearInterval(autoPlayInterval);
+    }
+}
+
+function initSlider(isCerroNavia) {
+    sliderTrack = document.getElementById('sliderTrack');
+    if (!sliderTrack) return;
+
+    if (!originalSlides) {
+        originalSlides = Array.from(sliderTrack.children);
+    }
+
+    stopAutoPlay();
+
+    // Filter slides
+    sliderSlides = originalSlides.filter(slide => {
+        const isAlcohol = slide.getAttribute('data-alcohol') === 'true';
+        return !(isCerroNavia && isAlcohol);
+    });
+
+    // Re-insert slides
+    sliderTrack.innerHTML = '';
+    sliderSlides.forEach(slide => sliderTrack.appendChild(slide));
+
+    // Dynamic dots generation
+    const dotsContainer = document.getElementById('sliderDots');
+    if (dotsContainer) {
+        dotsContainer.innerHTML = '';
+        sliderSlides.forEach((_, i) => {
+            const dot = document.createElement('span');
+            dot.className = i === 0 ? 'dot active' : 'dot';
+            dot.setAttribute('data-index', i);
+            dot.addEventListener('click', () => {
+                currentSliderIndex = i;
+                updateSlider();
+                stopAutoPlay();
+                startAutoPlay();
+            });
+            dotsContainer.appendChild(dot);
+        });
+        sliderDots = Array.from(dotsContainer.children);
+    }
+
+    currentSliderIndex = 0;
+    numSlides = sliderSlides.length;
+
+    sliderTrack.style.width = `${numSlides * 100}%`;
+    sliderSlides.forEach(slide => {
+        slide.style.width = `${100 / numSlides}%`;
+    });
+
+    updateSlider();
+    startAutoPlay();
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     updateBranchMenu = function(branchName) {
-        if (branchName === 'Cerro Navia') {
+        const isCerroNavia = branchName === 'Cerro Navia';
+        
+        if (isCerroNavia) {
             baseCatalogo = catalogoProductos.filter(p => {
                 if (!p) return false;
-                const category = p.category ? p.category.toUpperCase() : '';
-                const name = p.name ? p.name.toUpperCase() : '';
+                const category = p.category ? p.category.trim().toUpperCase() : '';
+                const name = p.name ? p.name.trim().toUpperCase() : '';
                 
-                const alcoholCategories = ['CERVEZA', 'LICORES', 'PISCO', 'WHISKY', 'RON', 'VODKA', 'GIN', 'TEQUILA', 'VINOS', 'ESPUMANTE'];
-                const alcoholKeywords = ['VINO', 'ESPUMANTE', 'CERVEZA', 'PISCO', 'RON', 'WHISKY', 'VODKA', 'GIN', 'LICOR'];
+                const alcoholCategories = ['CERVEZA', 'CERVEZAS', 'LICORES', 'LICOR', 'PISCO', 'PISCOS', 'WHISKY', 'WHISKIES', 'RON', 'RONES', 'VODKA', 'VODKAS', 'GIN', 'GINS', 'TEQUILA', 'TEQUILAS', 'VINOS', 'VINO', 'ESPUMANTE', 'ESPUMANTES'];
+                const alcoholKeywords = ['VINO', 'ESPUMANTE', 'CERVEZA', 'PISCO', 'RON', 'WHISKY', 'VODKA', 'GIN', 'LICOR', 'TEQUILA', 'ALCOHOL', 'CHAMPAGNE', 'CHAMPÁN', 'CHAMPAN', 'SIDRA', 'COCTEL', 'CÓCTEL', 'SANGRIA', 'SANGRÍA', 'MISTRAL', 'ALTO DEL CARMEN', 'CAPEL', 'CAMPARI', 'APEROL', 'FERNET', 'RAMAZZOTTI', 'JAGERMEISTER', 'JÄGERMEISTER', 'HEINEKEN', 'BUDWEISER', 'CORONA', 'CRISTAL', 'ESCUDO', 'ROYAL', 'KUNSTMANN', 'MADDERO', 'GORDONS', 'TANQUERAY', 'BUCHANAN', 'SANDY MAC', 'JOHNNIE', 'RED LABEL', 'BLACK LABEL', 'BALLANTINE', 'CHIVAS'];
 
                 if (alcoholCategories.includes(category)) return false;
                 if (alcoholKeywords.some(keyword => name.includes(keyword))) return false;
                 
                 return true;
             });
+
+            // Eliminar productos de alcohol del carrito si cambiamos a Cerro Navia
+            if (typeof carrito !== 'undefined') {
+                const originalLength = carrito.length;
+                carrito = carrito.filter(item => {
+                    if (!item) return false;
+                    const category = item.category ? item.category.trim().toUpperCase() : '';
+                    const name = item.name ? item.name.trim().toUpperCase() : '';
+                    
+                    const alcoholCategories = ['CERVEZA', 'CERVEZAS', 'LICORES', 'LICOR', 'PISCO', 'PISCOS', 'WHISKY', 'WHISKIES', 'RON', 'RONES', 'VODKA', 'VODKAS', 'GIN', 'GINS', 'TEQUILA', 'TEQUILAS', 'VINOS', 'VINO', 'ESPUMANTE', 'ESPUMANTES'];
+                    const alcoholKeywords = ['VINO', 'ESPUMANTE', 'CERVEZA', 'PISCO', 'RON', 'WHISKY', 'VODKA', 'GIN', 'LICOR', 'TEQUILA', 'ALCOHOL', 'CHAMPAGNE', 'CHAMPÁN', 'CHAMPAN', 'SIDRA', 'COCTEL', 'CÓCTEL', 'SANGRIA', 'SANGRÍA', 'MISTRAL', 'ALTO DEL CARMEN', 'CAPEL', 'CAMPARI', 'APEROL', 'FERNET', 'RAMAZZOTTI', 'JAGERMEISTER', 'JÄGERMEISTER', 'HEINEKEN', 'BUDWEISER', 'CORONA', 'CRISTAL', 'ESCUDO', 'ROYAL', 'KUNSTMANN', 'MADDERO', 'GORDONS', 'TANQUERAY', 'BUCHANAN', 'SANDY MAC', 'JOHNNIE', 'RED LABEL', 'BLACK LABEL', 'BALLANTINE', 'CHIVAS'];
+
+                    if (alcoholCategories.includes(category)) return false;
+                    if (alcoholKeywords.some(keyword => name.includes(keyword))) return false;
+                    
+                    return true;
+                });
+                if (carrito.length !== originalLength) {
+                    if (typeof saveCart === 'function') saveCart();
+                    if (typeof renderCart === 'function') renderCart();
+                }
+            }
         } else {
             baseCatalogo = catalogoProductos;
         }
+
+        // Ocultar la barra de advertencia de alcohol si es Cerro Navia
+        const warningBanner = document.getElementById('alcohol-warning-banner');
+        if (warningBanner) {
+            warningBanner.style.display = isCerroNavia ? 'none' : '';
+        }
+
+        // Reinicializar el slider para remover/mostrar slides de alcohol
+        initSlider(isCerroNavia);
         
         // Ocultar categorías de alcohol en el navbar si es Cerro Navia
         const navLinks = document.querySelectorAll('.nav-container a');
         navLinks.forEach(link => {
             const cat = link.getAttribute('data-category');
             if (cat && ['CERVEZA', 'PISCO', 'WHISKY', 'RON', 'VODKA', 'GIN', 'TEQUILA', 'LICORES'].includes(cat)) {
-                link.style.display = branchName === 'Cerro Navia' ? 'none' : '';
+                link.style.display = isCerroNavia ? 'none' : '';
             }
         });
 
@@ -39,8 +191,18 @@ document.addEventListener('DOMContentLoaded', () => {
             navLinks.forEach(l => l.classList.remove('active'));
             const btnTodos = document.querySelector('.nav-container a[data-category="TODOS"]');
             if (btnTodos) btnTodos.classList.add('active');
+
+            // Si es Cerro Navia, hacer scroll automático directamente hasta la sección de productos
+            if (isCerroNavia) {
+                setTimeout(() => {
+                    if (typeof scrollToProducts === 'function') {
+                        scrollToProducts();
+                    }
+                }, 150);
+            }
         }
     };
+
     // --- Modal de Edad ---
     const ageModal = document.getElementById('age-modal');
     const btnAgeYes = document.getElementById('btn-age-yes');
@@ -48,15 +210,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const ageErrorMsg = document.getElementById('age-error-msg');
 
     if (ageModal) {
-        // Mostrar SIEMPRE el modal de edad al entrar
-        ageModal.style.display = 'flex'; 
-        ageModal.classList.remove('hidden');
+        // Ocultar por defecto al entrar
+        ageModal.style.display = 'none'; 
+        ageModal.classList.add('hidden');
 
         if (btnAgeYes) {
             btnAgeYes.addEventListener('click', () => {
-                // Solo lo ocultamos temporalmente para esta sesión, sin guardarlo para siempre
                 ageModal.style.display = 'none';
+                ageModal.classList.add('hidden');
                 
+                // Cargar Laguna Sur tras verificar la edad
+                if (typeof updateBranchMenu === 'function') {
+                    updateBranchMenu('Laguna Sur');
+                }
+                console.log('Sucursal seleccionada tras verificación de edad: Laguna Sur');
+
                 // Reproducir audio inmediatamente
                 const audio = document.getElementById('bg-audio');
                 if (audio) {
@@ -66,7 +234,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (btnAgeNo) {
             btnAgeNo.addEventListener('click', () => {
-                ageErrorMsg.style.display = 'block';
+                if (ageErrorMsg) {
+                    ageErrorMsg.style.display = 'block';
+                }
             });
         }
     }
@@ -74,113 +244,51 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Modal de Sucursal (Home Principal) ---
     const branchSelector = document.getElementById('branch-selector');
     if (branchSelector) {
-        // SIEMPRE mostrar el home principal
         branchSelector.classList.remove('hidden');
         branchSelector.style.display = 'flex'; 
     }
 
-    const track = document.getElementById('sliderTrack');
-    const slides = Array.from(track.children);
+    // Iniciar Slider por defecto (sin filtro)
+    initSlider(false);
+
+    // Configurar listeners de botones del slider
     const nextBtn = document.getElementById('nextBtn');
     const prevBtn = document.getElementById('prevBtn');
-    const dots = Array.from(document.getElementById('sliderDots').children);
-
-    let currentIndex = 0;
-    let autoPlayInterval;
-
-    // Ajustar el ancho del track y los slides dinámicamente
-    const numSlides = slides.length;
-    track.style.width = `${numSlides * 100}%`;
-    slides.forEach(slide => {
-        slide.style.width = `${100 / numSlides}%`;
-    });
-
-    function updateSlider() {
-        const slideWidth = 100 / numSlides;
-        track.style.transform = `translateX(-${currentIndex * slideWidth}%)`;
-        
-        dots.forEach((dot, index) => {
-            if (index === currentIndex) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
-
-        // Carga diferida y control de videos en el slider
-        slides.forEach((slide, index) => {
-            const video = slide.querySelector('video.slider-video');
-            if (video) {
-                if (index === currentIndex) {
-                    const dataSrc = video.getAttribute('data-src');
-                    if (dataSrc && !video.src) {
-                        video.src = dataSrc;
-                        video.load();
-                    }
-                    video.play().catch(err => console.log("Autoplay slider video prevented:", err));
-                } else {
-                    video.pause();
-                }
-            }
-        });
-    }
-
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % slides.length;
-        updateSlider();
-    }
-
-    function prevSlide() {
-        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-        updateSlider();
-    }
-
-    function startAutoPlay() {
-        autoPlayInterval = setInterval(nextSlide, 5000);
-    }
-
-    function stopAutoPlay() {
-        clearInterval(autoPlayInterval);
-    }
-
-    nextBtn.addEventListener('click', () => {
-        nextSlide();
-        stopAutoPlay();
-        startAutoPlay();
-    });
-
-    prevBtn.addEventListener('click', () => {
-        prevSlide();
-        stopAutoPlay();
-        startAutoPlay();
-    });
-
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            currentIndex = index;
-            updateSlider();
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
             stopAutoPlay();
             startAutoPlay();
         });
-    });
+    }
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            stopAutoPlay();
+            startAutoPlay();
+        });
+    }
+    const trackContainer = document.querySelector('.slider-section');
+    if (trackContainer) {
+        trackContainer.addEventListener('mouseenter', stopAutoPlay);
+        trackContainer.addEventListener('mouseleave', startAutoPlay);
+    }
 
-    // Start auto slide
-    updateSlider();
-    startAutoPlay();
-    
-    // Pause on hover
-    track.parentElement.addEventListener('mouseenter', stopAutoPlay);
-    track.parentElement.addEventListener('mouseleave', startAutoPlay);
+    // Si ya se seleccionó una sucursal antes de que cargara el DOM, aplicarla ahora
+    if (selectedBranchName === 'Cerro Navia') {
+        updateBranchMenu('Cerro Navia');
+    } else if (selectedBranchName === 'Laguna Sur') {
+        if (ageModal) {
+            ageModal.classList.remove('hidden');
+            ageModal.style.display = 'flex';
+        }
+    }
 });
 
 // Global function for branch selection
 function selectBranch(branchName) {
-    // Hide the overlay
-    const overlay = document.getElementById('branch-selector');
-    if (overlay) {
-        overlay.classList.add('hidden');
-    }
-
+    selectedBranchName = branchName;
+    
     // Detener y liberar memoria del video de fondo del selector de sucursal
     const bgVideo = document.getElementById('bg-branch-video');
     if (bgVideo) {
@@ -196,18 +304,34 @@ function selectBranch(branchName) {
     // Ensure the page starts at the top
     window.scrollTo({ top: 0, behavior: 'instant' });
     
-    // Actualizar el menú según la sucursal
-    if (typeof updateBranchMenu === 'function') {
-        updateBranchMenu(branchName);
-    }
-    
-    // Ocultar el Home y pasar al menú
-    console.log('Sucursal seleccionada: ' + branchName);
+    const overlay = document.getElementById('branch-selector');
+    const ageModal = document.getElementById('age-modal');
 
-    // Reproducir audio inmediatamente
-    const audio = document.getElementById('bg-audio');
-    if (audio) {
-        audio.play().catch(e => console.log('Autoplay blocked on branch select:', e));
+    if (branchName === 'Cerro Navia') {
+        // Cerro Navia entra directo sin advertencia de edad
+        if (overlay) {
+            overlay.classList.add('hidden');
+            overlay.style.display = 'none';
+        }
+        if (typeof updateBranchMenu === 'function') {
+            updateBranchMenu('Cerro Navia');
+        }
+        console.log('Sucursal seleccionada: ' + branchName);
+        // Reproducir audio
+        const audio = document.getElementById('bg-audio');
+        if (audio) {
+            audio.play().catch(e => console.log('Autoplay blocked on branch select:', e));
+        }
+    } else if (branchName === 'Laguna Sur') {
+        // Laguna Sur requiere verificación de edad primero
+        if (overlay) {
+            overlay.classList.add('hidden');
+            overlay.style.display = 'none';
+        }
+        if (ageModal) {
+            ageModal.classList.remove('hidden');
+            ageModal.style.display = 'flex';
+        }
     }
 }
 
@@ -280,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const itemsPerPage = 100;
 
     // Función para manejar el array actual de productos
-    function setProducts(productosArray) {
+    setProducts = function(productosArray) {
         currentProducts = [...productosArray];
         aplicarOrdenamiento();
         currentPage = 1;
@@ -437,7 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function scrollToProducts() {
+    scrollToProducts = function() {
         if (productsSection) {
             const headerOffset = 100;
             const elementPosition = productsSection.getBoundingClientRect().top;
@@ -446,8 +570,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Inicializar con TODOS LOS PRODUCTOS de la sucursal actual
-    setProducts(baseCatalogo);
+    // Inicializar sin productos hasta seleccionar sucursal
+    // setProducts(baseCatalogo);
 
     // Navegación por categorías
     navLinks.forEach(link => {
@@ -531,7 +655,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Funcionalidad del Carrito ---
-    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     const openCartBtn = document.getElementById('open-cart-btn');
     const cartIconBtn = document.getElementById('cart-icon-btn');
     const closeCartBtn = document.getElementById('close-cart-btn');
@@ -632,7 +756,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function saveCart() {
+    saveCart = function() {
         localStorage.setItem('carrito', JSON.stringify(carrito));
         updateCartCount();
     }
@@ -648,7 +772,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCart();
     };
 
-    function renderCart() {
+    renderCart = function() {
         // Limpiar items corruptos (del bug anterior)
         carrito = carrito.filter(item => item && item.id && item.price != null);
         
