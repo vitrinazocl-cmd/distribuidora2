@@ -39,7 +39,7 @@ const catalogoProductos = [
 { id: 'VIT330', name: "VITAL 330 ML VIDRIO X 12UNID.", price: 8280, category: "AGUA", image: "catalogo/VIT330.jpeg", flavors: ["CON GAS", "SIN GAS"] },
 { id: 'VITP', name: "VITAL 1LT x 6 unidades", price: 4750, category: "AGUA", image: "catalogo/VITP.jpg", flavors: ["SIN GAS"] },
 { id: 'VITSG16', name: "VITAL 1.6LT", price: 4866, category: "AGUA", image: "catalogo/VITSG16.jpeg", flavors: ["CON GAS", "SIN GAS"] },
-{ id: 'VITSG600', name: "VITAL 600ML", price: 5940, category: "AGUA", image: "catalogo/VITSG600.jpeg", flavors: ["CON GAS", "SIN GAS"] },
+{ id: 'VITSG600', name: "VITAL 600ML x 12 unidades", price: 5940, category: "AGUA", image: "catalogo/VITSG600.jpeg", flavors: ["CON GAS", "SIN GAS"] },
 { id: 'ALOEO', name: "ALOE VERA 500ML X CAJA", price: 17952, category: "BEBIDAS", image: "catalogo/ALOEO.jpeg", flavors: ["ORIGINAL", "PIÑA", "FRUTILLA", "MANGO", "DURAZNO", "GRANADA", "COCO"], agotado: true },
 { id: 'ENER250', name: "SCORE ENERGY DRINK 250 ML x 16 unidades", price: 13000, category: "ENERGÃ‰TICAS", image: "catalogo/ENER250.jpeg", flavors: ["ORIGINAL", "SANDIA", "FRUTOS TROPICALES"] },
 { id: 'ENERGY', name: "SCORE ENERGY DRINK 500 ML x 24 unidades", price: 18000, category: "ENERGÃ‰TICAS", image: "catalogo/ENERGY.jpeg", flavors: ["ORIGINAL", "SANDIA", "FRUTOS TROPICALES"] },
