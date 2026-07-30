@@ -465,6 +465,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const oldPrice = prod.price ? Math.floor(prod.price * 1.3) : 0;
             const savings = oldPrice - (prod.price || 0);
 
+            // Calcular cantidad de unidades y precio unitario dinámicamente
+            const upperName = nameStr.toUpperCase();
+            let qty = 1;
+            const matchX = upperName.match(/\bX\s*(\d+)/);
+            if (matchX) {
+                qty = parseInt(matchX[1], 10);
+            } else {
+                const matchUnits = upperName.match(/(\d+)\s*(?:UNIDADES|UNIDAD|UNID|U|BEBIDAS|FRASCOS|POTS|LATAS|LIBRAS|PACK|CAJA)\b/);
+                if (matchUnits) {
+                    qty = parseInt(matchUnits[1], 10);
+                }
+            }
+            const unitPrice = prod.price ? Math.round(prod.price / qty) : 0;
+            const unitPriceStr = unitPrice.toLocaleString('es-CL');
+
             html += `
             <div class="product-card falabella-style" data-id="${prod.id}">
                 <div class="product-image-container">
@@ -491,6 +506,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span class="savings-badge">Ahorra $${savings.toLocaleString('es-CL')}</span>
                         </div>
                         ` : ''}
+                    </div>
+
+                    <div class="unit-price-label" style="font-size: 13px; color: #27ae60; font-weight: 700; margin-top: 5px; margin-bottom: 12px; background-color: rgba(39, 174, 96, 0.08); padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                        Precio unitario: $${unitPriceStr} c/u
                     </div>
 
                     <div class="action-container">
