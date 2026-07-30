@@ -48,7 +48,7 @@ const catalogoProductos = [
 { id: 'SCOREG', name: "SCORE 473ML x 24 unidades", price: 19680, category: "ENERGÃ‰TICAS", image: "catalogo/SCOREG.jpeg", flavors: ["GORILLA", "FRUIT PUNSH", "MANGO", "MOJITO", "BUBLE GUM", "ORIGINAL", "WATER MELON", "RADICAL WHILE"] },
 { id: 'SOPA', name: "SOPA MOLINOVA 94G X CAJA DE 9 unidades", price: 9000, category: "BEBIDAS", image: "catalogo/SOPA.jpeg", flavors: ["POLLO", "CARNE", "CARNE PICANTE", "CAMARON"] },
 { id: 'KFE', name: "CAFE HELADO NESCAFE X 6 UNID.", price: 9300, category: "BEBIDAS", image: "catalogo/KFE.jpg", flavors: ["LATE", "MOCKA", "ORIGINAL"] },
-{ id: 'CRISLT', name: "CRISTAL LATA 470CC", price: 16560, category: "CERVEZA", image: "catalogo/CRISLT.jpg" },
+{ id: 'CRISLT', name: "CRISTAL LATA 470CC x 24 unidades", price: 16560, category: "CERVEZA", image: "catalogo/CRISLT.jpg" },
 { id: 'CRIS12', name: "CRISTAL LATA 470cc X12UNID", price: 8520, category: "CERVEZA", image: "catalogo/CRIS12.jpg" },
 { id: 'PISAL', name: "PISCO ALTO DEL CARMEN 1LT", price: 6400, category: "PISCO", image: "catalogo/PISAL.jpg" },
 { id: 'WHISBUCH', name: "WHISKY BUCHANANS DELUXE 750 CC", price: 24230, category: "WHISKY", image: "catalogo/WHISBUCH.jpg" },
