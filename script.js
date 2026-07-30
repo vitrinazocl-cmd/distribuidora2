@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Ocultar categorías de alcohol en el navbar si es Cerro Navia
-        const navLinks = document.querySelectorAll('.drawer-content a');
+        const navLinks = document.querySelectorAll('.nav-container a');
         navLinks.forEach(link => {
             const cat = link.getAttribute('data-category');
             if (cat && ['CERVEZA', 'PISCO', 'WHISKY', 'RON', 'VODKA', 'GIN', 'TEQUILA', 'LICORES'].includes(cat)) {
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (productsTitle) productsTitle.textContent = 'TODOS LOS PRODUCTOS';
             
             navLinks.forEach(l => l.classList.remove('active'));
-            const btnTodos = document.querySelector('.drawer-content a[data-category="TODOS"]');
+            const btnTodos = document.querySelector('.nav-container a[data-category="TODOS"]');
             if (btnTodos) btnTodos.classList.add('active');
         }
     };
@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const productsGrid = document.getElementById('products-grid');
-    const navLinks = document.querySelectorAll('.drawer-content a');
+    const navLinks = document.querySelectorAll('.nav-container a');
     const productsTitle = document.getElementById('productos-title');
     const productsSection = document.getElementById('productos');
     const sortSelect = document.getElementById('sort-select');
@@ -1091,46 +1091,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- Menú Hamburgesa Drawer (Navegación Lateral) ---
-document.addEventListener('DOMContentLoaded', () => {
-    const hamburgerBtn = document.getElementById('hamburger-menu-btn');
-    const closeDrawerBtn = document.getElementById('close-drawer-btn');
-    const navDrawer = document.getElementById('nav-drawer');
-    const drawerOverlay = document.getElementById('drawer-overlay');
-    const drawerLinks = document.querySelectorAll('.drawer-link');
-
-    if (hamburgerBtn && navDrawer && drawerOverlay) {
-        const openDrawer = () => {
-            navDrawer.classList.add('open');
-            drawerOverlay.classList.add('visible');
-            document.body.style.overflow = 'hidden'; // Evitar scroll del body en móviles
-        };
-
-        const closeDrawer = () => {
-            navDrawer.classList.remove('open');
-            drawerOverlay.classList.remove('visible');
-            document.body.style.overflow = ''; // Restaurar scroll
-        };
-
-        hamburgerBtn.addEventListener('click', openDrawer);
-        
-        if (closeDrawerBtn) {
-            closeDrawerBtn.addEventListener('click', closeDrawer);
-        }
-        
-        drawerOverlay.addEventListener('click', closeDrawer);
-
-        // Cerrar el menú al hacer clic en categorías (excepto en descargas)
-        drawerLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                if (!link.hasAttribute('download')) {
-                    closeDrawer();
-                }
-            });
-        });
-    }
-});
-
 // --- Botón de Catálogo en el Slider (Esquina inferior izquierda) ---
 document.addEventListener('DOMContentLoaded', () => {
     const sliderCatalogBtn = document.getElementById('slider-catalog-btn');
@@ -1139,7 +1099,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             
             // Simular clic en la categoría "TODOS" en el menú para restablecer filtros y scrollear
-            const btnTodos = document.querySelector('.drawer-content a[data-category="TODOS"]');
+            const btnTodos = document.querySelector('.nav-container a[data-category="TODOS"]');
             if (btnTodos) {
                 btnTodos.click();
             } else {
@@ -1151,96 +1111,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
                     window.scrollTo({ top: offsetPosition, behavior: "smooth" });
                 }
-            }
-        });
-    }
-});
-
-// --- Visor de Redes Sociales (RRSS) ---
-document.addEventListener('DOMContentLoaded', () => {
-    const rrssLinks = document.querySelectorAll('.rrss-link');
-    const rrssModal = document.getElementById('rrss-modal');
-    const rrssTitle = document.getElementById('rrss-modal-title');
-    const rrssBody = document.getElementById('rrss-modal-body');
-    const closeRrssBtn = document.getElementById('close-rrss-btn');
-    const navDrawer = document.getElementById('nav-drawer');
-    const drawerOverlay = document.getElementById('drawer-overlay');
-
-    if (rrssLinks.length > 0 && rrssModal && rrssTitle && rrssBody) {
-        rrssLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Cerrar el drawer lateral al abrir RRSS
-                if (navDrawer && navDrawer.classList.contains('open')) {
-                    navDrawer.classList.remove('open');
-                    if (drawerOverlay) drawerOverlay.classList.remove('open');
-                }
-
-                const platform = link.getAttribute('data-rrss');
-                
-                // Limpiar body
-                rrssBody.innerHTML = '<div style="color: var(--primary-color); font-weight: bold; text-align: center;"><i class="fa-solid fa-spinner fa-spin fa-2x"></i><p style="margin-top:10px;">Cargando contenido...</p></div>';
-                
-                // Mostrar modal
-                rrssModal.classList.remove('hidden');
-                rrssModal.style.display = 'flex';
-
-                setTimeout(() => {
-                    if (platform === 'facebook') {
-                        rrssTitle.innerHTML = '<i class="fa-brands fa-facebook" style="color: #1877f2; margin-right: 10px;"></i> Facebook - Eleodoro el Grande';
-                        rrssBody.innerHTML = `
-                            <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fp%2FDistribuidora-Eleodoro-El-Grande-100066830753034%2F&tabs=timeline&width=500&height=550&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true" 
-                                width="100%" 
-                                height="550" 
-                                style="border:none; overflow:hidden; border-radius: 8px; max-width: 500px; width: 100%; margin: auto;" 
-                                scrolling="no" 
-                                frameborder="0" 
-                                allowfullscreen="true" 
-                                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-                            </iframe>`;
-                    } else if (platform === 'tiktok') {
-                        rrssTitle.innerHTML = '<i class="fa-brands fa-tiktok" style="color: #ffffff; margin-right: 10px;"></i> TikTok - @eleodoroelgrande';
-                        rrssBody.innerHTML = `
-                            <iframe src="https://www.tiktok.com/embed/@eleodoroelgrande" 
-                                width="100%" 
-                                height="550" 
-                                style="border:none; overflow:hidden; border-radius: 8px; background: #000; max-width: 500px; width: 100%; margin: auto;" 
-                                scrolling="yes" 
-                                frameborder="0" 
-                                allowfullscreen="true">
-                            </iframe>`;
-                    } else if (platform === 'instagram') {
-                        rrssTitle.innerHTML = '<i class="fa-brands fa-instagram" style="color: #e1306c; margin-right: 10px;"></i> Instagram - @eleodoroelgrande61';
-                        rrssBody.innerHTML = `
-                            <div style="text-align: center; color: white; font-family: 'Roboto', sans-serif; padding: 30px; max-width: 400px; margin: auto;">
-                                <i class="fa-brands fa-instagram" style="font-size: 80px; background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px;"></i>
-                                <h3 style="font-size: 1.4rem; margin-bottom: 15px; text-transform: uppercase;">Instagram Eleodoro</h3>
-                                <p style="color: #ccc; font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px;">
-                                    Instagram no permite mostrar perfiles completos dentro de otras páginas por su política de privacidad.
-                                </p>
-                                <a href="https://www.instagram.com/eleodoroelgrande61/" target="_blank" class="slider-catalog-btn" style="display: inline-flex; justify-content: center; width: 100%; box-shadow: 0 4px 15px rgba(225, 48, 108, 0.4); background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%); color: white; border: none; font-weight: bold; text-decoration: none;">
-                                    <i class="fa-brands fa-instagram"></i> Abrir Instagram Oficial
-                                </a>
-                            </div>`;
-                    }
-                }, 500);
-            });
-        });
-
-        if (closeRrssBtn) {
-            closeRrssBtn.addEventListener('click', () => {
-                rrssModal.classList.add('hidden');
-                rrssModal.style.display = 'none';
-                rrssBody.innerHTML = ''; 
-            });
-        }
-
-        rrssModal.addEventListener('click', (e) => {
-            if (e.target === rrssModal) {
-                rrssModal.classList.add('hidden');
-                rrssModal.style.display = 'none';
-                rrssBody.innerHTML = '';
             }
         });
     }
