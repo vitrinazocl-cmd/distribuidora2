@@ -479,15 +479,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const unitPrice = prod.price ? Math.round(prod.price / qty) : 0;
             const unitPriceStr = unitPrice.toLocaleString('es-CL');
+            const isAgotado = prod.agotado === true;
 
             html += `
-            <div class="product-card falabella-style" data-id="${prod.id}">
-                <div class="product-image-container">
+            <div class="product-card falabella-style" data-id="${prod.id}" style="${isAgotado ? 'opacity: 0.85;' : ''}">
+                <div class="product-image-container" style="position: relative;">
                     <img class="mini-logo-overlay" src="logo_transparente.png" alt="Logo" loading="lazy">
-                    <img src="${imageStr}" alt="${nameStr}" loading="lazy">
+                    <img src="${imageStr}" alt="${nameStr}" loading="lazy" style="${isAgotado ? 'filter: grayscale(100%) opacity(0.6);' : ''}">
+                    ${isAgotado ? '<div class="agotado-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); display: flex; align-items: center; justify-content: center; color: #d32f2f; font-weight: 900; font-size: 22px; letter-spacing: 2px; text-transform: uppercase;">AGOTADO</div>' : ''}
                 </div>
                 <div class="product-info-container">
-                    ${savings > 0 ? '<div class="rebaja-badge"><i class="fa-solid fa-arrow-down"></i> Rebaja</div>' : ''}
+                    ${savings > 0 && !isAgotado ? '<div class="rebaja-badge"><i class="fa-solid fa-arrow-down"></i> Rebaja</div>' : ''}
                     <h4 class="brand-title">${prod.category || 'VARIOS'}</h4>
                     <h3 class="product-title">${nameStr}</h3>
                     <div class="rating-container">
@@ -500,7 +502,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     <div class="price-container">
                         <div class="main-price">$${priceStr}</div>
-                        ${savings > 0 ? `
+                        ${savings > 0 && !isAgotado ? `
                         <div class="old-price-row">
                             <span class="old-price">$${oldPrice.toLocaleString('es-CL')}</span>
                             <span class="savings-badge">Ahorra $${savings.toLocaleString('es-CL')}</span>
@@ -516,15 +518,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
                             <div style="display: flex; gap: 10px; align-items: center;">
                                 <label style="font-size: 13px; color: #555; font-weight: 600;">CANT:</label>
-                                <input type="number" class="product-qty" min="1" max="50" value="1" style="width: 60px;">
+                                <input type="number" class="product-qty" min="1" max="50" value="1" style="width: 60px;" ${isAgotado ? 'disabled' : ''}>
                             </div>
                             ${prod.flavors && prod.flavors.length > 0 ? `
-                            <select class="product-flavor" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc; font-size: 13px;">
+                            <select class="product-flavor" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc; font-size: 13px;" ${isAgotado ? 'disabled' : ''}>
                                 ${prod.flavors.map(f => `<option value="${f}">${f}</option>`).join('')}
                             </select>
                             ` : ''}
                         </div>
+                        ${isAgotado ? `
+                        <button class="add-to-cart-btn fb-blue-btn" disabled style="background-color: #ccc; border-color: #ccc; color: #666; cursor: not-allowed; opacity: 0.8;">Agotado</button>
+                        ` : `
                         <button class="add-to-cart-btn fb-blue-btn">Agregar al carro</button>
+                        `}
                     </div>
                 </div>
             </div>`;
@@ -730,6 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
         productsGrid.addEventListener('click', (e) => {
             if(e.target.closest('.add-to-cart-btn')) {
                 const btn = e.target.closest('.add-to-cart-btn');
+                if (btn.disabled) return;
                 const card = btn.closest('.product-card');
                 const id = card.getAttribute('data-id');
 
