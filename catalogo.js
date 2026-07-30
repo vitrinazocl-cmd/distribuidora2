@@ -46,7 +46,7 @@ const catalogoProductos = [
 { id: 'FR2', name: "Fruna 2.0 LT x 6 unidades", price: 3490, category: "BEBIDAS", image: "catalogo/FR2.jpg", flavors: ["COLA", "PIÑA", "PAPAYA", "NARANJA", "LIMON SODA", "FRUTAL", "GINGER ALE"] },
 { id: 'FR500', name: "Fruna 500ml x 12 unidades", price: 3590, category: "BEBIDAS", image: "catalogo/FR500.jpg", flavors: ["COLA", "PIÑA", "PAPAYA", "NARANJA", "LIMON SODA", "FRUTAL", "GINGER ALE"] },
 { id: 'SCOREG', name: "SCORE 473ML x 24 unidades", price: 19680, category: "ENERGÃ‰TICAS", image: "catalogo/SCOREG.jpeg", flavors: ["GORILLA", "FRUIT PUNSH", "MANGO", "MOJITO", "BUBLE GUM", "ORIGINAL", "WATER MELON", "RADICAL WHILE"] },
-{ id: 'SOPA', name: "SOPA MOLINOVA 94G X CAJA", price: 9000, category: "BEBIDAS", image: "catalogo/SOPA.jpeg", flavors: ["POLLO", "CARNE", "CARNE PICANTE", "CAMARON"] },
+{ id: 'SOPA', name: "SOPA MOLINOVA 94G X CAJA DE 9 unidades", price: 9000, category: "BEBIDAS", image: "catalogo/SOPA.jpeg", flavors: ["POLLO", "CARNE", "CARNE PICANTE", "CAMARON"] },
 { id: 'KFE', name: "CAFE HELADO NESCAFE X 6 UNID.", price: 9300, category: "BEBIDAS", image: "catalogo/KFE.jpg", flavors: ["LATE", "MOCKA", "ORIGINAL"] },
 { id: 'CRISLT', name: "CRISTAL LATA 470CC", price: 16560, category: "CERVEZA", image: "catalogo/CRISLT.jpg" },
 { id: 'CRIS12', name: "CRISTAL LATA 470cc X12UNID", price: 8520, category: "CERVEZA", image: "catalogo/CRIS12.jpg" },
