@@ -87,7 +87,7 @@ const catalogoProductos = [
 { id: 'LIFE3', name: "AGUA LIFE 3 LT x 6 unidades", price: 3590, category: "AGUA", image: "catalogo/LIFE3.jpeg", flavors: ["CON GAS", "SIN GAS"] },
 { id: 'LIN', name: "ENCENDEDOR LIN", price: 2100, category: "BEBIDAS", image: "catalogo/LIN.jpg" },
 { id: 'ROY470', name: "ROYAL 470 X 24 UNID", price: 18960, category: "CERVEZA", image: "catalogo/ROY470.jpeg" },
-{ id: 'SOL650', name: "SOL 650", price: 12000, category: "CERVEZA", image: "productos full/WhatsApp Image 2026-06-30 at 19.08.37 (4).jpeg" },
+{ id: 'SOL650', name: "SOL 650 x 12 unidades", price: 12000, category: "CERVEZA", image: "productos full/WhatsApp Image 2026-06-30 at 19.08.37 (4).jpeg" },
 { id: 'SX', name: "SUEROX 630ML SURTIDO", price: 17880, category: "BEBIDAS", image: "catalogo/SX.jpeg", flavors: ["SURTIDO"] },
 { id: 'SXF', name: "FASTYLE 630ML X 6UNID", price: 7900, category: "BEBIDAS", image: "catalogo/SXF.jpg", flavors: ["TROPICAL BLUE", "FRUTILLA", "FRUTILLA KIWI"] },
 { id: 'ZO', name: "ENERGY ZOOM 473 ML x 24 unidades", price: 15600, category: "ENERGÃ‰TICAS", image: "catalogo/ZO.jpeg", flavors: ["ZOOM PURPLE", "ZOOM WHITE"] },
