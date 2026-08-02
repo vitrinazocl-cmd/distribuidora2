@@ -454,8 +454,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const priceStr = (prod.price !== undefined && prod.price !== null) ? prod.price.toLocaleString('es-CL') : '0';
             const nameStr = prod.name || 'Sin Nombre';
             
-            // Usar la versión WebP optimizada y unificada por ID de producto
-            const imageStr = prod.id ? `catalogo/${prod.id}.webp` : (prod.image || 'logo.jpg.jpeg');
+            // Usar la imagen especificada en el catálogo o construirla con el ID de producto
+            const imageStr = prod.image || (prod.id ? `catalogo/${prod.id}.webp` : 'logo.jpg.jpeg');
 
             // Generar "opiniones" aleatorias para darle el estilo de Falabella
             const rating = (Math.random() * (5 - 4) + 4).toFixed(1);

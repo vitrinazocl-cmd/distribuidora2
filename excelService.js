@@ -78,6 +78,10 @@ async function actualizarInventario(carrito) {
                 const rowValue = String(row[idCol]).toUpperCase();
                 
                 let searchId = String(item.id).toUpperCase();
+                // Si el ID contiene un guión (ej: LIFE3-01) y no es Jaba Mixta, usar el ID base
+                if (searchId.includes('-') && !searchId.startsWith('JABAMIX')) {
+                    searchId = searchId.split('-')[0];
+                }
                 // Adaptación especial para la Jaba Mixta: 
                 // Aunque en el carrito se llame JABAMIX-5-2-3, en el Excel buscaremos la fila JM10
                 if (searchId.startsWith('JABAMIX')) {
