@@ -5,7 +5,7 @@ const path = require('path');
 const { WebpayPlus } = require('transbank-sdk');
 require('dotenv').config(); // Cargar variables de entorno
 
-const excelService = require('./excelService'); // Importar el servicio de Excel
+const dbService = require('./dbService'); // Importar el servicio de base de datos Postgres
 
 // Objeto en memoria para guardar carritos temporales
 const ordenesPendientes = new Map();
@@ -115,8 +115,8 @@ app.get('/api/confirmar-pago', async (req, res) => {
             const ordenData = ordenesPendientes.get(response.buy_order);
             
             if (ordenData) {
-                // Descontar inventario en Excel
-                await excelService.actualizarInventario(ordenData.carrito);
+                // Descontar inventario en PostgreSQL
+                await dbService.actualizarInventario(ordenData.carrito);
                 
                 // Limpiar de memoria
                 ordenesPendientes.delete(response.buy_order);
