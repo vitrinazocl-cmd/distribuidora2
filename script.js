@@ -1751,6 +1751,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const muteBtn = document.getElementById('audio-mute-btn');
 
     if (audio && playBtn && muteBtn) {
+        // Establecer el volumen de reproducción a la mitad (50%)
+        audio.volume = 0.5;
+
         // Función para actualizar iconos
         const updatePlayerUI = () => {
             // Icono Play/Pause
