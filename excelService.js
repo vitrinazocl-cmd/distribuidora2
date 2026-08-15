@@ -87,6 +87,24 @@ async function actualizarInventario(carrito) {
                 if (searchId.startsWith('JABAMIX')) {
                     searchId = 'JM10';
                 }
+                if (searchId.startsWith('AND125_MIX')) {
+                    searchId = 'AND125';
+                }
+                if (searchId.startsWith('AND2_MIX')) {
+                    searchId = 'AND2';
+                }
+                if (searchId.startsWith('AND3_MIX')) {
+                    searchId = 'AND3';
+                }
+                if (searchId.startsWith('EXPRB_MIX')) {
+                    searchId = 'EXPRB';
+                }
+                if (searchId.startsWith('L125_MIX')) {
+                    searchId = 'L125';
+                }
+                if (searchId.startsWith('L2_MIX')) {
+                    searchId = 'L2';
+                }
 
                 return rowValue === searchId || 
                        rowValue.includes(String(item.name).toUpperCase());

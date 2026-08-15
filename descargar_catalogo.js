@@ -53,7 +53,8 @@ async function run() {
             const descUpper = descripcion.toUpperCase();
             let category = 'OTROS';
 
-            if (descUpper.match(/AGUA|CACHANTUN|BENECDITINO|VITAL/)) category = 'AGUA';
+            if (descUpper.match(/RETORNABLE/)) category = 'RETORNABLE';
+            else if (descUpper.match(/AGUA|CACHANTUN|BENECDITINO|VITAL/)) category = 'AGUA';
             else if (descUpper.match(/CERVEZA|CRISTAL|ESCUDO|ROYAL|CORONA|BAVARIA|SOL|HEINEKEN|KUNSTMANN/)) category = 'CERVEZA';
             else if (descUpper.match(/PISCO|WHISKY|RON|VODKA|GIN|TEQUILA|ESPUMANTE|ALTO DEL CARMEN|MISTRAL/)) category = 'LICORES';
             else if (descUpper.match(/RED BULL|MONSTER|SCORE|ENERGY/)) category = 'ENERGÉTICAS';

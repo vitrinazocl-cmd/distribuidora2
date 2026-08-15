@@ -756,6 +756,116 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
+                if (id === 'AND125_MIX') {
+                    const customRetModal = document.getElementById('custom-retornable-modal');
+                    if (customRetModal) {
+                        document.getElementById('qty-ret-coca').value = 0;
+                        document.getElementById('qty-ret-zero').value = 0;
+                        document.getElementById('qty-ret-fanta').value = 0;
+                        document.getElementById('qty-ret-sprite').value = 0;
+                        document.getElementById('qty-ret-inca').value = 0;
+                        document.getElementById('custom-ret-total-selected').textContent = '0';
+                        const addRetBtn = document.getElementById('add-custom-ret-btn');
+                        addRetBtn.disabled = true;
+                        addRetBtn.style.opacity = '0.5';
+                        addRetBtn.style.cursor = 'not-allowed';
+                        customRetModal.classList.remove('hidden');
+                    }
+                    return;
+                }
+
+                if (id === 'AND2_MIX') {
+                    const customRet2Modal = document.getElementById('custom-retornable-2lt-modal');
+                    if (customRet2Modal) {
+                        document.getElementById('qty-ret2-coca').value = 0;
+                        document.getElementById('qty-ret2-zero').value = 0;
+                        document.getElementById('qty-ret2-fanta').value = 0;
+                        document.getElementById('qty-ret2-sprite').value = 0;
+                        document.getElementById('qty-ret2-inca').value = 0;
+                        document.getElementById('custom-ret2-total-selected').textContent = '0';
+                        const addRet2Btn = document.getElementById('add-custom-ret2-btn');
+                        addRet2Btn.disabled = true;
+                        addRet2Btn.style.opacity = '0.5';
+                        addRet2Btn.style.cursor = 'not-allowed';
+                        customRet2Modal.classList.remove('hidden');
+                    }
+                    return;
+                }
+
+                if (id === 'AND3_MIX') {
+                    const customRet3Modal = document.getElementById('custom-retornable-3lt-modal');
+                    if (customRet3Modal) {
+                        document.getElementById('qty-ret3-coca').value = 0;
+                        document.getElementById('qty-ret3-zero').value = 0;
+                        document.getElementById('qty-ret3-fanta').value = 0;
+                        document.getElementById('qty-ret3-sprite').value = 0;
+                        document.getElementById('custom-ret3-total-selected').textContent = '0';
+                        const addRet3Btn = document.getElementById('add-custom-ret3-btn');
+                        addRet3Btn.disabled = true;
+                        addRet3Btn.style.opacity = '0.5';
+                        addRet3Btn.style.cursor = 'not-allowed';
+                        customRet3Modal.classList.remove('hidden');
+                    }
+                    return;
+                }
+
+                if (id === 'EXPRB_MIX') {
+                    const customExccuModal = document.getElementById('custom-retornable-exccu-modal');
+                    if (customExccuModal) {
+                        document.getElementById('qty-exccu-pepsi').value = 0;
+                        document.getElementById('qty-exccu-pepsizero').value = 0;
+                        document.getElementById('qty-exccu-kem').value = 0;
+                        document.getElementById('qty-exccu-bilz').value = 0;
+                        document.getElementById('qty-exccu-pap').value = 0;
+                        document.getElementById('qty-exccu-limonsoda').value = 0;
+                        document.getElementById('custom-exccu-total-selected').textContent = '0';
+                        const addExccuBtn = document.getElementById('add-custom-exccu-btn');
+                        addExccuBtn.disabled = true;
+                        addExccuBtn.style.opacity = '0.5';
+                        addExccuBtn.style.cursor = 'not-allowed';
+                        customExccuModal.classList.remove('hidden');
+                    }
+                    return;
+                }
+
+                if (id === 'L125_MIX') {
+                    const customCcu125Modal = document.getElementById('custom-retornable-ccu125-modal');
+                    if (customCcu125Modal) {
+                        document.getElementById('qty-ccu125-pepsi').value = 0;
+                        document.getElementById('qty-ccu125-bilz').value = 0;
+                        document.getElementById('qty-ccu125-pap').value = 0;
+                        document.getElementById('qty-ccu125-kem').value = 0;
+                        document.getElementById('qty-ccu125-pepsizero').value = 0;
+                        document.getElementById('qty-ccu125-limonsoda').value = 0;
+                        document.getElementById('custom-ccu125-total-selected').textContent = '0';
+                        const addCcu125Btn = document.getElementById('add-custom-ccu125-btn');
+                        addCcu125Btn.disabled = true;
+                        addCcu125Btn.style.opacity = '0.5';
+                        addCcu125Btn.style.cursor = 'not-allowed';
+                        customCcu125Modal.classList.remove('hidden');
+                    }
+                    return;
+                }
+
+                if (id === 'L2_MIX') {
+                    const customCcu2Modal = document.getElementById('custom-retornable-ccu2-modal');
+                    if (customCcu2Modal) {
+                        document.getElementById('qty-ccu2-pepsi').value = 0;
+                        document.getElementById('qty-ccu2-pepsizero').value = 0;
+                        document.getElementById('qty-ccu2-bilz').value = 0;
+                        document.getElementById('qty-ccu2-pap').value = 0;
+                        document.getElementById('qty-ccu2-kem').value = 0;
+                        document.getElementById('qty-ccu2-limonsoda').value = 0;
+                        document.getElementById('custom-ccu2-total-selected').textContent = '0';
+                        const addCcu2Btn = document.getElementById('add-custom-ccu2-btn');
+                        addCcu2Btn.disabled = true;
+                        addCcu2Btn.style.opacity = '0.5';
+                        addCcu2Btn.style.cursor = 'not-allowed';
+                        customCcu2Modal.classList.remove('hidden');
+                    }
+                    return;
+                }
+
                 const qtyInput = card.querySelector('.product-qty');
                 const quantity = parseInt(qtyInput.value) || 1;
                 
@@ -763,9 +873,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const flavor = flavorSelect ? flavorSelect.value : null;
 
                 // Buscar el producto en el catálogo base de la sucursal
-                const productoSeleccionado = baseCatalogo.find(p => p.id === id);
+                const originalProduct = baseCatalogo.find(p => p.id === id);
+                if (!originalProduct) return;
+
+                let productoSeleccionado = { ...originalProduct };
                 
-                const existingItem = carrito.find(item => item.id === id && item.flavor === flavor);
+                // Mapear ID y Nombre específicos si tiene flavorIds definido
+                if (flavor && productoSeleccionado.flavorIds && productoSeleccionado.flavorIds[flavor]) {
+                    productoSeleccionado.id = productoSeleccionado.flavorIds[flavor];
+                    productoSeleccionado.name = `${productoSeleccionado.name} - ${flavor}`;
+                }
+                
+                const existingItem = carrito.find(item => item.id === productoSeleccionado.id && item.flavor === flavor);
                 if(existingItem) {
                     existingItem.quantity += quantity;
                     if(existingItem.quantity > 50) existingItem.quantity = 50;
@@ -1004,6 +1123,516 @@ document.addEventListener('DOMContentLoaded', () => {
                 customModal.classList.add('hidden');
                 
                 alert('¡Jaba Mixta agregada al carro!');
+            });
+        }
+    }
+
+    // Custom Retornable 1.25L Modal Logic
+    const customRetModal = document.getElementById('custom-retornable-modal');
+    const closeCustomRetBtn = document.getElementById('close-custom-ret-btn');
+    const addCustomRetBtn = document.getElementById('add-custom-ret-btn');
+    
+    if (customRetModal) {
+        closeCustomRetBtn.addEventListener('click', () => {
+            customRetModal.classList.add('hidden');
+        });
+
+        const qtyRetBtns = customRetModal.querySelectorAll('.qty-ret-btn');
+        qtyRetBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const flavor = e.target.getAttribute('data-flavor');
+                const isPlus = e.target.classList.contains('plus');
+                const input = document.getElementById('qty-ret-' + flavor);
+                
+                let currentCoca = parseInt(document.getElementById('qty-ret-coca').value) || 0;
+                let currentZero = parseInt(document.getElementById('qty-ret-zero').value) || 0;
+                let currentFanta = parseInt(document.getElementById('qty-ret-fanta').value) || 0;
+                let currentSprite = parseInt(document.getElementById('qty-ret-sprite').value) || 0;
+                let currentInca = parseInt(document.getElementById('qty-ret-inca').value) || 0;
+                let total = currentCoca + currentZero + currentFanta + currentSprite + currentInca;
+
+                let val = parseInt(input.value) || 0;
+                if (isPlus && total < 10 && val < 10) {
+                    input.value = val + 1;
+                    total++;
+                } else if (!isPlus && val > 0) {
+                    input.value = val - 1;
+                    total--;
+                }
+
+                document.getElementById('custom-ret-total-selected').textContent = total;
+                
+                if (total === 10) {
+                    addCustomRetBtn.disabled = false;
+                    addCustomRetBtn.style.opacity = '1';
+                    addCustomRetBtn.style.cursor = 'pointer';
+                } else {
+                    addCustomRetBtn.disabled = true;
+                    addCustomRetBtn.style.opacity = '0.5';
+                    addCustomRetBtn.style.cursor = 'not-allowed';
+                }
+            });
+        });
+
+        if (addCustomRetBtn) {
+            addCustomRetBtn.addEventListener('click', () => {
+                const coca = parseInt(document.getElementById('qty-ret-coca').value) || 0;
+                const zero = parseInt(document.getElementById('qty-ret-zero').value) || 0;
+                const fanta = parseInt(document.getElementById('qty-ret-fanta').value) || 0;
+                const sprite = parseInt(document.getElementById('qty-ret-sprite').value) || 0;
+                const inca = parseInt(document.getElementById('qty-ret-inca').value) || 0;
+                
+                if (coca + zero + fanta + sprite + inca !== 10) return;
+
+                const baseProduct = catalogoProductos.find(p => p.id === 'AND125_MIX');
+                if (!baseProduct) return;
+                
+                const customId = `AND125_MIX-${coca}-${zero}-${fanta}-${sprite}-${inca}`;
+                const customName = `JABA COCA COLA 1.25 RETORNABLE x 10 unidades (C:${coca} CZ:${zero} F:${fanta} S:${sprite} I:${inca})`;
+
+                const existingItem = carrito.find(item => item.id === customId);
+                if(existingItem) {
+                    existingItem.quantity += 1;
+                    if(existingItem.quantity > 50) existingItem.quantity = 50;
+                } else {
+                    carrito.push({
+                        ...baseProduct,
+                        id: customId,
+                        name: customName,
+                        quantity: 1
+                    });
+                }
+
+                saveCart();
+                renderCart();
+                customRetModal.classList.add('hidden');
+                
+                alert('¡Jaba Retornable agregada al carro!');
+            });
+        }
+    }
+
+    // Custom Retornable 2L Modal Logic
+    const customRet2Modal = document.getElementById('custom-retornable-2lt-modal');
+    const closeCustomRet2Btn = document.getElementById('close-custom-ret2-btn');
+    const addCustomRet2Btn = document.getElementById('add-custom-ret2-btn');
+    
+    if (customRet2Modal) {
+        closeCustomRet2Btn.addEventListener('click', () => {
+            customRet2Modal.classList.add('hidden');
+        });
+
+        const qtyRet2Btns = customRet2Modal.querySelectorAll('.qty-ret2-btn');
+        qtyRet2Btns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const flavor = e.target.getAttribute('data-flavor');
+                const isPlus = e.target.classList.contains('plus');
+                const input = document.getElementById('qty-ret2-' + flavor);
+                
+                let currentCoca = parseInt(document.getElementById('qty-ret2-coca').value) || 0;
+                let currentZero = parseInt(document.getElementById('qty-ret2-zero').value) || 0;
+                let currentFanta = parseInt(document.getElementById('qty-ret2-fanta').value) || 0;
+                let currentSprite = parseInt(document.getElementById('qty-ret2-sprite').value) || 0;
+                let currentInca = parseInt(document.getElementById('qty-ret2-inca').value) || 0;
+                let total = currentCoca + currentZero + currentFanta + currentSprite + currentInca;
+
+                let val = parseInt(input.value) || 0;
+                if (isPlus && total < 8 && val < 8) {
+                    input.value = val + 1;
+                    total++;
+                } else if (!isPlus && val > 0) {
+                    input.value = val - 1;
+                    total--;
+                }
+
+                document.getElementById('custom-ret2-total-selected').textContent = total;
+                
+                if (total === 8) {
+                    addCustomRet2Btn.disabled = false;
+                    addCustomRet2Btn.style.opacity = '1';
+                    addCustomRet2Btn.style.cursor = 'pointer';
+                } else {
+                    addCustomRet2Btn.disabled = true;
+                    addCustomRet2Btn.style.opacity = '0.5';
+                    addCustomRet2Btn.style.cursor = 'not-allowed';
+                }
+            });
+        });
+
+        if (addCustomRet2Btn) {
+            addCustomRet2Btn.addEventListener('click', () => {
+                const coca = parseInt(document.getElementById('qty-ret2-coca').value) || 0;
+                const zero = parseInt(document.getElementById('qty-ret2-zero').value) || 0;
+                const fanta = parseInt(document.getElementById('qty-ret2-fanta').value) || 0;
+                const sprite = parseInt(document.getElementById('qty-ret2-sprite').value) || 0;
+                const inca = parseInt(document.getElementById('qty-ret2-inca').value) || 0;
+                
+                if (coca + zero + fanta + sprite + inca !== 8) return;
+
+                const baseProduct = catalogoProductos.find(p => p.id === 'AND2_MIX');
+                if (!baseProduct) return;
+                
+                const customId = `AND2_MIX-${coca}-${zero}-${fanta}-${sprite}-${inca}`;
+                const customName = `JABA COCA COLA 2LT RETORNABLE x 8 unidades (C:${coca} CZ:${zero} F:${fanta} SZ:${sprite} I:${inca})`;
+
+                const existingItem = carrito.find(item => item.id === customId);
+                if(existingItem) {
+                    existingItem.quantity += 1;
+                    if(existingItem.quantity > 50) existingItem.quantity = 50;
+                } else {
+                    carrito.push({
+                        ...baseProduct,
+                        id: customId,
+                        name: customName,
+                        quantity: 1
+                    });
+                }
+
+                saveCart();
+                renderCart();
+                customRet2Modal.classList.add('hidden');
+                
+                alert('¡Jaba Retornable agregada al carro!');
+            });
+        }
+    }
+    // Custom Retornable 3L Modal Logic
+    const customRet3Modal = document.getElementById('custom-retornable-3lt-modal');
+    const closeCustomRet3Btn = document.getElementById('close-custom-ret3-btn');
+    const addCustomRet3Btn = document.getElementById('add-custom-ret3-btn');
+    
+    if (customRet3Modal) {
+        closeCustomRet3Btn.addEventListener('click', () => {
+            customRet3Modal.classList.add('hidden');
+        });
+
+        const qtyRet3Btns = customRet3Modal.querySelectorAll('.qty-ret3-btn');
+        qtyRet3Btns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const flavor = e.target.getAttribute('data-flavor');
+                const isPlus = e.target.classList.contains('plus');
+                const input = document.getElementById('qty-ret3-' + flavor);
+                
+                let currentCoca = parseInt(document.getElementById('qty-ret3-coca').value) || 0;
+                let currentZero = parseInt(document.getElementById('qty-ret3-zero').value) || 0;
+                let currentFanta = parseInt(document.getElementById('qty-ret3-fanta').value) || 0;
+                let currentSprite = parseInt(document.getElementById('qty-ret3-sprite').value) || 0;
+                let total = currentCoca + currentZero + currentFanta + currentSprite;
+
+                let val = parseInt(input.value) || 0;
+                if (isPlus && total < 6 && val < 6) {
+                    input.value = val + 1;
+                    total++;
+                } else if (!isPlus && val > 0) {
+                    input.value = val - 1;
+                    total--;
+                }
+
+                document.getElementById('custom-ret3-total-selected').textContent = total;
+                
+                if (total === 6) {
+                    addCustomRet3Btn.disabled = false;
+                    addCustomRet3Btn.style.opacity = '1';
+                    addCustomRet3Btn.style.cursor = 'pointer';
+                } else {
+                    addCustomRet3Btn.disabled = true;
+                    addCustomRet3Btn.style.opacity = '0.5';
+                    addCustomRet3Btn.style.cursor = 'not-allowed';
+                }
+            });
+        });
+
+        if (addCustomRet3Btn) {
+            addCustomRet3Btn.addEventListener('click', () => {
+                const coca = parseInt(document.getElementById('qty-ret3-coca').value) || 0;
+                const zero = parseInt(document.getElementById('qty-ret3-zero').value) || 0;
+                const fanta = parseInt(document.getElementById('qty-ret3-fanta').value) || 0;
+                const sprite = parseInt(document.getElementById('qty-ret3-sprite').value) || 0;
+                
+                if (coca + zero + fanta + sprite !== 6) return;
+
+                const baseProduct = catalogoProductos.find(p => p.id === 'AND3_MIX');
+                if (!baseProduct) return;
+                
+                const customId = `AND3_MIX-${coca}-${zero}-${fanta}-${sprite}`;
+                const customName = `JABA COCA COLA 3LT RETORNABLE x 6 unidades (C:${coca} CZ:${zero} F:${fanta} S:${sprite})`;
+
+                const existingItem = carrito.find(item => item.id === customId);
+                if(existingItem) {
+                    existingItem.quantity += 1;
+                    if(existingItem.quantity > 50) existingItem.quantity = 50;
+                } else {
+                    carrito.push({
+                        ...baseProduct,
+                        id: customId,
+                        name: customName,
+                        quantity: 1
+                    });
+                }
+
+                saveCart();
+                renderCart();
+                customRet3Modal.classList.add('hidden');
+                
+                alert('¡Jaba Retornable agregada al carro!');
+            });
+        }
+    }
+    // Custom Retornable Express CCU x30 Modal Logic
+    const customExccuModal = document.getElementById('custom-retornable-exccu-modal');
+    const closeCustomExccuBtn = document.getElementById('close-custom-exccu-btn');
+    const addCustomExccuBtn = document.getElementById('add-custom-exccu-btn');
+    
+    if (customExccuModal) {
+        closeCustomExccuBtn.addEventListener('click', () => {
+            customExccuModal.classList.add('hidden');
+        });
+
+        const qtyExccuBtns = customExccuModal.querySelectorAll('.qty-exccu-btn');
+        qtyExccuBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const flavor = e.target.getAttribute('data-flavor');
+                const isPlus = e.target.classList.contains('plus');
+                const input = document.getElementById('qty-exccu-' + flavor);
+                
+                let currentPepsi = parseInt(document.getElementById('qty-exccu-pepsi').value) || 0;
+                let currentZero = parseInt(document.getElementById('qty-exccu-pepsizero').value) || 0;
+                let currentKem = parseInt(document.getElementById('qty-exccu-kem').value) || 0;
+                let currentBilz = parseInt(document.getElementById('qty-exccu-bilz').value) || 0;
+                let currentPap = parseInt(document.getElementById('qty-exccu-pap').value) || 0;
+                let currentLimon = parseInt(document.getElementById('qty-exccu-limonsoda').value) || 0;
+                let total = currentPepsi + currentZero + currentKem + currentBilz + currentPap + currentLimon;
+
+                let val = parseInt(input.value) || 0;
+                if (isPlus && total < 30 && val < 30) {
+                    input.value = val + 1;
+                    total++;
+                } else if (!isPlus && val > 0) {
+                    input.value = val - 1;
+                    total--;
+                }
+
+                document.getElementById('custom-exccu-total-selected').textContent = total;
+                
+                if (total === 30) {
+                    addCustomExccuBtn.disabled = false;
+                    addCustomExccuBtn.style.opacity = '1';
+                    addCustomExccuBtn.style.cursor = 'pointer';
+                } else {
+                    addCustomExccuBtn.disabled = true;
+                    addCustomExccuBtn.style.opacity = '0.5';
+                    addCustomExccuBtn.style.cursor = 'not-allowed';
+                }
+            });
+        });
+
+        if (addCustomExccuBtn) {
+            addCustomExccuBtn.addEventListener('click', () => {
+                const pepsi = parseInt(document.getElementById('qty-exccu-pepsi').value) || 0;
+                const zero = parseInt(document.getElementById('qty-exccu-pepsizero').value) || 0;
+                const kem = parseInt(document.getElementById('qty-exccu-kem').value) || 0;
+                const bilz = parseInt(document.getElementById('qty-exccu-bilz').value) || 0;
+                const pap = parseInt(document.getElementById('qty-exccu-pap').value) || 0;
+                const limonsoda = parseInt(document.getElementById('qty-exccu-limonsoda').value) || 0;
+                
+                if (pepsi + zero + kem + bilz + pap + limonsoda !== 30) return;
+
+                const baseProduct = catalogoProductos.find(p => p.id === 'EXPRB_MIX');
+                if (!baseProduct) return;
+                
+                const customId = `EXPRB_MIX-${pepsi}-${zero}-${kem}-${bilz}-${pap}-${limonsoda}`;
+                const customName = `JABA EXPRESS CCU X30 (P:${pepsi} PZ:${zero} K:${kem} B:${bilz} PAP:${pap} LS:${limonsoda})`;
+
+                const existingItem = carrito.find(item => item.id === customId);
+                if(existingItem) {
+                    existingItem.quantity += 1;
+                    if(existingItem.quantity > 50) existingItem.quantity = 50;
+                } else {
+                    carrito.push({
+                        ...baseProduct,
+                        id: customId,
+                        name: customName,
+                        quantity: 1
+                    });
+                }
+
+                saveCart();
+                renderCart();
+                customExccuModal.classList.add('hidden');
+                
+                alert('¡Jaba Retornable Express agregada al carro!');
+            });
+        }
+    }
+    // Custom Retornable CCU 1.25L x12 Modal Logic
+    const customCcu125Modal = document.getElementById('custom-retornable-ccu125-modal');
+    const closeCustomCcu125Btn = document.getElementById('close-custom-ccu125-btn');
+    const addCustomCcu125Btn = document.getElementById('add-custom-ccu125-btn');
+    
+    if (customCcu125Modal) {
+        closeCustomCcu125Btn.addEventListener('click', () => {
+            customCcu125Modal.classList.add('hidden');
+        });
+
+        const qtyCcu125Btns = customCcu125Modal.querySelectorAll('.qty-ccu125-btn');
+        qtyCcu125Btns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const flavor = e.target.getAttribute('data-flavor');
+                const isPlus = e.target.classList.contains('plus');
+                const input = document.getElementById('qty-ccu125-' + flavor);
+                
+                let currentPepsi = parseInt(document.getElementById('qty-ccu125-pepsi').value) || 0;
+                let currentBilz = parseInt(document.getElementById('qty-ccu125-bilz').value) || 0;
+                let currentPap = parseInt(document.getElementById('qty-ccu125-pap').value) || 0;
+                let currentKem = parseInt(document.getElementById('qty-ccu125-kem').value) || 0;
+                let currentZero = parseInt(document.getElementById('qty-ccu125-pepsizero').value) || 0;
+                let currentLimon = parseInt(document.getElementById('qty-ccu125-limonsoda').value) || 0;
+                let total = currentPepsi + currentBilz + currentPap + currentKem + currentZero + currentLimon;
+
+                let val = parseInt(input.value) || 0;
+                if (isPlus && total < 12 && val < 12) {
+                    input.value = val + 1;
+                    total++;
+                } else if (!isPlus && val > 0) {
+                    input.value = val - 1;
+                    total--;
+                }
+
+                document.getElementById('custom-ccu125-total-selected').textContent = total;
+                
+                if (total === 12) {
+                    addCustomCcu125Btn.disabled = false;
+                    addCustomCcu125Btn.style.opacity = '1';
+                    addCustomCcu125Btn.style.cursor = 'pointer';
+                } else {
+                    addCustomCcu125Btn.disabled = true;
+                    addCustomCcu125Btn.style.opacity = '0.5';
+                    addCustomCcu125Btn.style.cursor = 'not-allowed';
+                }
+            });
+        });
+
+        if (addCustomCcu125Btn) {
+            addCustomCcu125Btn.addEventListener('click', () => {
+                const pepsi = parseInt(document.getElementById('qty-ccu125-pepsi').value) || 0;
+                const bilz = parseInt(document.getElementById('qty-ccu125-bilz').value) || 0;
+                const pap = parseInt(document.getElementById('qty-ccu125-pap').value) || 0;
+                const kem = parseInt(document.getElementById('qty-ccu125-kem').value) || 0;
+                const zero = parseInt(document.getElementById('qty-ccu125-pepsizero').value) || 0;
+                const limonsoda = parseInt(document.getElementById('qty-ccu125-limonsoda').value) || 0;
+                
+                if (pepsi + bilz + pap + kem + zero + limonsoda !== 12) return;
+
+                const baseProduct = catalogoProductos.find(p => p.id === 'L125_MIX');
+                if (!baseProduct) return;
+                
+                const customId = `L125_MIX-${pepsi}-${bilz}-${pap}-${kem}-${zero}-${limonsoda}`;
+                const customName = `JABA CCU 1.25LT RETORNABLE x 12 unidades (P:${pepsi} B:${bilz} PAP:${pap} K:${kem} PZ:${zero} LS:${limonsoda})`;
+
+                const existingItem = carrito.find(item => item.id === customId);
+                if(existingItem) {
+                    existingItem.quantity += 1;
+                    if(existingItem.quantity > 50) existingItem.quantity = 50;
+                } else {
+                    carrito.push({
+                        ...baseProduct,
+                        id: customId,
+                        name: customName,
+                        quantity: 1
+                    });
+                }
+
+                saveCart();
+                renderCart();
+                customCcu125Modal.classList.add('hidden');
+                
+                alert('¡Jaba Retornable CCU agregada al carro!');
+            });
+        }
+    }
+    // Custom Retornable CCU 2L x9 Modal Logic
+    const customCcu2Modal = document.getElementById('custom-retornable-ccu2-modal');
+    const closeCustomCcu2Btn = document.getElementById('close-custom-ccu2-btn');
+    const addCustomCcu2Btn = document.getElementById('add-custom-ccu2-btn');
+    
+    if (customCcu2Modal) {
+        closeCustomCcu2Btn.addEventListener('click', () => {
+            customCcu2Modal.classList.add('hidden');
+        });
+
+        const qtyCcu2Btns = customCcu2Modal.querySelectorAll('.qty-ccu2-btn');
+        qtyCcu2Btns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const flavor = e.target.getAttribute('data-flavor');
+                const isPlus = e.target.classList.contains('plus');
+                const input = document.getElementById('qty-ccu2-' + flavor);
+                
+                let currentPepsi = parseInt(document.getElementById('qty-ccu2-pepsi').value) || 0;
+                let currentZero = parseInt(document.getElementById('qty-ccu2-pepsizero').value) || 0;
+                let currentBilz = parseInt(document.getElementById('qty-ccu2-bilz').value) || 0;
+                let currentPap = parseInt(document.getElementById('qty-ccu2-pap').value) || 0;
+                let currentKem = parseInt(document.getElementById('qty-ccu2-kem').value) || 0;
+                let currentLimon = parseInt(document.getElementById('qty-ccu2-limonsoda').value) || 0;
+                let total = currentPepsi + currentZero + currentBilz + currentPap + currentKem + currentLimon;
+
+                let val = parseInt(input.value) || 0;
+                if (isPlus && total < 9 && val < 9) {
+                    input.value = val + 1;
+                    total++;
+                } else if (!isPlus && val > 0) {
+                    input.value = val - 1;
+                    total--;
+                }
+
+                document.getElementById('custom-ccu2-total-selected').textContent = total;
+                
+                if (total === 9) {
+                    addCustomCcu2Btn.disabled = false;
+                    addCustomCcu2Btn.style.opacity = '1';
+                    addCustomCcu2Btn.style.cursor = 'pointer';
+                } else {
+                    addCustomCcu2Btn.disabled = true;
+                    addCustomCcu2Btn.style.opacity = '0.5';
+                    addCustomCcu2Btn.style.cursor = 'not-allowed';
+                }
+            });
+        });
+
+        if (addCustomCcu2Btn) {
+            addCustomCcu2Btn.addEventListener('click', () => {
+                const pepsi = parseInt(document.getElementById('qty-ccu2-pepsi').value) || 0;
+                const zero = parseInt(document.getElementById('qty-ccu2-pepsizero').value) || 0;
+                const bilz = parseInt(document.getElementById('qty-ccu2-bilz').value) || 0;
+                const pap = parseInt(document.getElementById('qty-ccu2-pap').value) || 0;
+                const kem = parseInt(document.getElementById('qty-ccu2-kem').value) || 0;
+                const limonsoda = parseInt(document.getElementById('qty-ccu2-limonsoda').value) || 0;
+                
+                if (pepsi + zero + bilz + pap + kem + limonsoda !== 9) return;
+
+                const baseProduct = catalogoProductos.find(p => p.id === 'L2_MIX');
+                if (!baseProduct) return;
+                
+                const customId = `L2_MIX-${pepsi}-${zero}-${bilz}-${pap}-${kem}-${limonsoda}`;
+                const customName = `JABA CCU 2LT RETORNABLE x 9 unidades (P:${pepsi} PZ:${zero} B:${bilz} PAP:${pap} K:${kem} LS:${limonsoda})`;
+
+                const existingItem = carrito.find(item => item.id === customId);
+                if(existingItem) {
+                    existingItem.quantity += 1;
+                    if(existingItem.quantity > 50) existingItem.quantity = 50;
+                } else {
+                    carrito.push({
+                        ...baseProduct,
+                        id: customId,
+                        name: customName,
+                        quantity: 1
+                    });
+                }
+
+                saveCart();
+                renderCart();
+                customCcu2Modal.classList.add('hidden');
+                
+                alert('¡Jaba Retornable CCU agregada al carro!');
             });
         }
     }

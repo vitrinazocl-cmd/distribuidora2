@@ -535,6 +535,402 @@
             </div>
         </div>
     </div>
+    <!-- Custom Product Modal (Jaba Retornable 1.25L x 10) -->
+    <div id="custom-retornable-modal" class="cart-modal hidden" style="justify-content: center; align-items: center; z-index: 99999;">
+        <div class="cart-content" style="height: auto; border-radius: 8px; max-width: 400px; max-height: 90vh; overflow-y: auto;">
+            <div class="cart-header">
+                <h2>Arma tu Jaba Retornable</h2>
+                <button id="close-custom-ret-btn" class="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cart-items" style="padding: 20px;">
+                <p style="margin-bottom: 15px; font-size: 14px; color: #555;">Selecciona <strong>exactamente 10 bebidas</strong> (1.25L Retornables). Pueden ser del mismo sabor o surtidas.</p>
+                
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Coca Cola 1.25L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret-btn minus" data-flavor="coca" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret-coca" value="0" min="0" max="10" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret-btn plus" data-flavor="coca" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Coca Cola Zero 1.25L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret-btn minus" data-flavor="zero" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret-zero" value="0" min="0" max="10" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret-btn plus" data-flavor="zero" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Fanta 1.25L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret-btn minus" data-flavor="fanta" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret-fanta" value="0" min="0" max="10" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret-btn plus" data-flavor="fanta" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Sprite 1.25L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret-btn minus" data-flavor="sprite" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret-sprite" value="0" min="0" max="10" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret-btn plus" data-flavor="sprite" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Inca Kola 1.25L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret-btn minus" data-flavor="inca" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret-inca" value="0" min="0" max="10" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret-btn plus" data-flavor="inca" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <span style="font-size: 16px; font-weight: bold;">Total seleccionado: <span id="custom-ret-total-selected">0</span> / 10</span>
+                </div>
+
+                <button id="add-custom-ret-btn" class="checkout-btn" style="width:100%; opacity: 0.5; cursor: not-allowed;" disabled>Confirmar y Agregar ($10.250)</button>
+            </div>
+        </div>
+    </div>
+    <!-- Custom Product Modal (Jaba Retornable 2LT x 8) -->
+    <div id="custom-retornable-2lt-modal" class="cart-modal hidden" style="justify-content: center; align-items: center; z-index: 99999;">
+        <div class="cart-content" style="height: auto; border-radius: 8px; max-width: 400px; max-height: 90vh; overflow-y: auto;">
+            <div class="cart-header">
+                <h2>Arma tu Jaba Retornable 2L</h2>
+                <button id="close-custom-ret2-btn" class="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cart-items" style="padding: 20px;">
+                <p style="margin-bottom: 15px; font-size: 14px; color: #555;">Selecciona <strong>exactamente 8 bebidas</strong> (2L Retornables). Pueden ser del mismo sabor o surtidas.</p>
+                
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Coca Cola 2L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret2-btn minus" data-flavor="coca" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret2-coca" value="0" min="0" max="8" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret2-btn plus" data-flavor="coca" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Coca Cola Zero 2L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret2-btn minus" data-flavor="zero" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret2-zero" value="0" min="0" max="8" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret2-btn plus" data-flavor="zero" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Fanta 2L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret2-btn minus" data-flavor="fanta" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret2-fanta" value="0" min="0" max="8" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret2-btn plus" data-flavor="fanta" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Sprite Zero 2L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret2-btn minus" data-flavor="sprite" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret2-sprite" value="0" min="0" max="8" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret2-btn plus" data-flavor="sprite" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Inca Kola 2L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret2-btn minus" data-flavor="inca" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret2-inca" value="0" min="0" max="8" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret2-btn plus" data-flavor="inca" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <span style="font-size: 16px; font-weight: bold;">Total seleccionado: <span id="custom-ret2-total-selected">0</span> / 8</span>
+                </div>
+
+                <button id="add-custom-ret2-btn" class="checkout-btn" style="width:100%; opacity: 0.5; cursor: not-allowed;" disabled>Confirmar y Agregar ($11.880)</button>
+            </div>
+        </div>
+    </div>
+    <!-- Custom Product Modal (Jaba Retornable 3LT x 6) -->
+    <div id="custom-retornable-3lt-modal" class="cart-modal hidden" style="justify-content: center; align-items: center; z-index: 99999;">
+        <div class="cart-content" style="height: auto; border-radius: 8px; max-width: 400px; max-height: 90vh; overflow-y: auto;">
+            <div class="cart-header">
+                <h2>Arma tu Jaba Retornable 3L</h2>
+                <button id="close-custom-ret3-btn" class="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cart-items" style="padding: 20px;">
+                <p style="margin-bottom: 15px; font-size: 14px; color: #555;">Selecciona <strong>exactamente 6 bebidas</strong> (3L Retornables). Pueden ser del mismo sabor o surtidas.</p>
+                
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Coca Cola 3L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret3-btn minus" data-flavor="coca" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret3-coca" value="0" min="0" max="6" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret3-btn plus" data-flavor="coca" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Coca Cola Zero 3L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret3-btn minus" data-flavor="zero" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret3-zero" value="0" min="0" max="6" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret3-btn plus" data-flavor="zero" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Fanta 3L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret3-btn minus" data-flavor="fanta" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret3-fanta" value="0" min="0" max="6" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret3-btn plus" data-flavor="fanta" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Sprite 3L</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ret3-btn minus" data-flavor="sprite" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ret3-sprite" value="0" min="0" max="6" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ret3-btn plus" data-flavor="sprite" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <span style="font-size: 16px; font-weight: bold;">Total seleccionado: <span id="custom-ret3-total-selected">0</span> / 6</span>
+                </div>
+
+                <button id="add-custom-ret3-btn" class="checkout-btn" style="width:100%; opacity: 0.5; cursor: not-allowed;" disabled>Confirmar y Agregar ($12.642)</button>
+            </div>
+        </div>
+    </div>
+    <!-- Custom Product Modal (Jaba Retornable Express CCU x 30) -->
+    <div id="custom-retornable-exccu-modal" class="cart-modal hidden" style="justify-content: center; align-items: center; z-index: 99999;">
+        <div class="cart-content" style="height: auto; border-radius: 8px; max-width: 400px; max-height: 90vh; overflow-y: auto;">
+            <div class="cart-header">
+                <h2>Arma tu Jaba Express CCU x30</h2>
+                <button id="close-custom-exccu-btn" class="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cart-items" style="padding: 20px;">
+                <p style="margin-bottom: 15px; font-size: 14px; color: #555;">Selecciona <strong>exactamente 30 bebidas</strong> (Express CCU). Pueden ser del mismo sabor o surtidas.</p>
+                
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Pepsi</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-exccu-btn minus" data-flavor="pepsi" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-exccu-pepsi" value="0" min="0" max="30" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-exccu-btn plus" data-flavor="pepsi" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Pepsi Zero</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-exccu-btn minus" data-flavor="pepsizero" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-exccu-pepsizero" value="0" min="0" max="30" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-exccu-btn plus" data-flavor="pepsizero" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Kem</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-exccu-btn minus" data-flavor="kem" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-exccu-kem" value="0" min="0" max="30" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-exccu-btn plus" data-flavor="kem" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Bilz</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-exccu-btn minus" data-flavor="bilz" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-exccu-bilz" value="0" min="0" max="30" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-exccu-btn plus" data-flavor="bilz" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Pap</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-exccu-btn minus" data-flavor="pap" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-exccu-pap" value="0" min="0" max="30" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-exccu-btn plus" data-flavor="pap" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Limón Soda</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-exccu-btn minus" data-flavor="limonsoda" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-exccu-limonsoda" value="0" min="0" max="30" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-exccu-btn plus" data-flavor="limonsoda" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <span style="font-size: 16px; font-weight: bold;">Total seleccionado: <span id="custom-exccu-total-selected">0</span> / 30</span>
+                </div>
+
+                <button id="add-custom-exccu-btn" class="checkout-btn" style="width:100%; opacity: 0.5; cursor: not-allowed;" disabled>Confirmar y Agregar ($11.200)</button>
+            </div>
+        </div>
+    </div>
+    <!-- Custom Product Modal (Jaba Retornable CCU 1.25L x 12) -->
+    <div id="custom-retornable-ccu125-modal" class="cart-modal hidden" style="justify-content: center; align-items: center; z-index: 99999;">
+        <div class="cart-content" style="height: auto; border-radius: 8px; max-width: 400px; max-height: 90vh; overflow-y: auto;">
+            <div class="cart-header">
+                <h2>Arma tu Jaba CCU 1.25L x12</h2>
+                <button id="close-custom-ccu125-btn" class="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cart-items" style="padding: 20px;">
+                <p style="margin-bottom: 15px; font-size: 14px; color: #555;">Selecciona <strong>exactamente 12 bebidas</strong> (1.25L CCU Retornables). Pueden ser del mismo sabor o surtidas.</p>
+                
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Pepsi</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ccu125-btn minus" data-flavor="pepsi" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ccu125-pepsi" value="0" min="0" max="12" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ccu125-btn plus" data-flavor="pepsi" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Bilz</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ccu125-btn minus" data-flavor="bilz" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ccu125-bilz" value="0" min="0" max="12" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ccu125-btn plus" data-flavor="bilz" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Pap</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ccu125-btn minus" data-flavor="pap" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ccu125-pap" value="0" min="0" max="12" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ccu125-btn plus" data-flavor="pap" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Kem</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ccu125-btn minus" data-flavor="kem" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ccu125-kem" value="0" min="0" max="12" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ccu125-btn plus" data-flavor="kem" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Pepsi Zero</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ccu125-btn minus" data-flavor="pepsizero" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ccu125-pepsizero" value="0" min="0" max="12" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ccu125-btn plus" data-flavor="pepsizero" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Limón Soda</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ccu125-btn minus" data-flavor="limonsoda" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ccu125-limonsoda" value="0" min="0" max="12" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ccu125-btn plus" data-flavor="limonsoda" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <span style="font-size: 16px; font-weight: bold;">Total seleccionado: <span id="custom-ccu125-total-selected">0</span> / 12</span>
+                </div>
+
+                <button id="add-custom-ccu125-btn" class="checkout-btn" style="width:100%; opacity: 0.5; cursor: not-allowed;" disabled>Confirmar y Agregar ($12.990)</button>
+            </div>
+        </div>
+    </div>
+    <!-- Custom Product Modal (Jaba Retornable CCU 2LT x 9) -->
+    <div id="custom-retornable-ccu2-modal" class="cart-modal hidden" style="justify-content: center; align-items: center; z-index: 99999;">
+        <div class="cart-content" style="height: auto; border-radius: 8px; max-width: 400px; max-height: 90vh; overflow-y: auto;">
+            <div class="cart-header">
+                <h2>Arma tu Jaba CCU 2L x9</h2>
+                <button id="close-custom-ccu2-btn" class="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cart-items" style="padding: 20px;">
+                <p style="margin-bottom: 15px; font-size: 14px; color: #555;">Selecciona <strong>exactamente 9 bebidas</strong> (2L CCU Retornables). Pueden ser del mismo sabor o surtidas.</p>
+                
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Pepsi</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ccu2-btn minus" data-flavor="pepsi" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ccu2-pepsi" value="0" min="0" max="9" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ccu2-btn plus" data-flavor="pepsi" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Pepsi Zero</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ccu2-btn minus" data-flavor="pepsizero" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ccu2-pepsizero" value="0" min="0" max="9" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ccu2-btn plus" data-flavor="pepsizero" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Bilz</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ccu2-btn minus" data-flavor="bilz" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ccu2-bilz" value="0" min="0" max="9" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ccu2-btn plus" data-flavor="bilz" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Pap</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ccu2-btn minus" data-flavor="pap" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ccu2-pap" value="0" min="0" max="9" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ccu2-btn plus" data-flavor="pap" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Kem</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ccu2-btn minus" data-flavor="kem" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ccu2-kem" value="0" min="0" max="9" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ccu2-btn plus" data-flavor="kem" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div class="flavor-selector" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: bold; flex: 1;">Limón Soda</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="qty-ccu2-btn minus" data-flavor="limonsoda" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">-</button>
+                        <input type="number" id="qty-ccu2-limonsoda" value="0" min="0" max="9" readonly style="width: 40px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                        <button class="qty-ccu2-btn plus" data-flavor="limonsoda" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #eee; cursor: pointer; font-weight: bold;">+</button>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <span style="font-size: 16px; font-weight: bold;">Total seleccionado: <span id="custom-ccu2-total-selected">0</span> / 9</span>
+                </div>
+
+                <button id="add-custom-ccu2-btn" class="checkout-btn" style="width:100%; opacity: 0.5; cursor: not-allowed;" disabled>Confirmar y Agregar ($13.545)</button>
+            </div>
+        </div>
+    </div>
     <!-- Comunidad Modal -->
     <div id="comunidad-modal" class="cart-modal hidden" style="justify-content: center; align-items: center; z-index: 999999;">
         <div class="cart-content" style="height: 85vh; overflow-y: auto; border-radius: 8px; max-width: 650px; background: var(--dark-bg); border: 2px solid var(--primary-color); padding: 0;">
