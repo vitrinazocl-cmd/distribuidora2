@@ -1722,14 +1722,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Usamos una API gratuita para llevar el conteo real global
-    // Namespace: distribuidora_eleodoro_2026_oficial
-    fetch('https://api.counterapi.dev/v1/distribuidora_eleodoro_2026_oficial/visits/up')
-        .then(response => response.json())
+    // Usamos una API gratuita y activa para llevar el conteo real global
+    fetch('https://countapi.mileshilliard.com/api/v1/hit/distribuidora_eleodoro_2026_oficial')
+        .then(response => {
+            if (!response.ok) throw new Error('HTTP error ' + response.status);
+            return response.json();
+        })
         .then(data => {
-            // data.count nos da el número real de visitas desde que se creó el contador
+            // data.value nos da el número real de visitas
             // Queremos que empiece en 2333, así que le sumamos una base (ej. 2332)
-            const totalVisits = data.count + 2332;
+            const totalVisits = (data.value || 0) + 2332;
             renderCounter(totalVisits);
         })
         .catch(error => {
