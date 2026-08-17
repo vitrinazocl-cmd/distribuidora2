@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('pedidosPendientes', JSON.stringify(pedidosGuardados));
 
                 // Guardar la venta en el backend para el historial permanente (Dashboard de Ventas)
-                fetch('http://localhost:3000/api/guardar-venta', {
+                fetch('/api/guardar-venta', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(nuevaVenta)
@@ -1095,7 +1095,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // 1. Llamar al backend para iniciar el pago, enviando el carrito y cliente
-                const response = await fetch('http://localhost:3000/api/pagar', {
+                const response = await fetch('/api/pagar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
@@ -1133,7 +1133,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 console.error(error);
-                alert('No se pudo conectar con el servidor Backend. Asegúrate de que iniciar_servidor.bat esté corriendo.');
+                alert('No se pudo conectar con el servidor de pagos. Por favor, verifica tu conexión o intenta nuevamente.');
                 checkoutBtn.innerHTML = textOriginal;
                 checkoutBtn.disabled = false;
             }
