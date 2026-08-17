@@ -7,6 +7,10 @@ let saveCart = null;
 let renderCart = null;
 let selectedBranchName = null;
 
+const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://distribuidora2.onrender.com';
+
 // Global variables for slider
 let originalSlides = null;
 let autoPlayInterval = null;
@@ -371,7 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('pedidosPendientes', JSON.stringify(pedidosGuardados));
 
                 // Guardar la venta en el backend para el historial permanente (Dashboard de Ventas)
-                fetch('/api/guardar-venta', {
+                fetch(`${BACKEND_URL}/api/guardar-venta`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(nuevaVenta)
@@ -1095,7 +1099,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // 1. Llamar al backend para iniciar el pago, enviando el carrito y cliente
-                const response = await fetch('/api/pagar', {
+                const response = await fetch(`${BACKEND_URL}/api/pagar`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
