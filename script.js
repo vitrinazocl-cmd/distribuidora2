@@ -351,7 +351,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (carritoActual.length > 0) {
                 let pedidosGuardados = JSON.parse(localStorage.getItem('pedidosPendientes')) || [];
                 
-                const totalPedido = carritoActual.reduce((acc, item) => acc + (item.price * item.quantity), 0) + 3000;
+                let shippingCost = 3000;
+                if (clienteActual.direccion && clienteActual.direccion.trim() === 'Retiro en Tienda') {
+                    shippingCost = 0;
+                }
+                const totalPedido = carritoActual.reduce((acc, item) => acc + (item.price * item.quantity), 0) + shippingCost;
                 
                 const nuevaVenta = {
                     id: orden,
@@ -386,7 +390,8 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Cancelaste el proceso de pago.');
             window.history.replaceState({}, document.title, window.location.pathname);
         } else if (estadoPago === 'error') {
-            alert('Hubo un error de conexión al verificar el pago.');
+            const detalle = urlParams.get('detalle');
+            alert('Hubo un error de conexión al verificar el pago.' + (detalle ? '\n\nDetalle: ' + detalle : ''));
             window.history.replaceState({}, document.title, window.location.pathname);
         }
     }
@@ -948,7 +953,18 @@ document.addEventListener('DOMContentLoaded', () => {
         
         cartItemsContainer.innerHTML = html;
         const subtotalElement = document.getElementById('cart-subtotal-price');
-        const shippingCost = 3000;
+        const shippingPriceElement = document.getElementById('cart-shipping-price');
+        
+        let shippingCost = 3000;
+        const shippingOption = document.querySelector('input[name="shipping-option"]:checked');
+        if (shippingOption && shippingOption.value === 'pickup') {
+            shippingCost = 0;
+        }
+
+        if (shippingPriceElement) {
+            shippingPriceElement.textContent = shippingCost === 0 ? 'Gratis' : '$' + shippingCost.toLocaleString('es-CL');
+        }
+
         const finalTotal = total + shippingCost;
         if(subtotalElement) {
             subtotalElement.textContent = '$' + total.toLocaleString('es-CL');
@@ -957,6 +973,76 @@ document.addEventListener('DOMContentLoaded', () => {
             cartTotalPrice.textContent = '$' + total.toLocaleString('es-CL');
         }
     }
+
+    // Manejar cambio de opción de envío / retiro en tienda
+    const shippingHome = document.getElementById('shipping-home');
+    const shippingPickup = document.getElementById('shipping-pickup');
+    const addressInput = document.getElementById('customer-address');
+    const communeInput = document.getElementById('customer-commune');
+    const shippingHomeLabel = document.getElementById('shipping-home-label');
+    const shippingPickupLabel = document.getElementById('shipping-pickup-label');
+
+    function updateShippingUI() {
+        const isPickup = shippingPickup && shippingPickup.checked;
+        
+        if (isPickup) {
+            if (addressInput) {
+                addressInput.style.display = 'none';
+                addressInput.value = 'Retiro en Tienda';
+                addressInput.required = false;
+            }
+            if (communeInput) {
+                communeInput.style.display = 'none';
+                communeInput.value = 'Cerro Navia';
+                communeInput.required = false;
+            }
+            if (shippingPickupLabel) {
+                shippingPickupLabel.style.background = 'rgba(0, 153, 204, 0.1)';
+                shippingPickupLabel.style.borderColor = '#0099cc';
+                const icon = shippingPickupLabel.querySelector('i');
+                if (icon) icon.style.color = '#0099cc';
+            }
+            if (shippingHomeLabel) {
+                shippingHomeLabel.style.background = 'var(--dark-bg)';
+                shippingHomeLabel.style.borderColor = 'var(--border-color)';
+                const icon = shippingHomeLabel.querySelector('i');
+                if (icon) icon.style.color = '#888';
+            }
+        } else {
+            if (addressInput) {
+                addressInput.style.display = 'block';
+                if (addressInput.value === 'Retiro en Tienda') {
+                    addressInput.value = '';
+                }
+                addressInput.required = true;
+            }
+            if (communeInput) {
+                communeInput.style.display = 'block';
+                if (communeInput.value === 'Cerro Navia') {
+                    communeInput.value = '';
+                }
+                communeInput.required = true;
+            }
+            if (shippingHomeLabel) {
+                shippingHomeLabel.style.background = 'rgba(0, 153, 204, 0.1)';
+                shippingHomeLabel.style.borderColor = '#0099cc';
+                const icon = shippingHomeLabel.querySelector('i');
+                if (icon) icon.style.color = '#0099cc';
+            }
+            if (shippingPickupLabel) {
+                shippingPickupLabel.style.background = 'var(--dark-bg)';
+                shippingPickupLabel.style.borderColor = 'var(--border-color)';
+                const icon = shippingPickupLabel.querySelector('i');
+                if (icon) icon.style.color = '#888';
+            }
+        }
+        if (typeof renderCart === 'function') {
+            renderCart();
+        }
+    }
+
+    if (shippingHome) shippingHome.addEventListener('change', updateShippingUI);
+    if (shippingPickup) shippingPickup.addEventListener('change', updateShippingUI);
 
     // Checkout (Integración con Webpay)
     if(checkoutBtn) {
@@ -992,7 +1078,13 @@ document.addEventListener('DOMContentLoaded', () => {
             checkoutBtn.disabled = true;
 
             const total = carrito.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-            const finalTotal = total + 3000; // Agregar costo de envío
+            
+            let shippingCost = 3000;
+            const shippingOption = document.querySelector('input[name="shipping-option"]:checked');
+            if (shippingOption && shippingOption.value === 'pickup') {
+                shippingCost = 0;
+            }
+            const finalTotal = total + shippingCost;
             
             const clienteInfo = {
                 nombre: nameInput.value,

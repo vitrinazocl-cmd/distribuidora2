@@ -448,6 +448,20 @@
                     <span id="cart-total-price">$0</span>
                 </div>
                 <div class="checkout-form" id="checkout-form-container">
+                    <div class="shipping-option-container" style="display: flex; gap: 15px; margin-bottom: 15px; justify-content: space-between;">
+                        <label style="flex: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; background: rgba(0, 153, 204, 0.1); border-color: #0099cc;" id="shipping-home-label">
+                            <input type="radio" name="shipping-option" id="shipping-home" value="home" checked style="display:none;">
+                            <i class="fa-solid fa-truck" style="font-size: 1.2rem; color: #0099cc; transition: color 0.3s;"></i>
+                            <span style="font-size: 14px; font-weight: bold; color: var(--text-color);">Envío a Domicilio</span>
+                            <span style="font-size: 12px; color: #aaa;">$3.000</span>
+                        </label>
+                        <label style="flex: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; background: var(--dark-bg); transition: all 0.3s;" id="shipping-pickup-label">
+                            <input type="radio" name="shipping-option" id="shipping-pickup" value="pickup" style="display:none;">
+                            <i class="fa-solid fa-store" style="font-size: 1.2rem; color: #888; transition: color 0.3s;"></i>
+                            <span style="font-size: 14px; font-weight: bold; color: var(--text-color);">Retiro en Tienda</span>
+                            <span style="font-size: 12px; color: #aaa;">Gratis ($0)</span>
+                        </label>
+                    </div>
                     <input type="text" id="customer-name" placeholder="Tu Nombre y Apellido (Receptor)" required style="width:100%; padding: 10px; margin-bottom:10px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--dark-bg); color: var(--text-dark);">
                     <input type="text" id="customer-rut" placeholder="RUT (opcional)" style="width:100%; padding: 10px; margin-bottom:10px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--dark-bg); color: var(--text-dark);">
                     <input type="text" id="customer-address" placeholder="Dirección de Despacho Exacta" required style="width:100%; padding: 10px; margin-bottom:10px; border-radius: 5px; border: 1px solid var(--border-color); background: var(--dark-bg); color: var(--text-dark);">

@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-const { WebpayPlus } = require('transbank-sdk');
+const { WebpayPlus, Options, Environment } = require('transbank-sdk');
 require('dotenv').config(); // Cargar variables de entorno
 
 const dbService = require('./dbService'); // Importar el servicio de base de datos Postgres
@@ -21,6 +21,21 @@ app.use(express.urlencoded({ extended: true }));
 
 // Servir los archivos estáticos de tu frontend actual
 app.use(express.static(__dirname));
+
+// Función helper para instanciar la transacción de Webpay con credenciales personalizadas si existen
+function getWebpayTransaction() {
+    if (process.env.WEBPAY_COMMERCE_CODE && process.env.WEBPAY_API_KEY) {
+        const env = process.env.WEBPAY_ENVIRONMENT === 'production' 
+            ? Environment.Production 
+            : Environment.Integration;
+        return new WebpayPlus.Transaction(new Options(
+            process.env.WEBPAY_COMMERCE_CODE,
+            process.env.WEBPAY_API_KEY,
+            env
+        ));
+    }
+    return new WebpayPlus.Transaction();
+}
 
 // ==========================================
 // RUTAS DE PRUEBA Y DEBUG
@@ -66,14 +81,27 @@ app.post('/api/pagar', async (req, res) => {
         // Generamos un ID de orden y sesión aleatorios
         const buyOrder = "ORDEN-" + Math.floor(Math.random() * 100000);
         const sessionId = "SESION-" + Math.floor(Math.random() * 100000);
-        const returnUrl = req.protocol + '://' + req.get('host') + "/api/confirmar-pago";
+        let protocol = req.protocol;
+        // Forzar HTTPS en producción para evitar problemas con proxies/SSL
+        if (process.env.WEBPAY_ENVIRONMENT === 'production') {
+            protocol = 'https';
+        }
+        const returnUrl = protocol + '://' + req.get('host') + "/api/confirmar-pago";
 
         // Guardar carrito en memoria asociado a la orden
         ordenesPendientes.set(buyOrder, { carrito, cliente, total });
 
         // Crear la transacción en Webpay
-        const tx = new WebpayPlus.Transaction();
+        const tx = getWebpayTransaction();
         const response = await tx.create(buyOrder, sessionId, total, returnUrl);
+
+        console.log("\n=========================================");
+        console.log("🔑 WEBPAY TOKEN CREADO PARA PRUEBA:");
+        console.log("Copia y pega SOLAMENTE la línea de abajo (doble clic en el código):");
+        console.log(response.token);
+        console.log("-----------------------------------------");
+        console.log("URL Redirección:", response.url);
+        console.log("=========================================");
 
         // Devolvemos la URL y el Token al Frontend para que redirija al usuario
         res.json({
@@ -100,11 +128,11 @@ app.get('/api/confirmar-pago', async (req, res) => {
         }
         
         if (!token) {
-            return res.redirect('/index.html?pago=error');
+            return res.redirect('/index.html?pago=error&detalle=No+se+recibió+el+token_ws+desde+Webpay.');
         }
 
         // Confirmar la transacción con Webpay usando el Token
-        const tx = new WebpayPlus.Transaction();
+        const tx = getWebpayTransaction();
         const response = await tx.commit(token);
 
         if (response.status === 'AUTHORIZED') {
@@ -115,8 +143,12 @@ app.get('/api/confirmar-pago', async (req, res) => {
             const ordenData = ordenesPendientes.get(response.buy_order);
             
             if (ordenData) {
-                // Descontar inventario en PostgreSQL
-                await dbService.actualizarInventario(ordenData.carrito);
+                // Descontar inventario en PostgreSQL (envuelto en try-catch para evitar fallas si no está configurada la BD)
+                try {
+                    await dbService.actualizarInventario(ordenData.carrito);
+                } catch (dbError) {
+                    console.error("Error al actualizar inventario en la base de datos (pago igual fue exitoso):", dbError);
+                }
                 
                 // Limpiar de memoria
                 ordenesPendientes.delete(response.buy_order);
@@ -133,7 +165,8 @@ app.get('/api/confirmar-pago', async (req, res) => {
 
     } catch (error) {
         console.error("Error al confirmar pago:", error);
-        return res.redirect('/index.html?pago=error');
+        const errorMsg = error.message || error.toString();
+        return res.redirect('/index.html?pago=error&detalle=' + encodeURIComponent(errorMsg));
     }
 });
 
