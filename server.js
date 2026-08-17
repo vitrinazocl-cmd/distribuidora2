@@ -82,11 +82,12 @@ app.post('/api/pagar', async (req, res) => {
         const buyOrder = "ORDEN-" + Math.floor(Math.random() * 100000);
         const sessionId = "SESION-" + Math.floor(Math.random() * 100000);
         let protocol = req.protocol;
-        // Forzar HTTPS en producción para evitar problemas con proxies/SSL
-        if (process.env.WEBPAY_ENVIRONMENT === 'production') {
+        const host = req.get('host') || '';
+        // Forzar HTTPS en producción para evitar problemas con proxies/SSL (excepto en localhost)
+        if (process.env.WEBPAY_ENVIRONMENT === 'production' && !host.includes('localhost') && !host.includes('127.0.0.1')) {
             protocol = 'https';
         }
-        const returnUrl = protocol + '://' + req.get('host') + "/api/confirmar-pago";
+        const returnUrl = protocol + '://' + host + "/api/confirmar-pago";
 
         // Guardar carrito en memoria asociado a la orden
         ordenesPendientes.set(buyOrder, { carrito, cliente, total });
