@@ -2567,10 +2567,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- SISTEMA DE FUEGOS ARTIFICIALES NEÓN CYBER 18 DE SEPTIEMBRE ---
+    // --- SISTEMA AUTOMÁTICO DE FUEGOS ARTIFICIALES NEÓN CYBER 18 DE SEPTIEMBRE ---
     const fireworksCanvas = document.getElementById('cyber-fireworks-canvas');
-    const launchBtn1 = document.getElementById('launch-cyber-fireworks-btn');
-    const launchBtn2 = document.getElementById('widget-fireworks-btn');
 
     if (fireworksCanvas) {
         const ctx = fireworksCanvas.getContext('2d');
@@ -2589,18 +2587,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.y = y;
                 this.color = color;
                 const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 8 + 2;
+                const speed = Math.random() * 6 + 1.5;
                 this.vx = Math.cos(angle) * speed;
                 this.vy = Math.sin(angle) * speed;
                 this.alpha = 1;
-                this.decay = Math.random() * 0.02 + 0.015;
-                this.radius = Math.random() * 3.5 + 2;
+                this.decay = Math.random() * 0.018 + 0.012;
+                this.radius = Math.random() * 3 + 1.5;
             }
 
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-                this.vy += 0.1;
+                this.vy += 0.08;
                 this.alpha -= this.decay;
             }
 
@@ -2611,7 +2609,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                 ctx.fillStyle = this.color;
                 ctx.shadowColor = this.color;
-                ctx.shadowBlur = 12;
+                ctx.shadowBlur = 10;
                 ctx.fill();
                 ctx.restore();
             }
@@ -2619,7 +2617,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function createBurst(x, y) {
             const colors = ['#ff1744', '#ffffff', '#2979ff', '#ffea00'];
-            for (let i = 0; i < 55; i++) {
+            for (let i = 0; i < 40; i++) {
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 particles.push(new CyberParticle(x, y, color));
             }
@@ -2637,21 +2635,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         animateParticles();
 
-        function launchMultipleBursts() {
+        function autoLaunchBursts() {
             const width = window.innerWidth;
             const height = window.innerHeight;
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 3; i++) {
                 setTimeout(() => {
                     const x = Math.random() * (width * 0.8) + (width * 0.1);
-                    const y = Math.random() * (height * 0.5) + (height * 0.1);
+                    const y = Math.random() * (height * 0.4) + (height * 0.08);
                     createBurst(x, y);
-                }, i * 300);
+                }, i * 250);
             }
         }
 
-        if (launchBtn1) launchBtn1.addEventListener('click', launchMultipleBursts);
-        if (launchBtn2) launchBtn2.addEventListener('click', launchMultipleBursts);
-
-        setTimeout(launchMultipleBursts, 1500);
+        // Ejecutar ráfaga automática cada 4.5 segundos en segundo plano
+        setTimeout(autoLaunchBursts, 1000);
+        setInterval(autoLaunchBursts, 4500);
     }
 });
