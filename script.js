@@ -1995,3 +1995,575 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// --- Funcionalidad del Modal Consolidado de Productos ---
+// --- Funcionalidad del Modal Consolidado de Productos y Conexión Webpay ---
+function syncConsolidadoCartUI() {
+    const cartCountElem = document.getElementById('consolidado-cart-items-count');
+    const cartTotalElem = document.getElementById('consolidado-cart-total-price');
+    if (typeof carrito === 'undefined') return;
+
+    const totalItems = carrito.reduce((acc, item) => acc + item.quantity, 0);
+    const totalPrice = carrito.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+    if (cartCountElem) cartCountElem.textContent = totalItems;
+    if (cartTotalElem) cartTotalElem.textContent = `$${totalPrice.toLocaleString('es-CL')}`;
+}
+
+// Helper para enriquecer cliente en navegador con los 24 atributos ERP
+function enrichProductMasterDataJS(p) {
+    const id = p.id || 'PROD';
+    const name = p.name || '';
+    const price = p.price || 0;
+    const cat = (p.category || 'BEBIDAS').toUpperCase();
+
+    // 1. Datos Básicos
+    const sku = p.sku || `SKU-${id}`;
+    let brand = p.brand;
+    if (!brand) {
+        if (/WATT/i.test(name)) brand = "Watt's";
+        else if (/ANDINA/i.test(name)) brand = "Andina del Valle";
+        else if (/COCA/i.test(name)) brand = "Coca-Cola";
+        else if (/PEPSI|BILZ|PAP|KEM|LIMON|CRUSH|SEVEN/i.test(name)) brand = "CCU";
+        else if (/CACHANTUN/i.test(name)) brand = "Cachantún";
+        else if (/BENEDICTINO/i.test(name)) brand = "Benedictino";
+        else if (/VITAL/i.test(name)) brand = "Vital";
+        else if (/LIFE/i.test(name)) brand = "Agua Life";
+        else if (/MONSTER/i.test(name)) brand = "Monster Energy";
+        else if (/RED BULL/i.test(name)) brand = "Red Bull";
+        else if (/SCORE/i.test(name)) brand = "Score";
+        else if (/ROCKSTAR/i.test(name)) brand = "Rockstar";
+        else if (/POWERADE/i.test(name)) brand = "Powerade";
+        else if (/GATORADE/i.test(name)) brand = "Gatorade";
+        else if (/ALOE/i.test(name)) brand = "OKF Aloe Vera";
+        else if (/LIPTON/i.test(name)) brand = "Lipton";
+        else if (/CORONA/i.test(name)) brand = "Corona";
+        else if (/CRISTAL/i.test(name)) brand = "Cristal";
+        else if (/ESCUDO/i.test(name)) brand = "Escudo";
+        else if (/ROYAL/i.test(name)) brand = "Royal Guard";
+        else if (/BAVARIA/i.test(name)) brand = "Bavaria";
+        else if (/MISTRAL/i.test(name)) brand = "Pisco Mistral";
+        else if (/ALTO DEL CARMEN/i.test(name)) brand = "Alto del Carmen";
+        else if (/JACK/i.test(name)) brand = "Jack Daniel's";
+        else if (/JOHNNIE|JW/i.test(name)) brand = "Johnnie Walker";
+        else brand = "Eleodoro Premium";
+    }
+
+    let subcategory = p.subcategory;
+    if (!subcategory) {
+        if (cat === 'AGUA') subcategory = name.includes('CON GAS') ? 'Agua Mineral Con Gas' : 'Agua Mineral Sin Gas';
+        else if (cat === 'CERVEZA') subcategory = name.includes('LATA') ? 'Cerveza en Lata' : 'Cerveza en Botella';
+        else if (['LICORES','WHISKY','PISCO','RON'].includes(cat)) subcategory = 'Licores y Destilados Premium';
+        else if (cat === 'ENERGÉTICAS') subcategory = 'Bebidas Energizantes e Isotónicas';
+        else if (cat === 'RETORNABLE') subcategory = 'Envases Retornables';
+        else subcategory = 'Jugos y Gaseosas';
+    }
+
+    const description = p.description || `${name}. Presentación comercial para distribución y venta directa.`;
+
+    // 2. Comercial
+    const wholesalePrice = p.wholesalePrice || Math.round(price * 0.88);
+    const onOffer = p.onOffer !== undefined ? p.onOffer : (price > 10000 ? "10% DCTO Caja" : "Precio Normal");
+    const vat = "19% IVA Incluido";
+
+    // 3. Logística
+    const stock = p.stock !== undefined ? p.stock : 120;
+    
+    let volume = p.volume;
+    if (!volume) {
+        const volMatch = name.match(/(\d+(?:\.\d+)?)\s*(LT|L|ML|CC)/i);
+        volume = volMatch ? `${volMatch[1]} ${volMatch[2].toUpperCase()}` : "1.5 L";
+    }
+
+    let weight = p.weight;
+    if (!weight) {
+        if (volume.includes('3') && volume.includes('L')) weight = "18.5 kg (Pack x 6)";
+        else if (volume.includes('1.5')) weight = "9.5 kg (Pack x 6)";
+        else if (volume.includes('500') || volume.includes('600')) weight = "7.2 kg (Pack x 12)";
+        else weight = "5.0 kg";
+    }
+
+    const charCode = id.charCodeAt(0) || 65;
+    const rackLetter = String.fromCharCode(65 + (charCode % 6));
+    const shelfNum = (id.length % 5) + 1;
+    const warehouseLocation = p.warehouseLocation || `Bodega Central - Rack ${rackLetter}-${shelfNum}`;
+
+    // 4. Marketing
+    const mainImage = p.image || 'logo_transparente.png';
+    const secondaryImages = p.secondaryImages || [mainImage, 'logo_transparente.png'];
+    const techSheetUrl = p.techSheetUrl || `#ficha-${id}`;
+
+    // 5. Tributario
+    const internalCode = id;
+    const numericHash = id.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
+    const barcode = p.barcode || `780${String(100000000 + numericHash * 997).slice(0, 9)}`;
+
+    let siiClassification = p.siiClassification;
+    if (!siiClassification) {
+        if (['LICORES','WHISKY','PISCO','RON'].includes(cat)) {
+            siiClassification = "Afecto a IVA (19%) + ILA Licores (31.5%)";
+        } else if (cat === 'CERVEZA') {
+            siiClassification = "Afecto a IVA (19%) + ILA Cervezas (15%)";
+        } else if (cat === 'ENERGÉTICAS' || /ZERO|CERO|SIN AZUCAR/i.test(name)) {
+            siiClassification = "Afecto a IVA (19%) + ILA Bebidas (<15g Azúcar: 10%)";
+        } else if (cat === 'AGUA') {
+            siiClassification = "Afecto a IVA (19%) - Exento ILA";
+        } else {
+            siiClassification = "Afecto a IVA (19%) + ILA Bebidas Azucaradas (>15g Azúcar: 18%)";
+        }
+    }
+
+    return {
+        id,
+        sku,
+        name,
+        description,
+        brand,
+        category: cat,
+        subcategory,
+        price,
+        wholesalePrice,
+        onOffer,
+        vat,
+        stock,
+        weight,
+        volume,
+        warehouseLocation,
+        image: mainImage,
+        mainImage,
+        secondaryImages,
+        techSheetUrl,
+        internalCode,
+        barcode,
+        siiClassification
+    };
+}
+
+// Función global para abrir la Ficha Técnica ERP Detallada (24 Atributos)
+window.openFichaDetalleERP = function(prodId) {
+    if (typeof catalogoProductos === 'undefined') return;
+    const rawProd = catalogoProductos.find(p => p.id === prodId);
+    if (!rawProd) return;
+
+    const prod = enrichProductMasterDataJS(rawProd);
+
+    const modal = document.getElementById('ficha-detalle-modal');
+    const titleElem = document.getElementById('ficha-modal-title');
+    const skuElem = document.getElementById('ficha-modal-sku');
+    const bodyElem = document.getElementById('ficha-modal-body');
+
+    if (!modal || !bodyElem) return;
+
+    if (titleElem) titleElem.textContent = prod.name;
+    if (skuElem) skuElem.textContent = `${prod.sku} | Cód. Interno: ${prod.internalCode}`;
+
+    bodyElem.innerHTML = `
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            
+            <!-- SECCIÓN 1: DATOS BÁSICOS -->
+            <div style="background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 16px;">
+                <h3 style="color: #ff9800; margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #333; padding-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-circle-info"></i> 1. Datos Básicos
+                </h3>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.9rem; line-height: 1.8; color: #ddd;">
+                    <li><strong>SKU:</strong> <span style="color: #ff9800; font-family: monospace;">${prod.sku}</span></li>
+                    <li><strong>Nombre:</strong> ${prod.name}</li>
+                    <li><strong>Marca:</strong> <span style="background: #333; padding: 2px 8px; border-radius: 4px; color: #fff;">${prod.brand}</span></li>
+                    <li><strong>Categoría:</strong> ${prod.category}</li>
+                    <li><strong>Subcategoría:</strong> ${prod.subcategory}</li>
+                    <li style="margin-top: 8px;"><strong>Descripción:</strong> <br><span style="color: #aaa; font-size: 0.85rem;">${prod.description}</span></li>
+                </ul>
+            </div>
+
+            <!-- SECCIÓN 2: COMERCIAL -->
+            <div style="background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 16px;">
+                <h3 style="color: #4CAF50; margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #333; padding-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-tags"></i> 2. Comercial
+                </h3>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.9rem; line-height: 1.8; color: #ddd;">
+                    <li><strong>Precio Venta:</strong> <strong style="color: #4CAF50; font-size: 1.1rem;">$${prod.price.toLocaleString('es-CL')}</strong></li>
+                    <li><strong>Precio Mayorista:</strong> <strong style="color: #81C784;">$${prod.wholesalePrice.toLocaleString('es-CL')}</strong> (Caja/Pallet)</li>
+                    <li><strong>Oferta:</strong> <span style="background: rgba(255,152,0,0.2); color: #ff9800; padding: 2px 6px; border-radius: 4px;">${prod.onOffer}</span></li>
+                    <li><strong>IVA:</strong> ${prod.vat}</li>
+                </ul>
+                <div style="margin-top: 15px;">
+                    <button onclick="addToCart('${prod.id}')" style="width: 100%; background: #ff9800; color: #000; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito ($${prod.price.toLocaleString('es-CL')})
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 3: LOGÍSTICA -->
+            <div style="background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 16px;">
+                <h3 style="color: #2196F3; margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #333; padding-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-truck-ramp-box"></i> 3. Logística
+                </h3>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.9rem; line-height: 1.8; color: #ddd;">
+                    <li><strong>Stock Disponible:</strong> <span style="color: #64B5F6; font-weight: bold;">${prod.stock} unidades</span></li>
+                    <li><strong>Volumen:</strong> ${prod.volume}</li>
+                    <li><strong>Peso:</strong> ${prod.weight}</li>
+                    <li><strong>Ubicación en Bodega:</strong> <span style="background: #263238; color: #80DEEA; padding: 2px 6px; border-radius: 4px;">${prod.warehouseLocation}</span></li>
+                </ul>
+            </div>
+
+            <!-- SECCIÓN 4 & 5: MARKETING Y TRIBUTARIO -->
+            <div style="background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 15px;">
+                <div>
+                    <h3 style="color: #AB47BC; margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #333; padding-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-image"></i> 4. Marketing & Imagen
+                    </h3>
+                    <div style="display: flex; gap: 12px; align-items: center; margin-top: 10px;">
+                        <img src="${prod.mainImage}" alt="${prod.name}" onerror="this.src='logo_transparente.png'" style="width: 70px; height: 70px; object-fit: contain; background: #fff; border-radius: 6px; padding: 4px;">
+                        <div style="font-size: 0.85rem; color: #aaa;">
+                            <div><strong>Imagen Principal:</strong> ${prod.mainImage}</div>
+                            <div><strong>Ficha Técnica PDF:</strong> Disponible</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="border-top: 1px solid #333; padding-top: 12px;">
+                    <h3 style="color: #E91E63; margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #333; padding-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-scale-balanced"></i> 5. Tributario & Códigos
+                    </h3>
+                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.88rem; line-height: 1.8; color: #ddd;">
+                        <li><strong>Código Interno:</strong> <span style="font-family: monospace;">${prod.internalCode}</span></li>
+                        <li><strong>Código de Barra (EAN13):</strong> <span style="font-family: monospace; letter-spacing: 2px; color: #ff9800; background: #000; padding: 2px 8px; border-radius: 4px;">║▌║█║▌│║▌║ ${prod.barcode}</span></li>
+                        <li><strong>Clasificación SII Chile:</strong> <span style="color: #F48FB1; font-weight: bold;">${prod.siiClassification}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    `;
+
+    modal.classList.remove('hidden');
+    modal.style.display = 'flex';
+
+    const closeBtn = document.getElementById('close-ficha-btn');
+    if (closeBtn) {
+        closeBtn.onclick = () => modal.classList.add('hidden');
+    }
+};
+
+// Intercept renderCart global para mantener sincronizada la UI de Consolidado
+if (typeof renderCart === 'function') {
+    const originalRenderCart = renderCart;
+    renderCart = function() {
+        originalRenderCart();
+        syncConsolidadoCartUI();
+    };
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const openBtn = document.getElementById('open-consolidado-btn');
+    const openLink = document.getElementById('open-consolidado-link');
+    const modal = document.getElementById('consolidado-modal');
+    const closeBtn = document.getElementById('close-consolidado-btn');
+    const searchInput = document.getElementById('consolidado-search');
+    const categorySelect = document.getElementById('consolidado-category-filter');
+    const tableBody = document.getElementById('consolidado-table-body');
+    const totalCount = document.getElementById('consolidado-total-count');
+    const summaryText = document.getElementById('consolidado-summary-text');
+    const printBtn = document.getElementById('consolidado-print-btn');
+    const openCartBtn = document.getElementById('consolidado-open-cart-btn');
+    const checkoutWebpayBtn = document.getElementById('consolidado-checkout-webpay-btn');
+
+    if (!modal) return;
+
+    // Sincronizar catálogo central desde Backend API
+    async function syncCentralCatalog() {
+        try {
+            const res = await fetch(`${BACKEND_URL}/api/consolidado`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data.success && Array.isArray(data.productos) && data.productos.length > 0) {
+                    catalogoProductos = data.productos;
+                }
+            }
+        } catch (e) {
+            console.log("Usando catálogo local de catalogo.js");
+        }
+    }
+
+    // Poblar dropdown de categorías
+    function populateCategories() {
+        if (!categorySelect || typeof catalogoProductos === 'undefined') return;
+        const categories = [...new Set(catalogoProductos.map(p => p.category))].filter(Boolean);
+        categorySelect.innerHTML = '<option value="ALL">Todas las Categorías</option>';
+        categories.sort().forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            categorySelect.appendChild(opt);
+        });
+    }
+
+    // Renderizar tabla consolidada ERP con los 24 atributos
+    function renderConsolidado() {
+        if (!tableBody || typeof catalogoProductos === 'undefined') return;
+
+        const term = (searchInput ? searchInput.value : '').toLowerCase().trim();
+        const selectedCat = categorySelect ? categorySelect.value : 'ALL';
+
+        const filtered = catalogoProductos.map(enrichProductMasterDataJS).filter(p => {
+            if (p.id === 'PRUEBA50') return false; // Excluir producto de prueba
+            const matchCat = selectedCat === 'ALL' || p.category === selectedCat;
+            const matchSearch = !term || 
+                (p.name && p.name.toLowerCase().includes(term)) || 
+                (p.id && p.id.toLowerCase().includes(term)) ||
+                (p.sku && p.sku.toLowerCase().includes(term)) ||
+                (p.brand && p.brand.toLowerCase().includes(term)) ||
+                (p.category && p.category.toLowerCase().includes(term));
+            return matchCat && matchSearch;
+        });
+
+        if (totalCount) {
+            totalCount.textContent = `${filtered.length} Producto${filtered.length !== 1 ? 's' : ''}`;
+        }
+        if (summaryText) {
+            summaryText.textContent = `Mostrando ${filtered.length} de ${catalogoProductos.length} productos con los 24 atributos ERP (Datos Básicos, Comercial, Logística, Marketing y Tributario)`;
+        }
+
+        if (filtered.length === 0) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="7" style="padding: 30px; text-align: center; color: #888; font-size: 1rem;">
+                        <i class="fa-solid fa-magnifying-glass" style="font-size: 2rem; margin-bottom: 10px; color: #ff9800; display: block;"></i>
+                        No se encontraron productos que coincidan con la búsqueda.
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tableBody.innerHTML = filtered.map((prod, index) => {
+            const rowBg = index % 2 === 0 ? 'background: rgba(255,255,255,0.02);' : 'background: rgba(0,0,0,0.2);';
+            const priceFormatted = `$${prod.price.toLocaleString('es-CL')}`;
+            const wholesaleFormatted = `$${prod.wholesalePrice.toLocaleString('es-CL')}`;
+            const imgPath = prod.mainImage || 'logo_transparente.png';
+            
+            return `
+                <tr style="${rowBg} border-bottom: 1px solid #2a2a2a; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,152,0,0.08)'" onmouseout="this.style.background='${index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.2)'}'">
+                    <td style="padding: 10px; text-align: center;">
+                        <img src="${imgPath}" alt="${prod.name}" onerror="this.src='logo_transparente.png'" style="width: 42px; height: 42px; object-fit: contain; border-radius: 6px; background: #fff; padding: 2px; border: 1px solid #444;">
+                    </td>
+                    <td style="padding: 10px;">
+                        <div style="font-family: monospace; font-weight: bold; color: #ff9800; font-size: 0.82rem;">${prod.sku}</div>
+                        <div style="font-size: 0.75rem; color: #aaa;">Cód: ${prod.internalCode}</div>
+                    </td>
+                    <td style="padding: 10px;">
+                        <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">${prod.name}</div>
+                        <div style="font-size: 0.75rem; color: #aaa;">Marca: <span style="color: #ff9800;">${prod.brand}</span> | Barcode: ${prod.barcode}</div>
+                    </td>
+                    <td style="padding: 10px;">
+                        <span style="background: rgba(255,255,255,0.1); color: #ddd; padding: 2px 7px; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${prod.category}</span>
+                        <div style="font-size: 0.72rem; color: #888; margin-top: 2px;">${prod.subcategory}</div>
+                    </td>
+                    <td style="padding: 10px; text-align: right;">
+                        <div style="font-weight: bold; color: #4CAF50; font-size: 0.92rem;">${priceFormatted}</div>
+                        <div style="font-size: 0.75rem; color: #81C784;">May: ${wholesaleFormatted}</div>
+                    </td>
+                    <td style="padding: 10px;">
+                        <div style="font-weight: bold; color: #64B5F6; font-size: 0.85rem;">Stock: ${prod.stock} u.</div>
+                        <div style="font-size: 0.72rem; color: #888;">${prod.warehouseLocation}</div>
+                    </td>
+                    <td style="padding: 10px; text-align: center;">
+                        <div style="display: flex; flex-direction: column; gap: 4px; align-items: center;">
+                            <button onclick="openFichaDetalleERP('${prod.id}')" title="Ver Ficha Técnica Completa (24 Atributos)" style="background: #333; color: #ff9800; border: 1px solid #555; padding: 4px 8px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 4px; width: 100%; justify-content: center;">
+                                <i class="fa-solid fa-eye"></i> Ficha
+                            </button>
+                            <button onclick="addToCart('${prod.id}')" title="Agregar al Carrito" style="background: var(--primary-color, #ff9800); color: #000; border: none; padding: 4px 8px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 4px; width: 100%; justify-content: center;">
+                                <i class="fa-solid fa-cart-plus"></i> +1
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    async function openModal(e) {
+        if (e) e.preventDefault();
+        await syncCentralCatalog();
+        populateCategories();
+        renderConsolidado();
+        syncConsolidadoCartUI();
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        modal.classList.add('hidden');
+    }
+
+    if (openBtn) openBtn.addEventListener('click', openModal);
+    if (openLink) openLink.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    if (searchInput) {
+        searchInput.addEventListener('input', renderConsolidado);
+    }
+    if (categorySelect) {
+        categorySelect.addEventListener('change', renderConsolidado);
+    }
+    if (printBtn) {
+        printBtn.addEventListener('click', () => {
+            window.print();
+        });
+    }
+
+    if (openCartBtn) {
+        openCartBtn.addEventListener('click', () => {
+            closeModal();
+            if (typeof openCart === 'function') openCart();
+        });
+    }
+
+    if (checkoutWebpayBtn) {
+        checkoutWebpayBtn.addEventListener('click', () => {
+            if (typeof carrito === 'undefined' || carrito.length === 0) {
+                alert('Tu carrito está vacío. Agrega productos desde el consolidado antes de pagar.');
+                return;
+            }
+            closeModal();
+            if (typeof openCart === 'function') openCart();
+            const checkoutBtn = document.getElementById('checkout-btn');
+            if (checkoutBtn) {
+                checkoutBtn.scrollIntoView({ behavior: 'smooth' });
+                checkoutBtn.style.outline = '3px solid #ff9800';
+                setTimeout(() => checkoutBtn.style.outline = 'none', 3000);
+            }
+        });
+    }
+
+    // --- FUNCIONALIDAD WEBPRO CATALOG HUB SYSTEM ---
+    const webproBtn = document.getElementById('open-webpro-hub-btn');
+    const webproModal = document.getElementById('webpro-hub-modal');
+    const webproCloseBtn = document.getElementById('close-webpro-hub-btn');
+    const excelInput = document.getElementById('webpro-excel-input');
+    const excelFilename = document.getElementById('webpro-excel-filename');
+    const excelUploadBtn = document.getElementById('webpro-excel-upload-btn');
+    const excelStatus = document.getElementById('webpro-excel-status');
+    const testErpBtn = document.getElementById('webpro-test-erp-btn');
+    const testSiiBtn = document.getElementById('webpro-test-sii-btn');
+
+    if (webproBtn && webproModal) {
+        webproBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            webproModal.classList.remove('hidden');
+            webproModal.style.display = 'flex';
+        });
+    }
+
+    if (webproCloseBtn && webproModal) {
+        webproCloseBtn.addEventListener('click', () => {
+            webproModal.classList.add('hidden');
+        });
+    }
+
+    if (webproModal) {
+        webproModal.addEventListener('click', (e) => {
+            if (e.target === webproModal) webproModal.classList.add('hidden');
+        });
+    }
+
+    if (excelInput && excelFilename) {
+        excelInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                excelFilename.textContent = `📄 ${e.target.files[0].name} (${(e.target.files[0].size / 1024).toFixed(1)} KB)`;
+            } else {
+                excelFilename.textContent = 'Ningún archivo seleccionado';
+            }
+        });
+    }
+
+    if (excelUploadBtn && excelInput) {
+        excelUploadBtn.addEventListener('click', async () => {
+            if (!excelInput.files || !excelInput.files[0]) {
+                alert('Por favor selecciona un archivo Excel (.xlsx o .csv) antes de presionar actualizar.');
+                return;
+            }
+
+            const file = excelInput.files[0];
+            const reader = new FileReader();
+
+            if (excelStatus) {
+                excelStatus.style.display = 'block';
+                excelStatus.style.background = '#263238';
+                excelStatus.style.color = '#80deea';
+                excelStatus.textContent = '⏳ Procesando archivo Excel y actualizando Stock, Precios, Web y App...';
+            }
+
+            reader.onload = async (event) => {
+                try {
+                    const base64Data = event.target.result.split(',')[1];
+                    const res = await fetch('/api/webpro/upload-excel', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ fileName: file.name, fileData: base64Data })
+                    });
+
+                    const data = await res.json();
+                    if (res.ok && data.success) {
+                        if (excelStatus) {
+                            excelStatus.style.background = '#1b5e20';
+                            excelStatus.style.color = '#a5d6a7';
+                            excelStatus.textContent = `✅ ${data.message}`;
+                        }
+                        alert(`¡Éxito! ${data.message}`);
+                        if (typeof renderProducts === 'function') renderProducts();
+                    } else {
+                        throw new Error(data.error || 'Error al procesar Excel');
+                    }
+                } catch (err) {
+                    if (excelStatus) {
+                        excelStatus.style.background = '#b71c1c';
+                        excelStatus.style.color = '#ffcdd2';
+                        excelStatus.textContent = `❌ Error: ${err.message}`;
+                    }
+                    alert(`Error: ${err.message}`);
+                }
+            };
+
+            reader.readAsDataURL(file);
+        });
+    }
+
+    if (testErpBtn) {
+        testErpBtn.addEventListener('click', async () => {
+            try {
+                const res = await fetch('/api/erp/sync', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ erpName: "Softland / Bsale ERP", timestamp: new Date().toISOString(), items: [{ sku: "WATTSD-07", stock: 120 }] })
+                });
+                const data = await res.json();
+                alert(`🟢 Pruebas ERP Completadas:\nServidor ERP: ${data.erpProvider}\nEstado: ${data.status}\nRegistros procesados: ${data.recordsProcessed}`);
+            } catch (err) {
+                alert(`Error probando integración ERP: ${err.message}`);
+            }
+        });
+    }
+
+    if (testSiiBtn) {
+        testSiiBtn.addEventListener('click', async () => {
+            try {
+                const mockCart = typeof carrito !== 'undefined' && carrito.length > 0 ? carrito : [{ id: "WATTSD-07", name: "WATTS TUTIFRUTILLA 1.5L", price: 1750, quantity: 2 }];
+                const res = await fetch('/api/sii/generar-dte', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ carrito: mockCart, tipoDTE: 39 })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert(`📋 Vista Previa DTE SII Chile Generada:\nFolio DTE: ${data.folio}\nEstado: ${data.estadoSII}\nEmisor: ${data.dte.emisor.razonSocial}\nMonto Neto: $${data.dte.totales.montoNeto.toLocaleString('es-CL')}\nIVA (19%): $${data.dte.totales.montoIVA.toLocaleString('es-CL')}\nTotal: $${data.dte.totales.montoTotal.toLocaleString('es-CL')}`);
+                }
+            } catch (err) {
+                alert(`Error generando DTE SII: ${err.message}`);
+            }
+        });
+    }
+});

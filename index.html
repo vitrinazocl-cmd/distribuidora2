@@ -386,7 +386,8 @@
                 <h4>Enlaces Rápidos</h4>
                 <ul>
                     <li><a href="#">Promociones</a></li>
-                    <li><a href="#">Catálogo</a></li>
+                    <li><a href="#productos">Catálogo</a></li>
+                    <li><a href="#" id="open-consolidado-link"><i class="fa-solid fa-boxes-stacked" style="color: var(--primary-color);"></i> Consolidado de Productos</a></li>
                     <li><a href="terminos.html">Términos y Condiciones</a></li>
                     <li><a href="privacidad.html">Políticas de Privacidad</a></li>
                     <li><a href="devoluciones.html">Políticas de Devolución</a></li>
@@ -409,6 +410,8 @@
                     <a href="https://www.tiktok.com/@eleodoroelgrande" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <button id="open-webpro-hub-btn" style="background: linear-gradient(135deg, #00c853, #1b5e20); color: #ffffff; border: none; padding: 10px 14px; border-radius: 6px; font-weight: bold; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 200, 83, 0.3); transition: all 0.3s ease;"><i class="fa-solid fa-rocket"></i> WebPro Catalog Hub</button>
+                    <button id="open-consolidado-btn" class="btn-consolidado-footer" style="background: linear-gradient(135deg, #ff9800, #e65100); color: #ffffff; border: none; padding: 10px 14px; border-radius: 6px; font-weight: bold; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3); transition: all 0.3s ease;"><i class="fa-solid fa-boxes-stacked"></i> Consolidado de Productos</button>
                     <a href="#" id="admin-login-btn" style="color: var(--primary-color); font-weight: bold; font-size: 0.95rem; display: flex; align-items: center; gap: 5px;"><i class="fa-solid fa-clipboard-list"></i> Acceso Pedidos</a>
                     <a href="#" id="ventas-login-btn" style="color: #4CAF50; font-weight: bold; font-size: 0.95rem; display: flex; align-items: center; gap: 5px;"><i class="fa-solid fa-chart-line"></i> Acceso Ventas</a>
                 </div>
@@ -1064,18 +1067,252 @@
 
     <!-- Reproductor de Audio Clásico (Usando video oculto para compatibilidad total con Safari/iOS y controles personalizados) -->
     <video id="bg-audio" loop autoplay playsinline preload="auto" style="display: none;">
-        <source src="Coldplay - Viva la Vida [HQ].mp3?v=1008" type="audio/mpeg">
+        <source src="EL GUATÓN LOYOLA - CUECA CHILENA TRADICIONAL (3).mp3?v=1009" type="audio/mpeg">
     </video>
 
     <div class="audio-player-container custom-player">
         <button id="audio-play-btn" class="audio-ctrl-btn" aria-label="Reproducir/Pausar"><i class="fa-solid fa-pause"></i></button>
-        <span class="audio-track-title">Coldplay - Viva la Vida 🎵</span>
+        <span class="audio-track-title">El Guatón Loyola - Cueca Chilena 🇨🇱🎵</span>
         <button id="audio-mute-btn" class="audio-ctrl-btn" aria-label="Silenciar/Activar sonido"><i class="fa-solid fa-volume-high"></i></button>
     </div>
 
 
 
-    <!-- Scripts -->
+    <!-- Modal Consolidado de Productos -->
+    <div id="consolidado-modal" class="cart-modal hidden" style="justify-content: center; align-items: center; z-index: 999999;">
+        <div class="cart-content" style="max-height: 90vh; width: 95%; max-width: 1000px; overflow-y: auto; border-radius: 12px; background: var(--dark-bg, #181818); border: 2px solid var(--primary-color, #ff9800); box-shadow: 0 10px 30px rgba(0,0,0,0.9); padding: 0; display: flex; flex-direction: column;">
+            
+            <!-- Modal Header -->
+            <div class="cart-header" style="background: #111; border-bottom: 1px solid #333; padding: 16px 24px; position: sticky; top: 0; z-index: 20; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fa-solid fa-boxes-stacked" style="color: #ff9800; font-size: 1.8rem;"></i>
+                    <div>
+                        <h2 style="color: #fff; margin: 0; font-size: 1.4rem; font-weight: 800;">Consolidado de Productos</h2>
+                        <p style="margin: 2px 0 0 0; color: #aaa; font-size: 0.85rem;">Vista general consolidada de todos los productos del catálogo</p>
+                    </div>
+                </div>
+                <button id="close-consolidado-btn" class="close-cart-btn" style="color: #aaa; background: none; border: none; font-size: 1.5rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Toolbar & Filter -->
+            <div style="background: #222; padding: 14px 24px; border-bottom: 1px solid #333; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center;">
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; flex: 1; min-width: 280px;">
+                    <div style="position: relative; flex: 1; min-width: 200px;">
+                        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #888;"></i>
+                        <input type="text" id="consolidado-search" placeholder="Buscar por producto, sabor, SKU o código..." style="width: 100%; padding: 9px 12px 9px 36px; border-radius: 6px; border: 1px solid #444; background: #121212; color: #fff; font-size: 0.9rem;">
+                    </div>
+                    <select id="consolidado-category-filter" style="padding: 9px 14px; border-radius: 6px; border: 1px solid #444; background: #121212; color: #fff; font-size: 0.9rem; cursor: pointer;">
+                        <option value="ALL">Todas las Categorías</option>
+                    </select>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <span id="consolidado-total-count" style="background: rgba(255, 152, 0, 0.15); color: #ff9800; border: 1px solid rgba(255, 152, 0, 0.4); padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 0.85rem;">0 Productos</span>
+                    <a href="/api/descargar-consolidado-excel" target="_blank" style="background: #2e7d32; color: #fff; text-decoration: none; padding: 8px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; display: flex; align-items: center; gap: 6px; transition: background 0.2s;"><i class="fa-solid fa-file-excel"></i> Exportar Excel</a>
+                    <button id="consolidado-print-btn" style="background: #333; color: #fff; border: 1px solid #555; padding: 8px 14px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px;"><i class="fa-solid fa-print"></i> Imprimir</button>
+                </div>
+            </div>
+
+            <!-- Table Container -->
+            <div style="padding: 20px 24px; flex: 1; overflow-x: auto; max-height: 60vh;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem;">
+                    <thead>
+                        <tr style="background: #111; color: #ff9800; border-bottom: 2px solid #ff9800; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.5px;">
+                            <th style="padding: 10px; width: 60px; text-align: center;">Foto</th>
+                            <th style="padding: 10px; width: 140px;">SKU / Cód. Interno</th>
+                            <th style="padding: 10px;">Producto / Marca</th>
+                            <th style="padding: 10px; width: 130px;">Categoría / Subcat.</th>
+                            <th style="padding: 10px; width: 130px; text-align: right;">Precio Venta / Mayorista</th>
+                            <th style="padding: 10px; width: 120px;">Stock & Bodega</th>
+                            <th style="padding: 10px; width: 120px; text-align: center;">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="consolidado-table-body" style="color: #ddd;">
+                        <!-- Injected dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Webpay Sync & Checkout Bar -->
+            <div style="background: #161616; border-top: 1px solid #333; padding: 14px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px;">
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div style="display: flex; align-items: center; gap: 8px; color: #fff; font-size: 0.95rem;">
+                        <i class="fa-solid fa-cart-shopping" style="color: #ff9800; font-size: 1.2rem;"></i>
+                        <span>Carrito Consolidado: <strong id="consolidado-cart-items-count" style="color: #ff9800; font-size: 1.1rem;">0</strong> ítems</span>
+                    </div>
+                    <div style="color: #fff; font-size: 1.1rem; font-weight: bold; padding-left: 15px; border-left: 1px solid #444;">
+                        Subtotal: <span id="consolidado-cart-total-price" style="color: #4CAF50; font-size: 1.2rem;">$0</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <button id="consolidado-open-cart-btn" style="background: #333; color: #fff; border: 1px solid #555; padding: 10px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+                        <i class="fa-solid fa-eye"></i> Ver Carrito
+                    </button>
+                    <button id="consolidado-checkout-webpay-btn" style="background: linear-gradient(135deg, #e53935, #c62828); color: #ffffff; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 900; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(229, 57, 53, 0.4); transition: transform 0.2s, box-shadow 0.2s;">
+                        <i class="fa-solid fa-credit-card"></i> Pagar Consolidado con Webpay
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer Note -->
+            <div style="background: #111; border-top: 1px solid #333; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; color: #888; font-size: 0.8rem;">
+                <span>Eleodoro Drink Store &copy; 2026</span>
+                <span id="consolidado-summary-text">Catálogo comercial consolidado (24 atributos ERP)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ficha Técnica Detallada ERP (24 Datos) -->
+    <div id="ficha-detalle-modal" class="cart-modal hidden" style="justify-content: center; align-items: center; z-index: 1000000;">
+        <div class="cart-content" style="max-height: 92vh; width: 95%; max-width: 900px; overflow-y: auto; border-radius: 12px; background: #141414; border: 2px solid #ff9800; box-shadow: 0 12px 40px rgba(0,0,0,0.95); padding: 0; display: flex; flex-direction: column; color: #fff;">
+            <!-- Header Ficha -->
+            <div style="background: #0d0d0d; border-bottom: 1px solid #333; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fa-solid fa-clipboard-list" style="color: #ff9800; font-size: 1.8rem;"></i>
+                    <div>
+                        <h2 id="ficha-modal-title" style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #fff;">Ficha Técnica de Producto</h2>
+                        <span id="ficha-modal-sku" style="color: #ff9800; font-family: monospace; font-size: 0.85rem;">SKU: N/A</span>
+                    </div>
+                </div>
+                <button id="close-ficha-btn" style="color: #aaa; background: none; border: none; font-size: 1.6rem; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Body Ficha con 5 Secciones ERP -->
+            <div id="ficha-modal-body" style="padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+                <!-- Dinámico JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal WebPro Catalog Hub System -->
+    <div id="webpro-hub-modal" class="cart-modal hidden" style="justify-content: center; align-items: center; z-index: 999999;">
+        <div class="cart-content" style="max-height: 94vh; width: 95%; max-width: 1050px; overflow-y: auto; border-radius: 14px; background: #121212; border: 2px solid #00c853; box-shadow: 0 12px 40px rgba(0,200,83,0.4); padding: 0; display: flex; flex-direction: column; color: #fff;">
+            
+            <!-- Header WebPro Hub -->
+            <div style="background: linear-gradient(135deg, #1b5e20, #00c853); padding: 20px 28px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid #00e676;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <i class="fa-solid fa-rocket" style="color: #fff; font-size: 2.2rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></i>
+                    <div>
+                        <h2 style="margin: 0; font-size: 1.5rem; font-weight: 900; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.4);">WebPro Catalog Hub &bull; Distribuidora Central</h2>
+                        <p style="margin: 4px 0 0 0; color: #e8f5e9; font-size: 0.88rem;">Plataforma de Automatización de Catálogo, Precios, Stock, PDF, App Móvil, ERP y SII Chile</p>
+                    </div>
+                </div>
+                <button id="close-webpro-hub-btn" style="color: #fff; background: rgba(0,0,0,0.3); border: none; font-size: 1.6rem; cursor: pointer; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Dashboard Body -->
+            <div style="padding: 24px; display: flex; flex-direction: column; gap: 24px;">
+                
+                <!-- Checklist de Funcionalidades WebPro -->
+                <div style="background: rgba(0, 200, 83, 0.08); border: 1px solid rgba(0, 200, 83, 0.3); border-radius: 10px; padding: 14px 20px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-around; font-size: 0.85rem; font-weight: bold; color: #a5d6a7;">
+                    <span>✅ Subes un Excel</span>
+                    <span>✅ Stock Actualizado</span>
+                    <span>✅ Precios Sincronizados</span>
+                    <span>✅ Web en Vivo</span>
+                    <span>✅ App PWA Sync</span>
+                    <span>✅ Catálogos PDF</span>
+                    <span>✅ Integración ERP</span>
+                    <span>✅ Integración SII Chile</span>
+                </div>
+
+                <!-- Grid de Módulos Operativos -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    
+                    <!-- MÓDULO 1: Carga Masiva Excel -->
+                    <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+                        <h3 style="margin: 0; color: #00e676; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-file-excel"></i> 1. Cargar Excel (Stock & Precios)
+                        </h3>
+                        <p style="margin: 0; color: #aaa; font-size: 0.82rem; line-height: 1.4;">
+                            Sube el archivo Excel con tu inventario. El sistema actualizará automáticamente los precios y el stock en la Web y la App Móvil.
+                        </p>
+                        
+                        <div style="border: 2px dashed #00c853; border-radius: 8px; padding: 20px; text-align: center; background: rgba(0,200,83,0.03); margin-top: 5px;">
+                            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.2rem; color: #00c853; margin-bottom: 8px; display: block;"></i>
+                            <input type="file" id="webpro-excel-input" accept=".xlsx, .xls, .csv" style="display: none;">
+                            <button onclick="document.getElementById('webpro-excel-input').click()" style="background: #00c853; color: #000; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.88rem;">
+                                Seleccionar Archivo Excel
+                            </button>
+                            <div id="webpro-excel-filename" style="margin-top: 8px; font-size: 0.8rem; color: #ff9800; font-family: monospace;">Ningún archivo seleccionado</div>
+                        </div>
+
+                        <button id="webpro-excel-upload-btn" style="background: linear-gradient(135deg, #00c853, #1b5e20); color: #fff; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fa-solid fa-rotate"></i> Actualizar Web y App Ahora
+                        </button>
+                        
+                        <div id="webpro-excel-status" style="display: none; font-size: 0.85rem; padding: 10px; border-radius: 6px; background: #263238; color: #80deea;"></div>
+                    </div>
+
+                    <!-- MÓDULO 2: Catálogo PDF Automático -->
+                    <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+                        <h3 style="margin: 0; color: #ff9800; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-file-pdf"></i> 2. Catálogos PDF Automáticos
+                        </h3>
+                        <p style="margin: 0; color: #aaa; font-size: 0.82rem; line-height: 1.4;">
+                            Genera en 1-clic el catálogo digital imprimible con portadas, imágenes, códigos de barra y listas de precios para vendedores y WhatsApp.
+                        </p>
+                        
+                        <div style="background: #222; border-radius: 8px; padding: 15px; border: 1px solid #444; font-size: 0.85rem; color: #ddd;">
+                            <div>📄 <strong>Formato:</strong> PDF Imprimible Alta Resolución</div>
+                            <div>📷 <strong>Imágenes:</strong> Fotos Oficiales de Producto</div>
+                            <div>🏷️ <strong>Precios:</strong> Venta Detalle & Mayorista</div>
+                        </div>
+
+                        <a href="/api/webpro/generar-pdf" target="_blank" style="background: linear-gradient(135deg, #ff9800, #e65100); color: #fff; text-decoration: none; padding: 11px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fa-solid fa-download"></i> Generar & Descargar Catálogo PDF
+                        </a>
+                    </div>
+
+                    <!-- MÓDULO 3: Integración ERP -->
+                    <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+                        <h3 style="margin: 0; color: #2196f3; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-network-wired"></i> 3. Integración con ERP
+                        </h3>
+                        <p style="margin: 0; color: #aaa; font-size: 0.82rem; line-height: 1.4;">
+                            Sincronización bidireccional con sistemas ERP (Softland, Bsale, Bicom, Defontana, Odoo) mediante REST API & Webhooks.
+                        </p>
+
+                        <div style="background: #1e272c; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.78rem; color: #80deea; border: 1px solid #37474f;">
+                            <div><strong>ERP Endpoint:</strong> /api/erp/sync</div>
+                            <div><strong>Estado:</strong> <span style="color: #64b5f6;">🟢 CONECTADO (REST API)</span></div>
+                        </div>
+
+                        <button id="webpro-test-erp-btn" style="background: #1976d2; color: #fff; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fa-solid fa-plug"></i> Probar Sincronización ERP
+                        </button>
+                    </div>
+
+                    <!-- MÓDULO 4: Integración SII Chile -->
+                    <div style="background: #1a1a1a; border: 1px solid #333; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+                        <h3 style="margin: 0; color: #e91e63; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-building-columns"></i> 4. Integración SII Chile (DTE)
+                        </h3>
+                        <p style="margin: 0; color: #aaa; font-size: 0.82rem; line-height: 1.4;">
+                            Emisión de Boletas y Facturas Electrónicas DTE con desglose automático de IVA 19% e impuesto ILA a las bebidas y licores.
+                        </p>
+
+                        <div style="background: #2a1b24; padding: 12px; border-radius: 6px; font-size: 0.8rem; color: #f48fb1; border: 1px solid #880e4f;">
+                            <div><strong>Regímenes Tributarios:</strong> Afecto IVA 19% + ILA</div>
+                            <div><strong>Formato DTE:</strong> XML Normativo SII Chile</div>
+                        </div>
+
+                        <button id="webpro-test-sii-btn" style="background: #c2185b; color: #fff; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fa-solid fa-receipt"></i> Generar Vista Previa DTE SII
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Footer Modal -->
+            <div style="background: #0a0a0a; border-top: 1px solid #222; padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; color: #777; font-size: 0.82rem;">
+                <span>WebPro Catalog Hub &copy; 2026 &bull; Eleodoro Drink Store</span>
+                <span>Sistema de Automatización para Distribuidoras Medianas</span>
+            </div>
+
+        </div>
+    </div>
     <script src="catalogo.js?v=1006"></script>
     <script src="script.js?v=1006"></script>
 </body>

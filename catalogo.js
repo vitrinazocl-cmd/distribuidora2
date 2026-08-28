@@ -1,5 +1,4 @@
 const catalogoProductos = [
-  { id: 'PRUEBA50', name: "⭐ PRODUCTO DE PRUEBA WEBPAY $50", price: 50, category: "AGUA", image: "logo_transparente.png" },
   { id: 'LIFE3-01', name: "AGUA LIFE 3 LT x 6 unidades - CON GAS", price: 3590, category: "AGUA", image: "catalogo/LIFE3.webp" },
   { id: 'LIFE3-02', name: "AGUA LIFE 3 LT x 6 unidades - SIN GAS", price: 3590, category: "AGUA", image: "catalogo/LIFE3.webp" },
   { id: 'MASC-01', name: "AGUA MAS 600ML X12 UNID - UVA SIN GAS", price: 10516, category: "AGUA", image: "catalogo/MASC.webp" },
