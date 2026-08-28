@@ -1456,126 +1456,114 @@ a {
 }
 
 /* ==========================================================================
-   DECORACIÓN FIESTAS PATRIAS 18 DE SEPTIEMBRE (CHILE 🇨🇱)
+   DECORACIÓN FIESTAS PATRIAS 18 DE SEPTIEMBRE - CYBER TECH 4.0 (CHILE 🇨🇱)
    ========================================================================== */
 
-/* Banner Tricolor Superior */
-.fiestas-patrias-top-ribbon {
-    background: linear-gradient(90deg, #0033a0 0%, #0033a0 33.3%, #ffffff 33.3%, #ffffff 66.6%, #d52b1e 66.6%, #d52b1e 100%);
-    color: #111;
-    text-align: center;
-    padding: 6px 12px;
-    font-weight: 900;
-    font-size: 0.88rem;
-    letter-spacing: 0.5px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+/* Barra Superior Neón Tricolor LED */
+.cyber-18-top-bar {
+    background: #08080a;
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, #0066ff, #ffffff, #ff0033) 1;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     position: relative;
     z-index: 1001;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    text-transform: uppercase;
+    box-shadow: 0 4px 20px rgba(0, 102, 255, 0.3), 0 4px 20px rgba(255, 0, 51, 0.3);
 }
 
-.fiestas-patrias-top-ribbon span {
-    background: rgba(0, 0, 0, 0.85);
+.cyber-18-title {
+    font-size: 0.9rem;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #64b5f6, #ffffff, #ff5252);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.4));
+}
+
+.cyber-18-badge-btn {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff;
-    padding: 4px 18px;
+    padding: 5px 14px;
     border-radius: 20px;
-    border: 1.5px solid #ffd700;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 102, 255, 0.2);
 }
 
-/* Guirnalda de Banderitas Chilenas (Bunting Flags) */
-.banderitas-chilenas-bar {
+.cyber-18-badge-btn:hover {
+    background: linear-gradient(135deg, #0066ff, #ff0033);
+    border-color: #ffffff;
+    box-shadow: 0 0 20px rgba(255, 0, 51, 0.6);
+    transform: scale(1.05);
+}
+
+/* Glassmorphism Widget Cyber Fonda */
+.cyber-fonda-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 99999;
+    background: rgba(14, 14, 18, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    padding: 12px 18px;
     display: flex;
-    justify-content: space-around;
     align-items: center;
-    background: #0d0d0d;
-    border-bottom: 2px solid #d52b1e;
-    padding: 6px 12px;
-    overflow: hidden;
+    gap: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 15px rgba(0, 102, 255, 0.3);
+    animation: cyberPulse 4s infinite alternate;
 }
 
-.banderita-item {
-    font-size: 0.85rem;
-    font-weight: bold;
-    color: #fff;
-    animation: sway 2.5s ease-in-out infinite alternate;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+@keyframes cyberPulse {
+    0% { box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 15px rgba(0, 102, 255, 0.4); }
+    50% { box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(255, 255, 255, 0.5); }
+    100% { box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 15px rgba(255, 0, 51, 0.4); }
 }
 
-.banderita-item:nth-child(even) {
-    animation-delay: 0.5s;
+.cyber-star-icon {
+    font-size: 1.6rem;
+    color: #ffeb3b;
+    filter: drop-shadow(0 0 8px #ffeb3b);
+    animation: spinStar 8s linear infinite;
 }
 
-@keyframes sway {
-    0% { transform: rotate(-5deg); }
-    100% { transform: rotate(5deg); }
+@keyframes spinStar {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-/* Badge Patriota "18 de Septiembre" en Productos */
-.badge-dieciochero {
-    background: linear-gradient(135deg, #d52b1e, #0033a0);
-    color: #ffffff;
-    font-size: 0.75rem;
-    font-weight: bold;
+/* Etiqueta Neón en Tarjetas */
+.cyber-dieciocho-tag {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #ff1744;
+    color: #ff5252;
+    font-size: 0.72rem;
+    font-weight: 900;
     padding: 3px 8px;
     border-radius: 4px;
+    letter-spacing: 0.5px;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    border: 1px solid #ffffff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    margin-bottom: 5px;
+    gap: 5px;
+    box-shadow: 0 0 8px rgba(255, 23, 68, 0.4);
+    margin-bottom: 6px;
 }
 
-/* Cucarda Patriótica Flotante en la Esquina */
-.cucarda-patria-fixed {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 99999;
-    background: radial-gradient(circle, #0033a0 30%, #d52b1e 90%);
-    border: 3px solid #ffffff;
-    border-radius: 50%;
-    width: 65px;
-    height: 65px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 6px 20px rgba(213, 43, 30, 0.7);
-    color: #fff;
-    font-weight: bold;
-    font-size: 0.65rem;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.cucarda-patria-fixed:hover {
-    transform: scale(1.15) rotate(10deg);
-}
-
-.cucarda-star {
-    color: #ffffff;
-    font-size: 1.1rem;
-    margin-bottom: -2px;
-}
-
-.cucarda-text {
-    color: #ffd700;
-    font-weight: 900;
-    font-size: 0.68rem;
-    line-height: 1;
-}
 
 
 

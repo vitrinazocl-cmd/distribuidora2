@@ -79,16 +79,17 @@
         </div>
     </div>
 
-    <!-- Banner Festivo Tricolor de Fiestas Patrias 18 de Septiembre (Chile 🇨🇱) -->
-    <div class="fiestas-patrias-top-ribbon">
-        <span>🇨🇱 ¡VIVA CHILE! ESPÍRITU DIECIOCHERO EN DISTRIBUIDORA ELEODORO 🇨🇱</span>
-    </div>
-    <div class="banderitas-chilenas-bar">
-        <span class="banderita-item">🇨🇱 18 de Septiembre</span>
-        <span class="banderita-item">🍷 Terremotos & Chicha</span>
-        <span class="banderita-item">🥟 Empanadas & Asados</span>
-        <span class="banderita-item">🎶 Cueca Chilena</span>
-        <span class="banderita-item">🇨🇱 ¡Viva la Patria!</span>
+    <!-- Canvas Overlay Fuegos Artificiales Neón Cyber 18 -->
+    <canvas id="cyber-fireworks-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 99998;"></canvas>
+
+    <!-- Barra Superior Cyber Tech 18 de Septiembre (Chile 🇨🇱) -->
+    <div class="cyber-18-top-bar">
+        <div class="cyber-18-title">
+            <i class="fa-solid fa-bolt" style="color:#ffeb3b;"></i> ⚡ FONDA TECH 4.0 &bull; 18 DE SEPTIEMBRE DIECIOCHERO 🇨🇱
+        </div>
+        <button id="launch-cyber-fireworks-btn" class="cyber-18-badge-btn">
+            <i class="fa-solid fa-wand-magic-sparkles" style="color:#64b5f6;"></i> Lanzar Fuegos Neón 🎆
+        </button>
     </div>
 
     <div id="alcohol-warning-banner" style="background-color: var(--warning-red); color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">
@@ -1325,10 +1326,16 @@
 
         </div>
     </div>
-    <!-- Cucarda Patriótica Flotante (Fiestas Patrias Chile 🇨🇱) -->
-    <div class="cucarda-patria-fixed" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" title="¡Viva Chile! Fiestas Patrias 18 de Septiembre">
-        <i class="fa-solid fa-star cucarda-star"></i>
-        <span class="cucarda-text">VIVA<br>CHILE</span>
+    <!-- Widget Cyber Fonda Glassmorphism 18 de Septiembre -->
+    <div class="cyber-fonda-widget">
+        <i class="fa-solid fa-star-of-life cyber-star-icon"></i>
+        <div>
+            <div style="font-weight: 900; font-size: 0.8rem; color: #fff; letter-spacing: 0.5px;">FONDA TECH 2026 🇨🇱</div>
+            <div style="font-size: 0.72rem; color: #4fc3f7;">Fiestas Patrias Chile 4.0</div>
+        </div>
+        <button id="widget-fireworks-btn" style="background: linear-gradient(135deg, #0066ff, #ff0033); color: #fff; border: none; padding: 6px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.75rem; box-shadow: 0 0 10px rgba(0, 102, 255, 0.4);">
+            🎆 CELEBRAR
+        </button>
     </div>
 
     <script src="catalogo.js?v=1006"></script>
