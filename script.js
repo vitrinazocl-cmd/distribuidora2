@@ -631,7 +631,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const category = this.getAttribute('data-category');
             if (category === 'PROMOCIONES') {
-                productsTitle.textContent = 'NUESTROS PRODUCTOS DESTACADOS';
+                productsTitle.textContent = '🔥 PROMOCIONES EXCLUSIVAS: LOS 15 PRODUCTOS MÁS BARATOS DEL CATÁLOGO';
             } else if (category === 'TODOS') {
                 productsTitle.textContent = 'TODOS LOS PRODUCTOS';
             } else {
@@ -639,11 +639,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             let filtrados;
-            if (category === 'TODOS') {
+            if (category === 'PROMOCIONES') {
+                // Filtrar los 15 productos más baratos del catálogo
+                filtrados = [...baseCatalogo].sort((a, b) => a.price - b.price).slice(0, 15);
+            } else if (category === 'TODOS') {
                 filtrados = baseCatalogo;
             } else {
                 filtrados = baseCatalogo.filter(p => p.category === category);
             }
+            currentPage = 1;
             setProducts(filtrados);
 
             // Limpiar buscador si se navega
