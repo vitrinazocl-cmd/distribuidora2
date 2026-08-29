@@ -212,7 +212,7 @@ const catalogoProductos = [
   { id: 'POWA1-03', name: "POWERADE 1.1LT x 6 unidades - NARANJA", price: 7550, category: "BEBIDAS", image: "catalogo/GATORADE_1LT_DESECHABLE_x_6_unidades_-_NARANJA.jpg" },
   { id: 'PROD002', name: "Pack Cerveza Heineken Lata 6x350cc", price: 4990, category: "CERVEZA", image: "catalogo/Pack_Cerveza_Heineken_Lata_6x350cc.webp" },
   { id: 'PROD006', name: "Papas Fritas Kryzpo Original 130g", price: 1490, category: "LICORES", image: "catalogo/Papas_Fritas_Kryzpo_Original_130g.webp" },
-  { id: 'PROD001', name: "Pisco Mistral 35° 1L", price: 6990, category: "LICORES", image: "logo.jpg.jpeg" },
+  { id: 'PROD001', name: "Pisco Mistral 35° 1L", price: 6990, category: "LICORES", image: "catalogo/Pisco_Mistral_35_1L.webp" },
   { id: 'RB355', name: "RED BULL 355CC X 12 UNIDADES", price: 20760, category: "ENERGÃ‰TICAS", image: "catalogo/RED_BULL_355CC_X_12_UNIDADES.jpg" },
   { id: 'RB473', name: "RED BULL 473CC X 12 UNIDADES", price: 25920, category: "ENERGÃ‰TICAS", image: "catalogo/RED_BULL_473CC_X_12_UNIDADES.webp" },
   { id: 'RB250', name: "REDBULL 250ML x12 unid", price: 15200, category: "BEBIDAS", image: "catalogo/REDBULL_250ML_x12_unid.avif" },
