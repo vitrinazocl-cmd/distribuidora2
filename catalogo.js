@@ -123,7 +123,7 @@ const catalogoProductos = [
   { id: 'ICE275-03', name: "COCTEL CAPEL ICE 275 ML X 24 - BERRIE", price: 19000, category: "LICORES", image: "catalogo/COCTEL_CAPEL_ICE_275_ML_X_24_-_BERRIE.webp" },
   { id: 'ICE275-04', name: "COCTEL CAPEL ICE 275 ML X 24 - MANZANA", price: 19000, category: "LICORES", image: "catalogo/COCTEL_CAPEL_ICE_275_ML_X_24_-_MANZANA.webp" },
   { id: 'COR330', name: "CORONA 330ML X18 UNID", price: 14850, category: "CERVEZA", image: "catalogo/COR330.webp" },
-  { id: 'COR620', name: "CORONA 620CC X12 UNID", price: 13090, category: "CERVEZA", image: "catalogo/REDBULL_250ML_x12_unid.avif" },
+  { id: 'COR620', name: "CORONA 620CC X12 UNID", price: 13090, category: "CERVEZA", image: "catalogo/CORONA_620CC_X12_UNID.avif" },
   { id: 'CRISLT', name: "CRISTAL LATA 470CC x 24 unidades", price: 16560, category: "CERVEZA", image: "catalogo/BIG_COLA_LATA_473ML_x_6_unidades.webp" },
   { id: 'CRIS12', name: "CRISTAL LATA 470cc X12UNID", price: 8520, category: "CERVEZA", image: "catalogo/CRIS12.webp" },
   { id: 'LIN', name: "ENCENDEDOR LIN", price: 2100, category: "BEBIDAS", image: "catalogo/LIN.webp" },
