@@ -1,6 +1,6 @@
 const catalogoProductos = [
-  { id: 'LIFE3-01', name: "AGUA LIFE 3 LT x 6 unidades - CON GAS", price: 3590, category: "AGUA", image: "catalogo/CACHANTUN_MAS_1.6_LT_DESECHABLE_x_6_unidades_-_CITRUS_CON_GAS.webp" },
-  { id: 'LIFE3-02', name: "AGUA LIFE 3 LT x 6 unidades - SIN GAS", price: 3590, category: "AGUA", image: "catalogo/CACHANTUN_MAS_1.6_LT_DESECHABLE_x_6_unidades_-_UVA_SIN_GAS.jpg" },
+  { id: 'LIFE3-01', name: "AGUA LIFE 3 LT x 6 unidades - CON GAS", price: 3590, category: "AGUA", image: "catalogo/AGUA_LIFE_3L_BLANCO.jpg" },
+  { id: 'LIFE3-02', name: "AGUA LIFE 3 LT x 6 unidades - SIN GAS", price: 3590, category: "AGUA", image: "catalogo/AGUA_LIFE_3L_BLANCO.jpg" },
   { id: 'MASC-01', name: "AGUA MAS 600ML X12 UNID - UVA SIN GAS", price: 10516, category: "AGUA", image: "catalogo/AGUA_MAS_600ML_X12_UNID_-_UVA_SIN_GAS.webp" },
   { id: 'MASC-02', name: "AGUA MAS 600ML X12 UNID - MANZANASIN GAS", price: 10516, category: "AGUA", image: "catalogo/AGUA_MAS_600ML_X12_UNID_-_MANZANASIN_GAS.webp" },
   { id: 'MASC-03', name: "AGUA MAS 600ML X12 UNID - PERA SIN GAS", price: 10516, category: "AGUA", image: "catalogo/AGUA_MAS_600ML_X12_UNID_-_PERA_SIN_GAS.webp" },
