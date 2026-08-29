@@ -1313,6 +1313,59 @@
 
         </div>
     </div>
+
+    <!-- Modal Vale Digital de Pedido (Ticket Carnicería / Distribuidora) -->
+    <div id="vale-digital-modal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 100000; justify-content: center; align-items: center; padding: 20px; overflow-y: auto;">
+        <div style="background: #ffffff; color: #000000; width: 100%; max-width: 440px; border-radius: 12px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; font-family: 'Courier New', Courier, monospace; border: 2px dashed #333;">
+            
+            <button id="close-vale-modal-btn" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: #333;">&times;</button>
+            
+            <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px; margin-bottom: 15px;">
+                <h2 style="margin: 0; font-size: 22px; font-weight: 900;">DISTRIBUIDORA ELEODORO</h2>
+                <p style="margin: 4px 0; font-size: 13px;">El Grande Drink Store &bull; Venta Mayorista</p>
+                <div id="vale-folio-badge" style="display: inline-block; background: #000; color: #fff; font-size: 15px; font-weight: bold; padding: 6px 14px; margin-top: 8px; border-radius: 4px;">VALE N° VALE-2026-000000</div>
+            </div>
+
+            <div id="vale-cliente-info" style="font-size: 13px; line-height: 1.5; margin-bottom: 15px; background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+                <!-- Inyectado por JS -->
+            </div>
+
+            <div style="max-height: 250px; overflow-y: auto; margin-bottom: 15px; border-bottom: 1px solid #000;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid #000;">
+                            <th style="text-align: left; padding: 4px 0;">CANT</th>
+                            <th style="text-align: left; padding: 4px 0;">PRODUCTO</th>
+                            <th style="text-align: right; padding: 4px 0;">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vale-items-table">
+                        <!-- Inyectado por JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="vale-totales-box" style="font-size: 14px; margin-bottom: 20px;">
+                <!-- Inyectado por JS -->
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <a id="vale-wsp-direct-btn" href="#" target="_blank" style="background: #25d366; color: white; text-align: center; text-decoration: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 12px rgba(37,211,102,0.4);">
+                    <i class="fa-brands fa-whatsapp fa-xl"></i> Enviar Vale a WhatsApp (+56989784973)
+                </a>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button id="vale-print-btn" style="flex: 1; background: #333; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <i class="fa-solid fa-print"></i> Imprimir Vale
+                    </button>
+                    <button id="vale-close-btn" style="flex: 1; background: #666; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px;">
+                        Seguir Comprando
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <script src="catalogo.js?v=1006"></script>
     <script src="script.js?v=1006"></script>
 </body>

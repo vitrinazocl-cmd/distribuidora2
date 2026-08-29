@@ -761,6 +761,237 @@ app.post('/api/sii/generar-dte', (req, res) => {
     }
 });
 
+// ==========================================================================
+// SISTEMA DE VALE DIGITAL DE PEDIDO & SINCRONIZACIÓN WHATSAPP +56989784973
+// ==========================================================================
+
+const valesDigitalesMap = new Map();
+
+app.post('/api/generar-vale-digital', (req, res) => {
+    try {
+        const { carrito, cliente, total, costoEnvio, sucursal } = req.body;
+
+        if (!carrito || carrito.length === 0) {
+            return res.status(400).json({ error: "El carrito está vacío." });
+        }
+
+        const numRandom = Math.floor(100000 + Math.random() * 900000);
+        const folioVale = `VALE-2026-${numRandom}`;
+        const fechaHora = new Date().toLocaleString('es-CL', { timeZone: 'America/Santiago' });
+
+        const subtotal = carrito.reduce((acc, i) => acc + (i.price * i.quantity), 0);
+        const envio = costoEnvio || 0;
+        const totalFinal = subtotal + envio;
+        const netos = Math.round(totalFinal / 1.19);
+        const iva = totalFinal - netos;
+
+        const ordenVale = {
+            folioVale,
+            fechaHora,
+            cliente: cliente || { nombre: "Cliente General", rut: "", direccion: "", comuna: "" },
+            sucursal: sucursal || "Laguna Sur",
+            carrito,
+            subtotal,
+            envio,
+            totalFinal,
+            netos,
+            iva,
+            vendedorWsp: "+56989784973",
+            estado: "PENDIENTE_CONFIRMACION"
+        };
+
+        valesDigitalesMap.set(folioVale, ordenVale);
+
+        try {
+            const ventasFile = path.join(__dirname, 'ventas.json');
+            let ventas = [];
+            if (fs.existsSync(ventasFile)) {
+                const raw = fs.readFileSync(ventasFile, 'utf-8');
+                ventas = JSON.parse(raw || '[]');
+            }
+            ventas.push(ordenVale);
+            fs.writeFileSync(ventasFile, JSON.stringify(ventas, null, 2), 'utf-8');
+        } catch (e) {
+            console.error("Error guardando venta:", e.message);
+        }
+
+        let wspMsg = `🧾 *VALE DIGITAL DE PEDIDO N° ${folioVale}*\n`;
+        wspMsg += `🏢 *Distribuidora Eleodoro El Grande*\n`;
+        wspMsg += `📅 *Fecha:* ${fechaHora}\n`;
+        wspMsg += `-----------------------------------\n`;
+        wspMsg += `👤 *Cliente:* ${ordenVale.cliente.nombre}\n`;
+        if (ordenVale.cliente.rut) wspMsg += `📋 *RUT:* ${ordenVale.cliente.rut}\n`;
+        wspMsg += `📍 *Dirección:* ${ordenVale.cliente.direccion}, ${ordenVale.cliente.comuna}\n`;
+        wspMsg += `🏪 *Sucursal:* ${ordenVale.sucursal}\n\n`;
+        wspMsg += `🛒 *DETALLE DE COMPRA (TICKET):*\n`;
+
+        carrito.forEach(item => {
+            const itemTotal = (item.price * item.quantity).toLocaleString('es-CL');
+            wspMsg += `• ${item.quantity}x ${item.name} ($${item.price.toLocaleString('es-CL')}) = *$${itemTotal}*\n`;
+        });
+
+        wspMsg += `-----------------------------------\n`;
+        wspMsg += `📦 *Subtotal:* $${subtotal.toLocaleString('es-CL')}\n`;
+        wspMsg += `🚚 *Despacho:* $${envio.toLocaleString('es-CL')}\n`;
+        wspMsg += `💰 *TOTAL A PAGAR:* *$${totalFinal.toLocaleString('es-CL')}* (IVA Incl.)\n\n`;
+        wspMsg += `📌 *Hola vendedor, envío mi Vale Digital para confirmar pago y emisión de boleta/factura SII.*`;
+
+        const encodedMsg = encodeURIComponent(wspMsg);
+        const whatsappUrl = `https://wa.me/56989784973?text=${encodedMsg}`;
+
+        res.json({
+            success: true,
+            folioVale,
+            orden: ordenVale,
+            whatsappUrl,
+            valeUrl: `/api/vale-digital/${folioVale}`
+        });
+    } catch (err) {
+        console.error("Error generando vale digital:", err);
+        res.status(500).json({ error: "Error generando Vale Digital" });
+    }
+});
+
+app.get('/api/vale-digital/:folioVale', (req, res) => {
+    const { folioVale } = req.params;
+    const orden = valesDigitalesMap.get(folioVale);
+
+    const ticketData = orden || {
+        folioVale,
+        fechaHora: new Date().toLocaleString('es-CL'),
+        cliente: { nombre: "Cliente Sitio Web", direccion: "Santiago", comuna: "Pudahuel" },
+        sucursal: "Laguna Sur",
+        carrito: [{ name: "Producto Distribuidora", price: 5000, quantity: 1 }],
+        subtotal: 5000,
+        envio: 0,
+        totalFinal: 5000,
+        iva: 798
+    };
+
+    const html = `
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vale Digital ${ticketData.folioVale} - Distribuidora Eleodoro</title>
+        <style>
+            body {
+                font-family: 'Courier New', Courier, monospace;
+                background-color: #e0e0e0;
+                margin: 0;
+                padding: 20px;
+                display: flex;
+                justify-content: center;
+            }
+            .ticket-box {
+                background: #ffffff;
+                width: 100%;
+                max-width: 420px;
+                padding: 25px 20px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                border: 1px dashed #444;
+                border-radius: 4px;
+            }
+            .ticket-header {
+                text-align: center;
+                border-bottom: 2px solid #000;
+                padding-bottom: 12px;
+                margin-bottom: 15px;
+            }
+            .ticket-header h2 { margin: 0; font-size: 20px; text-transform: uppercase; }
+            .ticket-header p { margin: 3px 0; font-size: 12px; }
+            .folio-badge {
+                display: inline-block;
+                background: #000;
+                color: #fff;
+                font-size: 16px;
+                font-weight: bold;
+                padding: 6px 12px;
+                margin-top: 8px;
+                border-radius: 4px;
+            }
+            .ticket-section { margin-bottom: 15px; font-size: 13px; }
+            .ticket-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 12px 0;
+                font-size: 12px;
+            }
+            .ticket-table th { border-bottom: 1px solid #000; text-align: left; padding: 4px 0; }
+            .ticket-table td { padding: 6px 0; border-bottom: 1px dotted #ccc; }
+            .ticket-totals { border-top: 2px solid #000; padding-top: 10px; font-size: 14px; }
+            .totals-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+            .totals-row.grand-total {
+                font-size: 18px;
+                font-weight: bold;
+                border-top: 1px solid #000;
+                padding-top: 6px;
+                margin-top: 6px;
+            }
+            .ticket-footer { text-align: center; font-size: 11px; margin-top: 20px; border-top: 1px dashed #888; padding-top: 12px; }
+            @media print { body { background: white; padding: 0; } .no-print { display: none; } .ticket-box { box-shadow: none; border: none; } }
+        </style>
+    </head>
+    <body>
+        <div class="ticket-box">
+            <div class="ticket-header">
+                <h2>DISTRIBUIDORA ELEODORO</h2>
+                <p>El Grande Drink Store &bull; Distribución Mayorista</p>
+                <p>WhatsApp Vendedor: +56 9 8978 4973</p>
+                <div class="folio-badge">VALE N° ${ticketData.folioVale}</div>
+            </div>
+
+            <div class="ticket-section">
+                <div><strong>Fecha:</strong> ${ticketData.fechaHora}</div>
+                <div><strong>Cliente:</strong> ${ticketData.cliente.nombre}</div>
+                ${ticketData.cliente.rut ? `<div><strong>RUT:</strong> ${ticketData.cliente.rut}</div>` : ''}
+                <div><strong>Dirección:</strong> ${ticketData.cliente.direccion}, ${ticketData.cliente.comuna}</div>
+                <div><strong>Sucursal:</strong> ${ticketData.sucursal}</div>
+            </div>
+
+            <table class="ticket-table">
+                <thead>
+                    <tr>
+                        <th>CANT</th>
+                        <th>DESCRIPCIÓN</th>
+                        <th style="text-align:right;">P.UNIT</th>
+                        <th style="text-align:right;">TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${ticketData.carrito.map(i => `
+                        <tr>
+                            <td>${i.quantity}</td>
+                            <td>${i.name}</td>
+                            <td style="text-align:right;">$${i.price.toLocaleString('es-CL')}</td>
+                            <td style="text-align:right;">$${(i.price * i.quantity).toLocaleString('es-CL')}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+
+            <div class="ticket-totals">
+                <div class="totals-row"><span>Subtotal:</span> <span>$${ticketData.subtotal.toLocaleString('es-CL')}</span></div>
+                <div class="totals-row"><span>Despacho:</span> <span>$${ticketData.envio.toLocaleString('es-CL')}</span></div>
+                <div class="totals-row"><span>IVA (19% incl.):</span> <span>$${(ticketData.iva || 0).toLocaleString('es-CL')}</span></div>
+                <div class="totals-row grand-total"><span>TOTAL COMPRA:</span> <span>$${ticketData.totalFinal.toLocaleString('es-CL')}</span></div>
+            </div>
+
+            <div class="ticket-footer">
+                <div style="font-size: 24px; font-family: monospace; letter-spacing: 3px; margin: 10px 0;">||| | ||||| |||| | |||</div>
+                <p><strong>VALE DIGITAL PROVISORIO DE COMPRA</strong></p>
+                <p>Presenta este vale a nuestro vendedor por WhatsApp (+56989784973) para confirmar el pago y recibir tu documento legal SII.</p>
+                <button class="no-print" onclick="window.print();" style="margin-top: 10px; padding: 10px 20px; background: #000; color: #fff; border: none; cursor: pointer; border-radius: 4px; font-weight: bold;">🖨️ Imprimir Vale Digital</button>
+            </div>
+        </div>
+    </body>
+    </html>
+    `;
+
+    res.send(html);
+});
+
 // Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`=================================================`);

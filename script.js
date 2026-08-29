@@ -1048,7 +1048,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (shippingHome) shippingHome.addEventListener('change', updateShippingUI);
     if (shippingPickup) shippingPickup.addEventListener('change', updateShippingUI);
 
-    // Checkout (Integración con Webpay)
+    // Checkout (Generación de Vale Digital & WhatsApp +56989784973)
     if(checkoutBtn) {
         checkoutBtn.addEventListener('click', async () => {
             if(carrito.length === 0) { alert('El carrito está vacío.'); return; }
@@ -1078,7 +1078,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Cambiar texto del botón
             const textOriginal = checkoutBtn.innerHTML;
-            checkoutBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Conectando...';
+            checkoutBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generando Vale Digital...';
             checkoutBtn.disabled = true;
 
             const total = carrito.reduce((acc, item) => acc + (item.price * item.quantity), 0);
@@ -1097,13 +1097,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 comuna: communeInput.value
             };
 
+            const sucursalActual = typeof currentBranch !== 'undefined' && currentBranch ? currentBranch : "Laguna Sur";
+
             try {
-                // 1. Llamar al backend para iniciar el pago, enviando el carrito y cliente
-                const response = await fetch(`${BACKEND_URL}/api/pagar`, {
+                // 1. Llamar al backend para generar el Vale Digital
+                const response = await fetch('/api/generar-vale-digital', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
                         total: finalTotal,
+                        costoEnvio: shippingCost,
+                        sucursal: sucursalActual,
                         carrito: carrito,
                         cliente: clienteInfo
                     })
@@ -1111,37 +1115,84 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const data = await response.json();
                 
-                if (data.url && data.token) {
-                    // 2. Guardar cliente temporalmente para recuperar después si es necesario
-                    localStorage.setItem('clienteTemporal', JSON.stringify(clienteInfo));
+                if (data.success && data.folioVale) {
+                    checkoutBtn.innerHTML = textOriginal;
+                    checkoutBtn.disabled = false;
 
-                    // 3. Crear formulario automático para Webpay
-                    const form = document.createElement('form');
-                    form.action = data.url;
-                    form.method = 'POST';
-                    
-                    const inputToken = document.createElement('input');
-                    inputToken.type = 'hidden';
-                    inputToken.name = 'token_ws';
-                    inputToken.value = data.token;
-                    
-                    form.appendChild(inputToken);
-                    document.body.appendChild(form);
-                    
-                    // 4. Enviar a Transbank
-                    form.submit(); 
+                    // 2. Llenar información en el Modal del Vale Digital
+                    const valeModal = document.getElementById('vale-digital-modal');
+                    const folioBadge = document.getElementById('vale-folio-badge');
+                    const clienteBox = document.getElementById('vale-cliente-info');
+                    const itemsTable = document.getElementById('vale-items-table');
+                    const totalesBox = document.getElementById('vale-totales-box');
+                    const wspBtn = document.getElementById('vale-wsp-direct-btn');
+
+                    if (folioBadge) folioBadge.textContent = `VALE N° ${data.folioVale}`;
+                    if (clienteBox) {
+                        clienteBox.innerHTML = `
+                            <div><strong>Fecha:</strong> ${data.orden.fechaHora}</div>
+                            <div><strong>Cliente:</strong> ${clienteInfo.nombre}</div>
+                            ${clienteInfo.rut ? `<div><strong>RUT:</strong> ${clienteInfo.rut}</div>` : ''}
+                            <div><strong>Dirección:</strong> ${clienteInfo.direccion}, ${clienteInfo.comuna}</div>
+                            <div><strong>Sucursal:</strong> ${sucursalActual}</div>
+                        `;
+                    }
+                    if (itemsTable) {
+                        itemsTable.innerHTML = carrito.map(i => `
+                            <tr>
+                                <td style="padding: 6px 0; border-bottom: 1px dotted #ccc;">${i.quantity}</td>
+                                <td style="padding: 6px 0; border-bottom: 1px dotted #ccc;">${i.name}</td>
+                                <td style="padding: 6px 0; border-bottom: 1px dotted #ccc; text-align: right;">$${(i.price * i.quantity).toLocaleString('es-CL')}</td>
+                            </tr>
+                        `).join('');
+                    }
+                    if (totalesBox) {
+                        totalesBox.innerHTML = `
+                            <div style="display:flex; justify-content:space-between;"><span>Subtotal:</span> <span>$${total.toLocaleString('es-CL')}</span></div>
+                            <div style="display:flex; justify-content:space-between;"><span>Despacho:</span> <span>$${shippingCost.toLocaleString('es-CL')}</span></div>
+                            <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:16px; border-top:1px solid #000; margin-top:6px; padding-top:6px;"><span>TOTAL:</span> <span>$${finalTotal.toLocaleString('es-CL')}</span></div>
+                        `;
+                    }
+                    if (wspBtn) wspBtn.href = data.whatsappUrl;
+
+                    // 3. Mostrar el Modal del Vale Digital
+                    if (valeModal) valeModal.style.display = 'flex';
+
+                    // 4. Abrir WhatsApp automáticamente
+                    window.open(data.whatsappUrl, '_blank');
+
+                    // 5. Vaciar carrito
+                    carrito = [];
+                    updateCartUI();
+
                 } else {
-                    alert('Error del Servidor: ' + (data.error || 'No se recibió token de Webpay.'));
+                    alert('Error generando Vale Digital: ' + (data.error || 'Intenta nuevamente.'));
                     checkoutBtn.innerHTML = textOriginal;
                     checkoutBtn.disabled = false;
                 }
             } catch (error) {
                 console.error(error);
-                alert('No se pudo conectar con el servidor de pagos. Por favor, verifica tu conexión o intenta nuevamente.');
+                alert('Ocurrió un problema generando tu Vale Digital. Inténtalo nuevamente.');
                 checkoutBtn.innerHTML = textOriginal;
                 checkoutBtn.disabled = false;
             }
         });
+    }
+
+    // Modal Vale Digital Event Listeners
+    const valeModalEl = document.getElementById('vale-digital-modal');
+    const closeValeModalBtn = document.getElementById('close-vale-modal-btn');
+    const valeCloseBtn = document.getElementById('vale-close-btn');
+    const valePrintBtn = document.getElementById('vale-print-btn');
+
+    if (closeValeModalBtn && valeModalEl) {
+        closeValeModalBtn.addEventListener('click', () => valeModalEl.style.display = 'none');
+    }
+    if (valeCloseBtn && valeModalEl) {
+        valeCloseBtn.addEventListener('click', () => valeModalEl.style.display = 'none');
+    }
+    if (valePrintBtn) {
+        valePrintBtn.addEventListener('click', () => window.print());
     }
 
     // Custom Product Modal Logic
