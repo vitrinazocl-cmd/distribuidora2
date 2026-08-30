@@ -49,7 +49,7 @@ const catalogoProductos = [
   { id: 'CATUNSG25-01', name: "CACHANTUN 2.5LT DESECHABLE x 6 unidades - CON GAS", price: 6540, category: "AGUA", image: "catalogo/CACHANTUN_MAS_1.6_LT_DESECHABLE_x_6_unidades_-_CITRUS_CON_GAS.webp" },
   { id: 'CATUNSG25-02', name: "CACHANTUN 2.5LT DESECHABLE x 6 unidades - SIN GAS", price: 6540, category: "AGUA", image: "catalogo/CACHANTUN_MAS_1.6_LT_DESECHABLE_x_6_unidades_-_UVA_SIN_GAS.jpg" },
   { id: 'CATUNSG5-01', name: "CACHANTUN 500ML x 12 unidades - CON GAS", price: 4000, category: "AGUA", image: "catalogo/CACHANTUN 500ML x 12 unidades - CON GAS.webp" },
-  { id: 'CATUNSG5-02', name: "CACHANTUN 500ML x 12 unidades - SIN GAS", price: 4000, category: "AGUA", image: "catalogo/CACHANTUN_500ML_x_12_unidades_-_STRONG_GAS.avif" },
+  { id: 'CATUNSG5-02', name: "CACHANTUN 500ML x 12 unidades - SIN GAS", price: 4000, category: "AGUA", image: "catalogo/CACHANTUN 500ML x 12 unidades - SIN GAS.webp" },
   { id: 'CATUNSG5-03', name: "CACHANTUN 500ML x 12 unidades - STRONG GAS", price: 4000, category: "AGUA", image: "catalogo/CACHANTUN_500ML_x_12_unidades_-_STRONG_GAS.avif" },
   { id: 'CATUNSG5-04', name: "CACHANTUN 500ML x 12 unidades - LIGTH GAS", price: 4000, category: "AGUA", image: "catalogo/CACHANTUN_500ML_x_12_unidades_-_LIGTH_GAS.webp" },
   { id: 'MASP-01', name: "CACHANTUN MAS 1.6 LT DESECHABLE x 6 unidades - UVA SIN GAS", price: 7521, category: "AGUA", image: "catalogo/CACHANTUN_MAS_1.6_LT_DESECHABLE_x_6_unidades_-_UVA_SIN_GAS.jpg" },
