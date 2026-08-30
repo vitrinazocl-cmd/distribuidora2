@@ -31,7 +31,7 @@ const catalogoProductos = [
   { id: 'ANDPACK', name: "ANDINA DEL VALLE PACK SURTIDO", price: 4500, category: "BEBIDAS", image: "catalogo/ANDINA_DEL_VALLE_PACK_SURTIDO.jpg" },
   { id: 'ARROZ', name: "ARROZ MANGA 10 UNID", price: 6950, category: "BEBIDAS", image: "catalogo/ARROZ.webp" },
   { id: 'BAV470', name: "BAVARIA 470 ML X24 UNID", price: 12240, category: "CERVEZA", image: "catalogo/BAV470.webp" },
-  { id: 'BEN3-01', name: "BENEDICTINO 3LT x 6 unidades - CON GAS", price: 6900, category: "AGUA", image: "catalogo/SCORE_WATER_473ML_x_24_unidades_-_CON_GAS.jpg" },
+  { id: 'BEN3-01', name: "BENEDICTINO 3LT x 6 unidades - CON GAS", price: 6900, category: "AGUA", image: "catalogo/BENEDICTINO 3LT x 6 unidades - CON GAS.png" },
   { id: 'BEN3-02', name: "BENEDICTINO 3LT x 6 unidades - SIN GAS", price: 6900, category: "AGUA", image: "catalogo/SCORE_WATER_473ML_x_24_unidades_-_SIN_GAS.jpg" },
   { id: 'BEN5-01', name: "BENEDICTINO 500ML x 12 unidades - CON GAS", price: 4680, category: "AGUA", image: "catalogo/CACHANTUN_500ML_x_12_unidades_-_STRONG_GAS.avif" },
   { id: 'BEN5-02', name: "BENEDICTINO 500ML x 12 unidades - SIN GAS", price: 4680, category: "AGUA", image: "catalogo/CACHANTUN_500ML_x_12_unidades_-_STRONG_GAS.avif" },
