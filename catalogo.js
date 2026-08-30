@@ -32,7 +32,7 @@ const catalogoProductos = [
   { id: 'ARROZ', name: "ARROZ MANGA 10 UNID", price: 6950, category: "BEBIDAS", image: "catalogo/ARROZ.webp" },
   { id: 'BAV470', name: "BAVARIA 470 ML X24 UNID", price: 12240, category: "CERVEZA", image: "catalogo/BAV470.webp" },
   { id: 'BEN3-01', name: "BENEDICTINO 3LT x 6 unidades - CON GAS", price: 6900, category: "AGUA", image: "catalogo/BENEDICTINO 3LT x 6 unidades - CON GAS.webp" },
-  { id: 'BEN3-02', name: "BENEDICTINO 3LT x 6 unidades - SIN GAS", price: 6900, category: "AGUA", image: "catalogo/SCORE_WATER_473ML_x_24_unidades_-_SIN_GAS.jpg" },
+  { id: 'BEN3-02', name: "BENEDICTINO 3LT x 6 unidades - SIN GAS", price: 6900, category: "AGUA", image: "catalogo/BENEDICTINO 3LT x 6 unidades - SIN GAS.png" },
   { id: 'BEN5-01', name: "BENEDICTINO 500ML x 12 unidades - CON GAS", price: 4680, category: "AGUA", image: "catalogo/CACHANTUN_500ML_x_12_unidades_-_STRONG_GAS.avif" },
   { id: 'BEN5-02', name: "BENEDICTINO 500ML x 12 unidades - SIN GAS", price: 4680, category: "AGUA", image: "catalogo/CACHANTUN_500ML_x_12_unidades_-_STRONG_GAS.avif" },
   { id: 'BOMB200-01', name: "BOMBILLIN 200CC X24 - DURAZNO", price: 6480, category: "BEBIDAS", image: "catalogo/BOMBILLIN_200CC_X24_-_DURAZNO.png" },
