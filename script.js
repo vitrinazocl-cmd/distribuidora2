@@ -1102,10 +1102,20 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const sucursalActual = (typeof selectedBranchName !== 'undefined' && selectedBranchName) ? selectedBranchName : (typeof currentBranch !== 'undefined' && currentBranch ? currentBranch : "Laguna Sur");
+            
+            let vendedorWsp = "56949692316";
+            let vendedorNombre = "Sucursal Laguna Sur";
+            if (sucursalActual === "Cerro Navia") {
+                vendedorWsp = "56956264496";
+                vendedorNombre = "René Oliva (Cerro Navia)";
+            }
+
+            let folioVale = `VALE-2026-${Math.floor(100000 + Math.random() * 900000)}`;
+            let fechaHora = new Date().toLocaleString('es-CL');
+            let whatsappUrl = '';
 
             try {
-                // 1. Llamar al backend para generar el Vale Digital
-                const response = await fetch('/api/generar-vale-digital', {
+                const response = await fetch(`${BACKEND_URL}/api/generar-vale-digital`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
@@ -1117,69 +1127,90 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                 });
                 
-                const data = await response.json();
-                
-                if (data.success && data.folioVale) {
-                    checkoutBtn.innerHTML = textOriginal;
-                    checkoutBtn.disabled = false;
-
-                    // 2. Llenar información en el Modal del Vale Digital
-                    const valeModal = document.getElementById('vale-digital-modal');
-                    const folioBadge = document.getElementById('vale-folio-badge');
-                    const clienteBox = document.getElementById('vale-cliente-info');
-                    const itemsTable = document.getElementById('vale-items-table');
-                    const totalesBox = document.getElementById('vale-totales-box');
-                    const wspBtn = document.getElementById('vale-wsp-direct-btn');
-
-                    if (folioBadge) folioBadge.textContent = `VALE N° ${data.folioVale}`;
-                    if (clienteBox) {
-                        clienteBox.innerHTML = `
-                            <div><strong>Fecha:</strong> ${data.orden.fechaHora}</div>
-                            <div><strong>Cliente:</strong> ${clienteInfo.nombre}</div>
-                            ${clienteInfo.rut ? `<div><strong>RUT:</strong> ${clienteInfo.rut}</div>` : ''}
-                            <div><strong>Dirección:</strong> ${clienteInfo.direccion}, ${clienteInfo.comuna}</div>
-                            <div><strong>Sucursal:</strong> ${sucursalActual}</div>
-                        `;
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success && data.folioVale) {
+                        folioVale = data.folioVale;
+                        if (data.orden && data.orden.fechaHora) fechaHora = data.orden.fechaHora;
+                        if (data.whatsappUrl) whatsappUrl = data.whatsappUrl;
                     }
-                    if (itemsTable) {
-                        itemsTable.innerHTML = carrito.map(i => `
-                            <tr>
-                                <td style="padding: 6px 0; border-bottom: 1px dotted #ccc;">${i.quantity}</td>
-                                <td style="padding: 6px 0; border-bottom: 1px dotted #ccc;">${i.name}</td>
-                                <td style="padding: 6px 0; border-bottom: 1px dotted #ccc; text-align: right;">$${(i.price * i.quantity).toLocaleString('es-CL')}</td>
-                            </tr>
-                        `).join('');
-                    }
-                    if (totalesBox) {
-                        totalesBox.innerHTML = `
-                            <div style="display:flex; justify-content:space-between;"><span>Subtotal:</span> <span>$${total.toLocaleString('es-CL')}</span></div>
-                            <div style="display:flex; justify-content:space-between;"><span>Despacho:</span> <span>$${shippingCost.toLocaleString('es-CL')}</span></div>
-                            <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:16px; border-top:1px solid #000; margin-top:6px; padding-top:6px;"><span>TOTAL:</span> <span>$${finalTotal.toLocaleString('es-CL')}</span></div>
-                        `;
-                    }
-                    if (wspBtn) wspBtn.href = data.whatsappUrl;
-
-                    // 3. Mostrar el Modal del Vale Digital
-                    if (valeModal) valeModal.style.display = 'flex';
-
-                    // 4. Abrir WhatsApp automáticamente
-                    window.open(data.whatsappUrl, '_blank');
-
-                    // 5. Vaciar carrito
-                    carrito = [];
-                    updateCartUI();
-
-                } else {
-                    alert('Error generando Vale Digital: ' + (data.error || 'Intenta nuevamente.'));
-                    checkoutBtn.innerHTML = textOriginal;
-                    checkoutBtn.disabled = false;
                 }
-            } catch (error) {
-                console.error(error);
-                alert('Ocurrió un problema generando tu Vale Digital. Inténtalo nuevamente.');
-                checkoutBtn.innerHTML = textOriginal;
-                checkoutBtn.disabled = false;
+            } catch (errBackend) {
+                console.warn('Backend no disponible, generando Vale Digital en cliente:', errBackend);
             }
+
+            if (!whatsappUrl) {
+                let wspMsg = `🧾 *VALE DIGITAL DE PEDIDO N° ${folioVale}*\n`;
+                wspMsg += `🏢 *Distribuidora Eleodoro El Grande*\n`;
+                wspMsg += `📅 *Fecha:* ${fechaHora}\n`;
+                wspMsg += `-----------------------------------\n`;
+                wspMsg += `👤 *Cliente:* ${clienteInfo.nombre}\n`;
+                if (clienteInfo.rut) wspMsg += `📋 *RUT:* ${clienteInfo.rut}\n`;
+                wspMsg += `📍 *Dirección:* ${clienteInfo.direccion}, ${clienteInfo.comuna}\n`;
+                wspMsg += `🏪 *Sucursal:* ${sucursalActual} (${vendedorNombre})\n\n`;
+                wspMsg += `🛒 *DETALLE DE COMPRA (TICKET):*\n`;
+
+                carrito.forEach(item => {
+                    const itemTotal = (item.price * item.quantity).toLocaleString('es-CL');
+                    wspMsg += `• ${item.quantity}x ${item.name} ($${item.price.toLocaleString('es-CL')}) = *$${itemTotal}*\n`;
+                });
+
+                wspMsg += `-----------------------------------\n`;
+                wspMsg += `📦 *Subtotal:* $${total.toLocaleString('es-CL')}\n`;
+                wspMsg += `🚚 *Despacho:* $${shippingCost.toLocaleString('es-CL')}\n`;
+                wspMsg += `💰 *TOTAL A PAGAR:* *$${finalTotal.toLocaleString('es-CL')}* (IVA Incl.)\n\n`;
+                wspMsg += `📌 *Hola, envío mi Vale Digital para ser atendido por el vendedor en sala y gestionar el pago.*`;
+
+                const encodedMsg = encodeURIComponent(wspMsg);
+                whatsappUrl = `https://wa.me/${vendedorWsp}?text=${encodedMsg}`;
+            }
+
+            checkoutBtn.innerHTML = textOriginal;
+            checkoutBtn.disabled = false;
+
+            const valeModal = document.getElementById('vale-digital-modal');
+            const folioBadge = document.getElementById('vale-folio-badge');
+            const clienteBox = document.getElementById('vale-cliente-info');
+            const itemsTable = document.getElementById('vale-items-table');
+            const totalesBox = document.getElementById('vale-totales-box');
+            const wspBtn = document.getElementById('vale-wsp-direct-btn');
+
+            if (folioBadge) folioBadge.textContent = `VALE N° ${folioVale}`;
+            if (clienteBox) {
+                clienteBox.innerHTML = `
+                    <div><strong>Fecha:</strong> ${fechaHora}</div>
+                    <div><strong>Cliente:</strong> ${clienteInfo.nombre}</div>
+                    ${clienteInfo.rut ? `<div><strong>RUT:</strong> ${clienteInfo.rut}</div>` : ''}
+                    <div><strong>Dirección:</strong> ${clienteInfo.direccion}, ${clienteInfo.comuna}</div>
+                    <div><strong>Sucursal:</strong> ${sucursalActual} (${vendedorNombre})</div>
+                `;
+            }
+            if (itemsTable) {
+                itemsTable.innerHTML = carrito.map(i => `
+                    <tr>
+                        <td style="padding: 6px 0; border-bottom: 1px dotted #ccc;">${i.quantity}</td>
+                        <td style="padding: 6px 0; border-bottom: 1px dotted #ccc;">${i.name}</td>
+                        <td style="padding: 6px 0; border-bottom: 1px dotted #ccc; text-align: right;">$${(i.price * i.quantity).toLocaleString('es-CL')}</td>
+                    </tr>
+                `).join('');
+            }
+            if (totalesBox) {
+                totalesBox.innerHTML = `
+                    <div style="display:flex; justify-content:space-between;"><span>Subtotal:</span> <span>$${total.toLocaleString('es-CL')}</span></div>
+                    <div style="display:flex; justify-content:space-between;"><span>Despacho:</span> <span>$${shippingCost.toLocaleString('es-CL')}</span></div>
+                    <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:16px; border-top:1px solid #000; margin-top:6px; padding-top:6px;"><span>TOTAL:</span> <span>$${finalTotal.toLocaleString('es-CL')}</span></div>
+                `;
+            }
+            if (wspBtn) wspBtn.href = whatsappUrl;
+
+            if (valeModal) valeModal.style.display = 'flex';
+
+            window.open(whatsappUrl, '_blank');
+
+            carrito = [];
+            if (typeof saveCart === 'function') saveCart();
+            if (typeof renderCart === 'function') renderCart();
+            if (typeof closeCart === 'function') closeCart();
         });
     }
 
