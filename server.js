@@ -785,18 +785,27 @@ app.post('/api/generar-vale-digital', (req, res) => {
         const netos = Math.round(totalFinal / 1.19);
         const iva = totalFinal - netos;
 
+        const sucursalNombre = sucursal || "Laguna Sur";
+        let vendedorWsp = "56949692316";
+        let vendedorNombre = "Sucursal Laguna Sur";
+        if (sucursalNombre === "Cerro Navia") {
+            vendedorWsp = "56956264496";
+            vendedorNombre = "René Oliva (Cerro Navia)";
+        }
+
         const ordenVale = {
             folioVale,
             fechaHora,
             cliente: cliente || { nombre: "Cliente General", rut: "", direccion: "", comuna: "" },
-            sucursal: sucursal || "Laguna Sur",
+            sucursal: sucursalNombre,
+            vendedorNombre,
             carrito,
             subtotal,
             envio,
             totalFinal,
             netos,
             iva,
-            vendedorWsp: "+56989784973",
+            vendedorWsp: `+${vendedorWsp}`,
             estado: "PENDIENTE_CONFIRMACION"
         };
 
@@ -822,7 +831,7 @@ app.post('/api/generar-vale-digital', (req, res) => {
         wspMsg += `👤 *Cliente:* ${ordenVale.cliente.nombre}\n`;
         if (ordenVale.cliente.rut) wspMsg += `📋 *RUT:* ${ordenVale.cliente.rut}\n`;
         wspMsg += `📍 *Dirección:* ${ordenVale.cliente.direccion}, ${ordenVale.cliente.comuna}\n`;
-        wspMsg += `🏪 *Sucursal:* ${ordenVale.sucursal}\n\n`;
+        wspMsg += `🏪 *Sucursal:* ${ordenVale.sucursal} (${vendedorNombre})\n\n`;
         wspMsg += `🛒 *DETALLE DE COMPRA (TICKET):*\n`;
 
         carrito.forEach(item => {
@@ -834,10 +843,10 @@ app.post('/api/generar-vale-digital', (req, res) => {
         wspMsg += `📦 *Subtotal:* $${subtotal.toLocaleString('es-CL')}\n`;
         wspMsg += `🚚 *Despacho:* $${envio.toLocaleString('es-CL')}\n`;
         wspMsg += `💰 *TOTAL A PAGAR:* *$${totalFinal.toLocaleString('es-CL')}* (IVA Incl.)\n\n`;
-        wspMsg += `📌 *Hola vendedor, envío mi Vale Digital para confirmar pago y emisión de boleta/factura SII.*`;
+        wspMsg += `📌 *Hola, envío mi Vale Digital para ser atendido por el vendedor en sala y gestionar el pago.*`;
 
         const encodedMsg = encodeURIComponent(wspMsg);
-        const whatsappUrl = `https://wa.me/56989784973?text=${encodedMsg}`;
+        const whatsappUrl = `https://wa.me/${vendedorWsp}?text=${encodedMsg}`;
 
         res.json({
             success: true,
@@ -938,7 +947,7 @@ app.get('/api/vale-digital/:folioVale', (req, res) => {
             <div class="ticket-header">
                 <h2>DISTRIBUIDORA ELEODORO</h2>
                 <p>El Grande Drink Store &bull; Distribución Mayorista</p>
-                <p>WhatsApp Vendedor: +56 9 8978 4973</p>
+                <p>WhatsApp Vendedor: ${ticketData.vendedorWsp || '+56 9 4969 2316'} ${ticketData.vendedorNombre ? `(${ticketData.vendedorNombre})` : ''}</p>
                 <div class="folio-badge">VALE N° ${ticketData.folioVale}</div>
             </div>
 
@@ -981,7 +990,7 @@ app.get('/api/vale-digital/:folioVale', (req, res) => {
             <div class="ticket-footer">
                 <div style="font-size: 24px; font-family: monospace; letter-spacing: 3px; margin: 10px 0;">||| | ||||| |||| | |||</div>
                 <p><strong>VALE DIGITAL PROVISORIO DE COMPRA</strong></p>
-                <p>Presenta este vale a nuestro vendedor por WhatsApp (+56989784973) para confirmar el pago y recibir tu documento legal SII.</p>
+                <p>Presenta este vale a nuestro vendedor por WhatsApp (${ticketData.vendedorWsp || '+56 9 4969 2316'}) para ser atendido en sala y coordinar el pago.</p>
                 <button class="no-print" onclick="window.print();" style="margin-top: 10px; padding: 10px 20px; background: #000; color: #fff; border: none; cursor: pointer; border-radius: 4px; font-weight: bold;">🖨️ Imprimir Vale Digital</button>
             </div>
         </div>

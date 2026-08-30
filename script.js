@@ -1101,7 +1101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 comuna: communeInput.value
             };
 
-            const sucursalActual = typeof currentBranch !== 'undefined' && currentBranch ? currentBranch : "Laguna Sur";
+            const sucursalActual = (typeof selectedBranchName !== 'undefined' && selectedBranchName) ? selectedBranchName : (typeof currentBranch !== 'undefined' && currentBranch ? currentBranch : "Laguna Sur");
 
             try {
                 // 1. Llamar al backend para generar el Vale Digital
