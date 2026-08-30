@@ -13,7 +13,7 @@ const catalogoProductos = [
   { id: 'ALOEO-01', name: "ALOE VERA 500ML X CAJA - ORIGINAL", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE_VERA_500ML_X_CAJA_-_PINA.jpg" },
   { id: 'ALOEO-02', name: "ALOE VERA 500ML X CAJA - PIÑA", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE VERA 500ML X CAJA - PIÑA.webp" },
   { id: 'ALOEO-03', name: "ALOE VERA 500ML X CAJA - FRUTILLA", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE_VERA_500ML_X_CAJA_-_FRUTILLA.webp" },
-  { id: 'ALOEO-04', name: "ALOE VERA 500ML X CAJA - MANGO", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE_VERA_500ML_X_CAJA_-_MANGO.avif" },
+  { id: 'ALOEO-04', name: "ALOE VERA 500ML X CAJA - MANGO", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE VERA 500ML X CAJA - MANGO.jpg" },
   { id: 'ALOEO-05', name: "ALOE VERA 500ML X CAJA - DURAZNO", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE VERA 500ML X CAJA - DURAZNO.jpeg" },
   { id: 'ALOEO-06', name: "ALOE VERA 500ML X CAJA - GRANADA", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE_VERA_500ML_X_CAJA_-_GRANADA.webp" },
   { id: 'ALOEO-07', name: "ALOE VERA 500ML X CAJA - COCO", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE_VERA_500ML_X_CAJA_-_COCO.jpg" },
