@@ -10,7 +10,7 @@ const catalogoProductos = [
   { id: 'MASC-07', name: "AGUA MAS 600ML X12 UNID - FRUTOS DEL BOSUQE CON GAS", price: 10516, category: "AGUA", image: "catalogo/AGUA_MAS_600ML_X12_UNID_-_FRUTOS_DEL_BOSUQE_CON_GAS.jpg" },
   { id: 'MASC-08', name: "AGUA MAS 600ML X12 UNID - LIMONADA FRAMBUESA", price: 10516, category: "AGUA", image: "catalogo/AGUA_MAS_600ML_X12_UNID_-_LIMONADA_FRAMBUESA.webp" },
   { id: 'NEST15', name: "AGUA MINERAL NESTLE PURE LIFE 1.5L", price: 1500, category: "AGUA", image: "catalogo/NEST15.webp" },
-  { id: 'ALOEO-01', name: "ALOE VERA 500ML X CAJA - ORIGINAL", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE_VERA_500ML_X_CAJA_-_PINA.jpg" },
+  { id: 'ALOEO-01', name: "ALOE VERA 500ML X CAJA - ORIGINAL", price: 17952, category: "BEBIDAS", image: "catalogo/ALOEO-01.webp" },
   { id: 'ALOEO-02', name: "ALOE VERA 500ML X CAJA - PIÑA", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE VERA 500ML X CAJA - PIÑA.webp" },
   { id: 'ALOEO-03', name: "ALOE VERA 500ML X CAJA - FRUTILLA", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE_VERA_500ML_X_CAJA_-_FRUTILLA.webp" },
   { id: 'ALOEO-04', name: "ALOE VERA 500ML X CAJA - MANGO", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE VERA 500ML X CAJA - MANGO.jpg" },
