@@ -14,7 +14,7 @@ const catalogoProductos = [
   { id: 'ALOEO-02', name: "ALOE VERA 500ML X CAJA - PIÑA", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE_VERA_500ML_X_CAJA_-_PINA.jpg" },
   { id: 'ALOEO-03', name: "ALOE VERA 500ML X CAJA - FRUTILLA", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE_VERA_500ML_X_CAJA_-_FRUTILLA.webp" },
   { id: 'ALOEO-04', name: "ALOE VERA 500ML X CAJA - MANGO", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE_VERA_500ML_X_CAJA_-_MANGO.avif" },
-  { id: 'ALOEO-05', name: "ALOE VERA 500ML X CAJA - DURAZNO", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE_VERA_500ML_X_CAJA_-_DURAZNO.jpg" },
+  { id: 'ALOEO-05', name: "ALOE VERA 500ML X CAJA - DURAZNO", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE VERA 500ML X CAJA - DURAZNO.jpeg" },
   { id: 'ALOEO-06', name: "ALOE VERA 500ML X CAJA - GRANADA", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE_VERA_500ML_X_CAJA_-_GRANADA.webp" },
   { id: 'ALOEO-07', name: "ALOE VERA 500ML X CAJA - COCO", price: 17952, category: "BEBIDAS", image: "catalogo/ALOE_VERA_500ML_X_CAJA_-_COCO.jpg" },
   { id: 'AND400-01', name: "ANDINA DEL VALLE 400ML x 6 unidades - DURAZNO", price: 5040, category: "BEBIDAS", image: "catalogo/ANDINA_DEL_VALLE_400ML_x_6_unidades_-_DURAZNO.png" },
